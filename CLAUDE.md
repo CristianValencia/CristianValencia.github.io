@@ -5,6 +5,8 @@ Cristian Valencia's personal site, published with GitHub Pages at https://cristi
 ## Read first
 
 - `BRIEF.md` — audience, positioning, sitemap, and page copy. Content decisions live there; update it when they change.
+- `IDEAS.md` and `inspiration/` — Cristian's raw ideas and reference images. Fold settled ones into BRIEF.md.
+- Claude Design canvas (homepage + foundations): https://claude.ai/artifact/5kQ4AgtqML7NPQsWAt1JKh
 
 ## Stack
 

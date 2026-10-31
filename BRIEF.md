@@ -1,116 +1,141 @@
 # Site brief — cristianvalencia.github.io
 
 The source of truth for what this site says and who it's for. Design and code follow from this.
+Raw ideas go in `IDEAS.md` first; settled decisions move here.
 Items marked **[TODO]** need Cristian's input; items marked **[CONFIRM]** are drafts to approve or rewrite.
 
 ---
 
 ## 1. Purpose
 
-A personal site that shows Cristian is someone who can **ship products end to end** — owning the "what and why" as a Product Owner, and the "how" as a technical lead who still builds.
+A personal home for Cristian's whole life, not only a CV. It grows over time, one section at a time.
 
-**Primary action for visitors:** get in touch about a role, project, or collaboration. **[CONFIRM]**
-**Secondary action:** look at shipped work (apps, case studies) to judge quality.
+**Version 1 focuses on:**
+1. **Photography portfolio** — the first thing to explore
+2. **Blog** — writing about anything: life, photography, tech
+3. **Work as a developer** — products, apps, and projects
+
+Later sections are added as cards when they're ready (see §6).
 
 ## 2. Audiences
 
-In priority order **[CONFIRM order]**:
+1. **Cristian** — a place that reflects who Cristian is now and where life is going.
+2. **People who follow the photography and the writing** — friends, community, people arriving from social links.
+3. **People interested in the professional side** — collaborators, clients, recruiters.
 
-1. **Hiring managers and recruiters** for Product Owner, Technical Lead, or Head of Mobile/AI roles. They scan for 30–60 seconds: role, seniority, proof, contact.
-2. **Prospective clients / partners** (via Hackart) who need a mobile or AI product built. They want to see shipped apps and how Cristian works.
-3. **Peers in the dev and product community** who arrive through a post, GitHub, or social link. They read writing and projects.
+**[CONFIRM]** whether the professional side should be a quiet section or more visible.
 
-## 3. Positioning
+## 3. Tone and feel
 
-**One line:**
-> Product Owner and Technical Lead who ships mobile and AI products — bridging engineering and business.
+**Warm, calm, natural, handmade.** Warmth is the core feeling: golden afternoon light, sand, wood. The many light creams give calm and space. Something made by a person, not a machine. Photography leads; text supports it.
 
-**What makes it credible:**
-- 10+ years in mobile app development and delivery
-- 10+ highly rated apps launched end to end on iOS and Android
-- Hands-on across cross-platform (.NET MAUI, Flutter/FlutterFlow, Uno, Avalonia, Xamarin.Forms) and native (Swift, SwiftUI)
-- Currently leading AI-driven product initiatives
+Reference notes for every image are in IDEAS.md → "Reference review".
 
-**Tone of voice:** clear, confident, pragmatic. Short sentences. Outcomes over buzzwords. No "passionate", no "rockstar". **[CONFIRM]**
+## 4. Visual direction
 
-## 4. Sitemap
+### Color
+From `inspiration/color-palette.png`:
+
+| Role | Color |
+|---|---|
+| Page background | neutral #F7F7F7 (decided in Claude Design: a neutral ground lets the warm tones stand out) |
+| Cards | white #FFFFFF, every card (no filled or bordered cards) |
+| Text | dark petrol #09191E; secondary text #566061 |
+| Tags (pills) | gold #B98946 with white text; the intro card has no tag |
+| Links and name accent | muted turquoise #2A8C99, no underline |
+| Hover accent | deep gold #9F6E32 |
+| Photo placeholders | creams #F5EFE0, #F8F3E7 |
+
+- Gold is used **sparingly**: tags and the primary button.
+- **Turquoise #2A8C99** (a darker take on the sea in `rehoboth-map.jpg`) is the one cool accent: text links and "Cristian Valencia" in the greeting. Tried as a card fill and as a border; both rejected.
+- Petrol is for text only; no petrol-filled cards.
+- Links have no underline. **[OPEN]** add an underline on hover so links don't rely on color alone.
+- Contrast **[OPEN]**, fix before launch: white on #B98946 tags is about 3:1 and turquoise links on white about 4:1, both below the 4.5:1 target for small text (bigger/bolder text, or slightly darker shades).
+- **Light mode only** for version 1.
+
+### Typography
+- **Labels and menu:** thin, widely spaced uppercase sans (Harry's, Ekaterina Trukhan) — pill labels on cards, navigation, small headings.
+- **Long reading:** a comfortable serif in a narrow centered column with generous line height (Simon Foster) — blog posts and longer pages.
+- **Links:** turquoise #2A8C99, no underline (the dotted gold underline was tried and dropped).
+
+### Layout
+- **Homepage: bento card grid** (`bento-home.jpg`): the whole site on one screen, cards of different sizes, each with a **pill label** on top and a large title + subtitle at the bottom. Use the pattern, not that site's styling.
+- **One-screen simplicity** (André Gonçalves): little text, lots of air.
+- **Photography gallery:** orderly grid where the photos are the hero, no text over them (Ekaterina Trukhan).
+- **Blog post:** minimal header (name + a few links), then the reading column.
+- On phones the grid collapses to a single column of cards, in priority order.
+
+### Illustration and texture
+- **Version 1: no illustrations.** Text, color and photos only, so the design is fast to iterate. Leave room in the layout where illustrations could go later.
+- **Later:**
+  - **Illustration that tells a story** (1minus1): one drawing that explains an idea, such as photography and code meeting. **The camera at the center** (`mercado_tercera_cartel.jpg`), with life around it.
+  - **Style:** hand-made — **ink / engraving** strokes (linocut, woodcut) and **watercolor texture**, in earthy colors on cream.
+  - **Own illustrated icons** for sections and social links instead of generic logos (André Gonçalves).
+
+### Photography presentation
+- Warm light, wood, amber tones (photo book reference) — choose featured photos that carry that warmth.
+- **Photography card as windows:** a mosaic of small openings showing real photos, like the die-cut photo book cover. Color photos on the left, black-and-white on the right (3 columns, 5 photos each, wide gap between), with "Color →" and "Black & White →" links under each side. No big title; just the gold tag.
+
+## 5. Sitemap (version 1)
 
 | Page | URL | Job |
 |---|---|---|
-| Home | `/` | Who Cristian is in 5 seconds, proof in 30, a way to get in touch |
-| Work | `/work/` | Selected projects / case studies |
-| About | `/about/` | Longer story, working style, experience |
-| Writing | `/writing/` | Posts (optional at launch — hide nav item until there are 2+ posts) |
-| Contact | section on Home + footer | Email and links; no separate page needed |
+| Home | `/` | Bento grid: every section at a glance |
+| Photography | `/photography/` | Entry to the two portfolios |
+| Color | `/photography/color/` | Color portfolio |
+| Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
+| Blog | `/blog/` | Posts, newest first |
+| Work | `/work/` | Developer projects and shipped apps |
+| About | `/about/` | The story so far |
 | 404 | `/404.html` | Friendly dead end with a link home |
 
-## 5. Page content
+## 6. Homepage cards (draft)
 
-### Home
+Size: **L** large, **M** medium (wide), **S** small. **[CONFIRM / reorder]**
 
-- **Hero**
-  - Name: Cristian Valencia
-  - Title: Product Owner · Technical Lead · Mobile & AI
-  - Tagline: *Bridging engineering and business to build scalable, user-centered digital products.*
-  - Primary CTA: "Get in touch" → contact section. Secondary: "See my work" → `/work/`
-  - Photo: **[TODO]** — a real, well-lit headshot is strongly recommended
-- **Proof strip** (3–4 short stats): 10+ years · 10+ apps shipped · iOS & Android · AI initiatives **[CONFIRM / add ratings or download numbers if shareable]**
-- **Selected work** (3 cards → `/work/`)
-- **How I work** (3 short principles, drafted from About):
-  1. *Bridge, not bottleneck* — align technical constraints with product strategy so decisions are pragmatic and well-informed.
-  2. *Teams with ownership* — clear direction so teams confidently take on hard product and technical problems.
-  3. *Customer first* — turn business goals into well-defined requirements without losing sight of scalability.
-- **Contact**: one sentence + email button + LinkedIn / GitHub / X links
+| Card | Size | Content | Links to |
+|---|---|---|---|
+| Intro | L | First-person greeting (text only in v1; illustrated avatar later): "Hi, I'm **Cristian**…" with key words in dark petrol, connecting words muted | — |
+| Photography | L | Window mosaic: several small openings, each showing a photo, with "Photography" pill | `/photography/` |
+| Blog | M | Title of the latest post + date | `/blog/` (post) |
+| Work | M | Screenshot of a featured app, "Developer work" | `/work/` |
+| About | S | "The story so far" | `/about/` |
+| Now / Location | S | Where you are, or what you're doing these days **[TODO]** | — |
+| Elsewhere | S | Social icons: Instagram, GitHub, X, LinkedIn **[TODO: which]** | external |
+| Contact | S | "Say hello" + email | `mailto:` |
+| *Future sections* | S | Added as cards when ready **[TODO: ideas]** | — |
+
+## 7. Page content
+
+### Photography
+- Organized as **[TODO: collections / series / places / years?]**
+- Each photo: image, optional title, place, date **[CONFIRM]**
+- Show camera/lens details? **[TODO]**
+
+### Blog
+- Remove the default "Welcome to Jekyll" post.
+- Topics and first posts **[TODO]**
+- Categories or tags? **[TODO]**
 
 ### Work
+Per project: name, one-line summary, role, stack, platform, link, 1–3 screenshots, one result.
+Candidates **[TODO: pick and confirm each is OK to show publicly]**: Aspire Rewards, Griddy, other shipped apps.
 
-One card per project, each linking to a short case study (problem → role → what shipped → result).
-Candidate projects **[TODO: pick 3–6, and confirm each one is OK to show publicly]**:
-
-- **Aspire Rewards** — rewards app; MAUI app and Flutter rewrite. Role, platform, outcome **[TODO]**
-- **Griddy** — iOS app (SwiftUI + SwiftData) for planning an Instagram grid. Built under Hackart **[TODO: App Store link, status]**
-- Other shipped apps from the 10+ **[TODO]**
-- AI initiative (anonymized if needed) **[TODO]**
-
-Per project, gather: name, one-line summary, your role, stack, platform, link (App Store / Play / GitHub), 1–3 screenshots, one measurable result.
+Background for this section (from the current About page): Product Owner and Technical Lead, 10+ years in mobile, 10+ apps shipped on iOS and Android, cross-platform (.NET MAUI, Flutter, Uno, Avalonia, Xamarin.Forms) and native (Swift, SwiftUI), currently leading AI initiatives.
 
 ### About
+Rewrite as a personal story, not just a professional summary **[TODO]**.
 
-Use the existing `about.markdown` copy (it's good), tightened and split into:
-- Short intro (2 sentences)
-- Experience timeline: roles, companies, years **[TODO]**
-- Skills grouped: Product · Leadership · Mobile · AI
-- Optional: personal note (interests outside work) **[TODO]**
-- Link to CV PDF **[TODO: do you want a downloadable CV?]**
-
-### Writing
-
-Remove the default "Welcome to Jekyll" post. Launch with 0–2 real posts **[TODO: any topics in mind?]**
-
-## 6. Contact and links
+## 8. Contact and links
 
 - Email: Cristian@Hackart.com **[CONFIRM — personal vs Hackart address]**
-- GitHub: CristianValencia
-- X: crisvalenciamx
-- LinkedIn: **[TODO URL]**
-- Hackart site: **[TODO URL, if it exists]**
+- GitHub: CristianValencia · X: crisvalenciamx
+- Instagram / LinkedIn / other **[TODO]**
 
-## 7. Constraints and decisions
+## 9. Constraints
 
-- Hosted on GitHub Pages at `https://cristianvalencia.github.io` (custom domain later? **[TODO]**)
-- Language: English only, or English + Spanish? **[TODO]**
-- Must work well on phones first; recruiters often open links on mobile
-- Light and dark mode
-- Accessibility: WCAG 2.1 AA
-- Fast: no heavy JavaScript, optimized images
-
-## 8. Open questions (summary)
-
-1. Confirm audience order and primary action
-2. Pick the projects to feature and confirm they're public-safe
-3. Headshot
-4. Which email address to publish
-5. LinkedIn URL, Hackart URL
-6. Downloadable CV — yes/no
-7. English only or bilingual
-8. Custom domain — now or later
+- GitHub Pages at `https://cristianvalencia.github.io` (custom domain later? **[TODO]**)
+- English only, or English + Spanish? **[TODO]**
+- Mobile first; light mode only for version 1
+- WCAG 2.1 AA
+- Photography means many large images: they must be resized and compressed (AVIF/WebP, several sizes) so pages stay fast.
