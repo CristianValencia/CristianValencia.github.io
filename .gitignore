@@ -3,3 +3,9 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+
+# Reference screenshots stay local; only the palette and own photos are tracked
+inspiration/*
+!inspiration/color-palette.png
+!inspiration/color-photos/
+!inspiration/black-white-photos/
