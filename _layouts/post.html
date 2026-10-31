@@ -1,0 +1,10 @@
+---
+layout: default
+---
+<article class="page">
+  <h1 class="page__title">{{ page.title }}</h1>
+  <p class="post-list__date">{{ page.date | date: '%B %-d, %Y' }}</p>
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

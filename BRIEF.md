@@ -89,21 +89,23 @@ From `inspiration/color-palette.png`:
 | About | `/about/` | The story so far |
 | 404 | `/404.html` | Friendly dead end with a link home |
 
-## 6. Homepage cards (draft)
+## 6. Homepage cards (v1, built in `index.html`)
 
-Size: **L** large, **M** medium (wide), **S** small. **[CONFIRM / reorder]**
+Size: **L** large, **M** medium (wide), **S** small. Every card is white with an outlined gold tag that fills on hover; the intro card has no tag.
 
 | Card | Size | Content | Links to |
 |---|---|---|---|
-| Intro | L | First-person greeting (text only in v1; illustrated avatar later): "Hi, I'm **Cristian**…" with key words in dark petrol, connecting words muted | — |
-| Photography | L | Window mosaic: several small openings, each showing a photo, with "Photography" pill | `/photography/` |
-| Blog | M | Title of the latest post + date | `/blog/` (post) |
-| Work | M | Screenshot of a featured app, "Developer work" | `/work/` |
-| About | S | "The story so far" | `/about/` |
-| Now / Location | S | Where you are, or what you're doing these days **[TODO]** | — |
-| Elsewhere | S | Social icons: Instagram, GitHub, X, LinkedIn **[TODO: which]** | external |
-| Contact | S | "Say hello" + email | `mailto:` |
-| *Future sections* | S | Added as cards when ready **[TODO: ideas]** | — |
+| Intro | L | "Hi, I'm **Cristian Valencia**." (name in turquoise) · "A simple human finding its way on the web." · ENGINEER · PHOTOGRAPHER · WRITER | — |
+| Photography | L | Photo mosaic: 5 color photos left, 5 B&W right, with "Color →" / "Black & White →" under each | `/photography/color/`, `/photography/black-and-white/` |
+| Blog | M | Latest post title + date ("First posts coming soon" until there is one) | latest post or `/blog/` |
+| Work | M | "Engineering" · "Apps and products I've built" | `/work/` |
+| About | S | "The story so far" · "Who I am and how I got here" | `/about/` |
+| Company | S | "Hackart" · "hackart.com →" | https://www.hackart.com |
+| Follow me: | S | Instagram @cris.chrome and @cris.monochrome | external |
+| Contact | S | "Say hello" · cristian@hackart.com | `mailto:` |
+
+- **Menu:** Home · Photography · Blog · Work · About; the current section gets a gold underline.
+- **Footer:** tapping it cycles "© Cristian Valencia" → "In memory of Felipe Valencia" → "Made with ♥ in Mexico City".
 
 ## 7. Page content
 

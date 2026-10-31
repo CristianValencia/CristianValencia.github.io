@@ -11,7 +11,10 @@ Cristian Valencia's personal site, published with GitHub Pages at https://cristi
 ## Stack
 
 - Jekyll via the `github-pages` gem (Jekyll 3.x, GitHub's plugin allowlist only). Ruby 3.2.2.
-- Theme: `minima` for now — will be replaced by custom layouts in `_layouts/` and `_includes/`.
+- No theme. Layouts: `_layouts/default.html` (frame), `page.html`, `post.html`; header and footer in `_includes/`.
+- Styles: one file, `assets/css/main.css`; design tokens are the custom properties at its top. Footer tap-to-cycle: `assets/js/footer.js`.
+- Homepage: `index.html` (bento grid). Nav items and Instagram handles live in `_config.yml` (`nav`, `instagram_accounts`).
+- Photos go through `exiftool -all= --icc_profile:all` (strip GPS/camera data) and get resized before they're added.
 - Run locally: `bundle exec jekyll serve` → http://localhost:4000. Restart after editing `_config.yml`.
 - Deploys automatically from `main`. Do feature work on a branch.
 

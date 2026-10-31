@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  {% comment %} Each tap shows the next line; footer.js does the cycling. {% endcomment %}
+  <button type="button" class="site-footer__cycle" data-footer-cycle aria-live="polite">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}</span>
+    <span hidden>In memory of Felipe Valencia</span>
+    <span hidden>Made with <span class="heart" aria-hidden="true">&hearts;</span><span class="visually-hidden">love</span> in Mexico City</span>
+  </button>
+</footer>
