@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Cristian Valencia's personal site, published with GitHub Pages at https://cristianvalencia.github.io.
+Cristian Valencia's personal site, published with GitHub Pages at https://cristianvalencia.mx (custom domain via `CNAME` on main).
 
 ## Read first
 

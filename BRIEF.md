@@ -1,4 +1,4 @@
-# Site brief — cristianvalencia.github.io
+# Site brief — cristianvalencia.mx
 
 The source of truth for what this site says and who it's for. Design and code follow from this.
 Raw ideas go in `IDEAS.md` first; settled decisions move here.
@@ -136,7 +136,7 @@ Rewrite as a personal story, not just a professional summary **[TODO]**.
 
 ## 9. Constraints
 
-- GitHub Pages at `https://cristianvalencia.github.io` (custom domain later? **[TODO]**)
+- GitHub Pages with the custom domain `https://cristianvalencia.mx` (`CNAME` on main)
 - English only, or English + Spanish? **[TODO]**
 - Mobile first; light mode only for version 1
 - WCAG 2.1 AA
