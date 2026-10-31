@@ -24,7 +24,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Product Owner and Technical Lead with 10+ years delivering high-impact mobile applications and AI-driven solutions.
   Bridging engineering and business to build scalable, user-centered digital products.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://cristianvalencia.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: crisvalenciamx
 github_username:  CristianValencia
 
@@ -52,3 +52,14 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+exclude:
+  - BRIEF.md
+  - CLAUDE.md
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - .sass-cache/
+  - .jekyll-cache/
