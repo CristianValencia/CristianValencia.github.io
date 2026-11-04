@@ -4,18 +4,20 @@
 {%- for item in site.nav -%}
   {%- if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
 {%- endfor -%}
-<header class="site-header" data-site-header>
+<header class="site-header{% if section %} has-section{% endif %}" data-site-header>
   <div class="site-header__bar">
-    <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>
-      <span data-shrink="Cris Valencia">{{ site.title }}</span>
-    </a>
+    <div class="site-header__brand">
+      <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>
+        <span data-shrink="Cris Valencia">{{ site.title }}</span>
+      </a>
+      {%- if section %}
+      <span class="site-header__section" aria-hidden="true"><span>{{ section }}</span></span>
+      {%- endif %}
+    </div>
     <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" hidden>
       <span class="site-header__toggle-line" aria-hidden="true"></span>
       <span class="site-header__toggle-line" aria-hidden="true"></span>
     </button>
-    {%- if section %}
-    <div class="site-header__section" aria-hidden="true"><span>{{ section }}</span></div>
-    {%- endif %}
     <div class="site-header__menu" id="site-menu">
       <div class="site-header__menu-inner">
         <nav class="site-nav" aria-label="Main">

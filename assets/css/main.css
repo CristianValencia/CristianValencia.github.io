@@ -156,6 +156,7 @@ body {
 
 /* The menu wrappers only matter on phones (they fold the menu away); on wider
    screens they step aside so the nav and Contact sit in the bar's grid. */
+.site-header__brand,
 .site-header__menu,
 .site-header__menu-inner {
   display: contents;
@@ -731,10 +732,17 @@ a.card:hover {
     border-radius: 24px;
   }
 
-  /* Phones always show the full name, centered, scrolled or not. */
-  .site-header__name {
+  /* Phones: the name, centered, scrolled or not. Inside a section it reads
+     "Cris Valencia | Photos", so both fit on one line. */
+  .site-header__brand {
+    display: flex;
     grid-column: 2;
     justify-self: center;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  .site-header__name {
     padding-block: 10px;
   }
 
@@ -748,6 +756,16 @@ a.card:hover {
   .site-header.is-scrolled .site-header__name .shrink__in {
     max-width: 0;
     opacity: 0;
+  }
+
+  .site-header.has-section .site-header__name .shrink__out {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  .site-header.has-section .site-header__name .shrink__in {
+    max-width: var(--w);
+    opacity: 1;
   }
 
   .site-header__toggle {
@@ -797,30 +815,28 @@ a.card:hover {
   .site-header.is-open .site-header__toggle-line:first-child { rotate: 45deg; }
   .site-header.is-open .site-header__toggle-line:last-child { rotate: -45deg; }
 
-  /* The current section sits under the name in smaller text. It folds away
-     while the menu is open, so the menu takes its place. */
+  /* The current section follows the name after a thin bar. It folds away
+     while the menu is open, since the menu then marks the page. */
   .site-header__section {
-    display: grid;
-    grid-column: 2;
-    grid-row: 2;
-    justify-self: center;
-    grid-template-rows: 1fr;
+    display: block;
+    overflow: hidden;
+    max-width: 120px;
     color: var(--color-muted);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    white-space: nowrap;
     transition:
-      grid-template-rows var(--dur-nav) var(--ease-out),
+      max-width var(--dur-nav) var(--ease-out),
       opacity var(--dur-nav) ease,
       color 160ms ease 140ms;
   }
 
-  .site-header__section > span {
-    min-height: 0;
-    overflow: hidden;
-    padding-bottom: 8px;
-    margin-top: -8px;
+  .site-header__section > span::before {
+    content: "|";
+    margin: 0 0.5em 0 0.3em;
+    opacity: 0.6;
   }
 
   .site-header.is-scrolled .site-header__section {
@@ -828,7 +844,7 @@ a.card:hover {
   }
 
   .site-header.is-open .site-header__section {
-    grid-template-rows: 0fr;
+    max-width: 0;
     opacity: 0;
   }
 
@@ -836,7 +852,7 @@ a.card:hover {
   .site-header__menu {
     display: grid;
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 2;
     grid-template-rows: 1fr;
     transition:
       grid-template-rows var(--dur-nav) var(--ease-out),
