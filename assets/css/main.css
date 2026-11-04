@@ -24,6 +24,7 @@
   --dur-spring: 1050ms;
   --dur-fill: 600ms;
   --stagger: 60ms;
+  --dur-nav: 500ms;
   --shadow-lift: 0 14px 36px rgba(9, 25, 30, 0.08);
 }
 
@@ -96,43 +97,164 @@ body {
 /* Header */
 
 /* Name on top, menu centered below it. */
+/* Header: one line, sticky. At the top it has no background and spans the
+   card grid, with 10px inside each end. Once the page scrolls, header.js adds
+   .is-scrolled: the row narrows into a gold light pill and the text turns
+   white. Everything moves on one clock (--dur-nav), so the name, menu and
+   Contact slide to their new places while the bar narrows, and the labels
+   shrink letter by letter (Cristian -> Cris, Photography -> Photos). */
 .site-header {
+  position: sticky;
+  top: 16px;
+  z-index: 10;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+}
+
+.site-header__bar {
+  width: 100%;
+  max-width: 100%;
+  /* Equal side columns keep the menu centered on the page. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 12px;
-  text-align: center;
+  gap: 24px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background-color: rgba(199, 160, 96, 0);
+  box-shadow: 0 0 0 rgba(9, 25, 30, 0);
+  transition:
+    max-width var(--dur-nav) var(--ease-out),
+    padding var(--dur-nav) var(--ease-out),
+    background-color var(--dur-nav) ease,
+    box-shadow var(--dur-nav) ease;
+}
+
+.site-header__name,
+.site-nav__link {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  /* The color flips quickly mid-move, so the text never washes out
+     against the half-filled bar. */
+  transition: color 160ms ease 140ms, box-shadow 200ms ease, padding var(--dur-nav) var(--ease-out);
 }
 
 .site-header__name {
   font-size: 14px;
-  font-weight: 500;
   letter-spacing: 0.24em;
-  text-transform: uppercase;
-  text-decoration: none;
+}
+
+.site-header__contact {
+  justify-self: end;
+}
+
+/* Shrinking labels: header.js splits each label into the letters both
+   versions share and the letters that differ. The differing parts collapse
+   or open to their measured width (--w), so the word shrinks in place. */
+.shrink__out,
+.shrink__in {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: pre;
+  transition:
+    max-width var(--dur-nav) var(--ease-out),
+    opacity var(--dur-nav) ease;
+}
+
+.shrink__out {
+  max-width: var(--w);
+}
+
+.shrink__in {
+  max-width: 0;
+  opacity: 0;
+}
+
+.site-header.is-scrolled .shrink__out {
+  max-width: 0;
+  opacity: 0;
+}
+
+.site-header.is-scrolled .shrink__in {
+  max-width: var(--w);
+  opacity: 1;
 }
 
 .site-nav {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 32px;
+  gap: 4px;
 }
 
 .site-nav__link {
-  padding: 9px 0;
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: underline 2px transparent;
-  text-underline-offset: 8px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  padding: 10px 16px;
+  border-radius: 999px;
 }
 
+/* At the top, hover uses the gold light band from the footer (same color and
+   transparency as the footer's top edge). In the pill it stays a soft dark tint. */
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
+}
+
+.site-header.is-scrolled .site-nav__link:not([aria-current="page"]):hover,
+.site-header.is-scrolled .site-nav__link:not([aria-current="page"]):focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+/* Current page: gold deep in both states, so it reads apart from the gold
+   Contact button and doesn't change when the pill forms. */
 .site-nav__link[aria-current="page"],
 .site-nav__link[aria-current="page"]:hover {
-  color: var(--color-text);
-  text-decoration-color: var(--color-gold);
+  color: #FFFFFF;
+  box-shadow: inset 0 0 0 999px var(--color-gold-deep);
+}
+
+/* Same in both states, so it stays put while the bar changes around it. */
+.site-header__contact {
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 200ms ease;
+}
+
+.site-header__contact:hover,
+.site-header__contact:focus-visible {
+  background: var(--color-gold-deep);
+  color: #FFFFFF;
+}
+
+.site-header.is-scrolled .site-header__bar {
+  max-width: 860px;
+  padding: 8px;
+  background-color: var(--color-gold-light);
+  box-shadow: 0 8px 24px rgba(9, 25, 30, 0.12);
+}
+
+.site-header.is-scrolled .site-header__name,
+.site-header.is-scrolled .site-nav__link,
+.site-header.is-scrolled .site-nav__link:hover {
+  color: #FFFFFF;
+}
+
+/* The name's inset lives on the name, not the bar, so the side columns stay
+   equal and the menu stays centered in the pill. */
+.site-header.is-scrolled .site-header__name {
+  padding-left: 20px;
 }
 
 /* Footer: full-width soft gold plaid (translucent bands crossing at 45°,
@@ -150,6 +272,9 @@ body {
     var(--color-ground);
   position: relative;
   isolation: isolate;
+  /* A thin edge in the gold light band's own transparency. */
+  border-top: 5px solid rgba(199, 160, 96, 0.26);
+  background-clip: padding-box; /* the plaid starts below the edge */
 }
 
 /* Light film grain on the gold bands only: the mask repeats the plaid's
@@ -210,6 +335,20 @@ body {
   font-size: 26px;
   color: var(--color-link);
   cursor: pointer;
+  /* Both lines share one cell, so the pill is always as wide as the longer
+     one and doesn't jump when the line changes. The hidden line keeps its
+     space but isn't shown or read out. */
+  display: inline-grid;
+  justify-items: center;
+}
+
+.site-footer__cycle > span {
+  grid-area: 1 / 1;
+}
+
+.site-footer__cycle > span[hidden] {
+  display: inline-block;
+  visibility: hidden;
 }
 
 .site-footer__copy {
@@ -573,8 +712,41 @@ a.card:hover {
     gap: 28px;
   }
 
+  /* Phones: name and Contact on the first line, the menu below. */
+  .site-header {
+    top: 8px;
+  }
+
+  .site-header__bar {
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+    padding: 8px 4px;
+    border-radius: 24px;
+  }
+
   .site-nav {
-    gap: 8px 20px;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+  }
+
+  .site-nav__link {
+    padding: 10px 8px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+
+  .site-header__contact {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .site-header.is-scrolled .site-header__bar {
+    padding: 8px 8px 4px;
+  }
+
+  .site-header.is-scrolled .site-header__name {
+    padding-left: 8px;
   }
 
   .site-footer {
@@ -612,6 +784,14 @@ a.card:hover {
 
   .page__title { font-size: 36px; }
   .prose { font-size: 18px; }
+}
+
+/* No transitions while the page loads: otherwise the browser's default link
+   blue animates into our colors for a moment. header.js removes the class. */
+.is-loading *,
+.is-loading *::before,
+.is-loading *::after {
+  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

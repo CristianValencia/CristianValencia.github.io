@@ -1,12 +1,60 @@
+// Pill breath: a small spring simulation instead of a CSS animation, so taps
+// never restart it. Each tap pushes the pill inward from wherever it is; quick
+// taps add up smoothly, and the push weakens as the pill nears its deepest
+// point (about 86%), so it can't collapse. One tap dips to about 90% and
+// settles in about 1.6 seconds. Off for reduced motion.
+function springBreath(el) {
+  if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return () => {};
+
+  const FREQUENCY = 4.25; // rad/s; higher is faster
+  const STIFFNESS = FREQUENCY * FREQUENCY;
+  const DAMPING = 2 * 0.7 * FREQUENCY; // damping ratio 0.7: one soft overshoot
+  const PUSH = 0.2265 * FREQUENCY; // inward speed one tap adds; scales with speed so the dip stays ~90%
+  const ROOM = 0.14; // deepest dip
+  let offset = 0;
+  let speed = 0;
+  let last = 0;
+  let frame = 0;
+
+  const step = (now) => {
+    const dt = Math.min((now - last) / 1000, 1 / 30);
+    last = now;
+    speed += (-STIFFNESS * offset - DAMPING * speed) * dt;
+    offset += speed * dt;
+
+    if (Math.abs(offset) < 0.0005 && Math.abs(speed) < 0.0005) {
+      offset = 0;
+      speed = 0;
+      el.style.transform = '';
+      frame = 0;
+      return;
+    }
+    el.style.transform = `scale(${(1 + offset).toFixed(4)})`;
+    frame = requestAnimationFrame(step);
+  };
+
+  return () => {
+    speed -= PUSH * Math.max(0, 1 + offset / ROOM);
+    if (!frame) {
+      last = performance.now();
+      frame = requestAnimationFrame(step);
+    }
+  };
+}
+
 // Footer line: each tap shows the next message, then wraps around.
 document.querySelectorAll('[data-footer-cycle]').forEach((button) => {
   const lines = Array.from(button.children);
   let current = 0;
 
+  const pill = button.closest('.site-footer__pill');
+  const breathe = pill ? springBreath(pill) : () => {};
+
   button.addEventListener('click', () => {
     lines[current].hidden = true;
     current = (current + 1) % lines.length;
     lines[current].hidden = false;
+    breathe();
   });
 });
 
