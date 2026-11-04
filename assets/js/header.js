@@ -59,6 +59,34 @@ if (header) {
   }, { passive: true });
 
   update();
+
+  // Phones: the hamburger opens and closes the menu line. Escape, a tap
+  // outside the header, or a wider screen closes it.
+  const toggle = header.querySelector('.site-header__toggle');
+  if (toggle) {
+    const phone = window.matchMedia('(max-width: 700px)');
+    const setOpen = (open) => {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle.hidden = false;
+    header.classList.add('has-toggle');
+    toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && header.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!header.contains(event.target)) setOpen(false);
+    });
+
+    phone.addEventListener('change', () => setOpen(false));
+  }
 }
 
 // Turn transitions on only after the first styled frame (see .is-loading).

@@ -5,17 +5,28 @@
     <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>
       <span data-shrink="Cris Valencia">{{ site.title }}</span>
     </a>
-    <nav class="site-nav" aria-label="Main">
-      {%- for item in site.nav %}
-      <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>
-        {%- if item.short -%}
-        <span data-shrink="{{ item.short }}">{{ item.title }}</span>
-        {%- else -%}
-        {{ item.title }}
-        {%- endif -%}
-      </a>
-      {%- endfor %}
-    </nav>
-    <a class="site-header__contact" href="mailto:{{ site.email }}">Contact</a>
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" hidden>
+      <span class="site-header__toggle-line" aria-hidden="true"></span>
+      <span class="site-header__toggle-line" aria-hidden="true"></span>
+    </button>
+    <div class="site-header__menu" id="site-menu">
+      <div class="site-header__menu-inner">
+        <nav class="site-nav" aria-label="Main">
+          {%- for item in site.nav %}
+          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>
+            {%- if item.short -%}
+            <span data-shrink="{{ item.short }}">{{ item.title }}</span>
+            {%- else -%}
+            {{ item.title }}
+            {%- endif -%}
+          </a>
+          {%- endfor %}
+        </nav>
+        <a class="site-header__contact" href="mailto:{{ site.email }}" aria-label="Contact">
+          <svg class="site-header__contact-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>
+          <span class="site-header__contact-label">Contact</span>
+        </a>
+      </div>
+    </div>
   </div>
 </header>

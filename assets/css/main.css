@@ -154,6 +154,19 @@ body {
   justify-self: end;
 }
 
+/* The menu wrappers only matter on phones (they fold the menu away); on wider
+   screens they step aside so the nav and Contact sit in the bar's grid. */
+.site-header__menu,
+.site-header__menu-inner {
+  display: contents;
+}
+
+/* Phones only: the hamburger and Contact's mail icon. */
+.site-header__toggle,
+.site-header__contact-icon {
+  display: none;
+}
+
 /* Shrinking labels: header.js splits each label into the letters both
    versions share and the letters that differ. The differing parts collapse
    or open to their measured width (--w), so the word shrinks in place. */
@@ -700,21 +713,103 @@ a.card:hover {
     gap: 28px;
   }
 
-  /* Phones: name and Contact on the first line, the menu below. */
+  /* Phones: the name and a hamburger on the first line. The hamburger turns
+     into an X and opens a second line below: Photos, Blog, Work, About and
+     Contact as a gold mail button. Without JavaScript the second line just
+     stays open. */
   .site-header {
     top: 8px;
   }
 
   .site-header__bar {
     grid-template-columns: 1fr auto;
-    gap: 4px 12px;
-    padding: 8px 4px;
+    gap: 0 12px;
+    padding: 4px 4px 4px 0;
     border-radius: 24px;
   }
 
-  .site-nav {
+  .site-header__name {
+    padding-block: 10px;
+  }
+
+  .site-header__toggle:not([hidden]) {
+    position: relative;
+    display: block;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+  }
+
+  .site-header__toggle:focus-visible {
+    outline: 2px solid var(--color-gold-deep);
+    outline-offset: 2px;
+  }
+
+  .site-header.is-scrolled .site-header__toggle {
+    color: #FFFFFF;
+  }
+
+  /* Two lines 8px apart. Opening slides them together and turns them into
+     an X on the spring, so the X settles with a slight overshoot. */
+  .site-header__toggle-line {
+    position: absolute;
+    left: 13px;
+    top: 21px;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: currentColor;
+    transition: translate var(--dur-nav) var(--ease-out), rotate var(--dur-spring) var(--ease-spring);
+  }
+
+  .site-header__toggle-line:first-child { translate: 0 -4px; }
+  .site-header__toggle-line:last-child { translate: 0 4px; }
+
+  .site-header.is-open .site-header__toggle-line { translate: 0 0; }
+  .site-header.is-open .site-header__toggle-line:first-child { rotate: 45deg; }
+  .site-header.is-open .site-header__toggle-line:last-child { rotate: -45deg; }
+
+  /* The second line folds open from 0 to its own height. */
+  .site-header__menu {
+    display: grid;
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-template-rows: 1fr;
+    transition:
+      grid-template-rows var(--dur-nav) var(--ease-out),
+      opacity var(--dur-nav) ease,
+      visibility 0s linear 0s;
+  }
+
+  .site-header__menu-inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .site-header__menu-inner > * {
+    margin-top: 4px;
+  }
+
+  .site-header.has-toggle:not(.is-open) .site-header__menu {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--dur-nav) var(--ease-out),
+      opacity calc(var(--dur-nav) * 0.6) ease,
+      visibility 0s linear var(--dur-nav);
+  }
+
+  .site-nav {
+    flex: 1;
     justify-content: space-between;
   }
 
@@ -724,13 +819,50 @@ a.card:hover {
     letter-spacing: 0.14em;
   }
 
+  /* The open menu always uses the short labels (Photos). */
+  .site-nav .shrink__out {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  .site-nav .shrink__in {
+    max-width: var(--w);
+    opacity: 1;
+  }
+
+  /* Contact: the fifth item, a white mail icon on the gold button. */
   .site-header__contact {
-    padding: 9px 15px; /* 1px less than before to make room for the border */
-    font-size: 12px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-color: var(--color-gold);
+    color: #FFFFFF;
+  }
+
+  .site-header__contact-icon {
+    display: block;
+  }
+
+  .site-header__contact-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .site-header__contact:hover,
+  .site-header__contact:focus-visible {
+    background-color: var(--color-gold-deep);
+    border-color: var(--color-gold-deep);
   }
 
   .site-header.is-scrolled .site-header__bar {
-    padding: 8px 8px 4px;
+    padding: 4px;
   }
 
   .site-header.is-scrolled .site-header__name {
