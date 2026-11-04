@@ -904,16 +904,41 @@ a.card:hover {
     opacity: 1;
   }
 
-  /* Contact: the fifth item, a mail icon in the same button as on desktop.
-     At the top it is the secondary style (white, gold outline, petrol icon);
-     in the scrolled pill it is gold with a white icon. */
-  .site-header__contact {
+  /* Contact: the fifth item, just the mail icon with no button around it.
+     It takes the menu's colors: petrol at the top, white in the scrolled
+     pill, and the same soft hover fill as the links. */
+  .site-header__contact,
+  .site-header__contact:hover,
+  .site-header__contact:focus-visible,
+  .site-header.is-scrolled .site-header__contact,
+  .site-header.is-scrolled .site-header__contact:hover,
+  .site-header.is-scrolled .site-header__contact:focus-visible {
     display: grid;
     place-items: center;
     flex: none;
     width: 40px;
     height: 40px;
     padding: 0;
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--color-text);
+    transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+  }
+
+  .site-header__contact:hover,
+  .site-header__contact:focus-visible {
+    box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
+  }
+
+  .site-header.is-scrolled .site-header__contact,
+  .site-header.is-scrolled .site-header__contact:hover,
+  .site-header.is-scrolled .site-header__contact:focus-visible {
+    color: #FFFFFF;
+  }
+
+  .site-header.is-scrolled .site-header__contact:hover,
+  .site-header.is-scrolled .site-header__contact:focus-visible {
+    box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
   }
 
   .site-header__contact-icon {
