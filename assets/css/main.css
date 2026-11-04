@@ -851,7 +851,9 @@ a.card:hover {
     opacity: 1;
   }
 
-  /* Contact: the fifth item, a white mail icon on the gold button. */
+  /* Contact: the fifth item, a mail icon in the same button as on desktop.
+     At the top it is the secondary style (white, gold outline, petrol icon);
+     in the scrolled pill it is gold with a white icon. */
   .site-header__contact {
     display: grid;
     place-items: center;
@@ -859,8 +861,6 @@ a.card:hover {
     width: 40px;
     height: 40px;
     padding: 0;
-    background-color: var(--color-gold);
-    color: #FFFFFF;
   }
 
   .site-header__contact-icon {
@@ -874,12 +874,6 @@ a.card:hover {
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
-  }
-
-  .site-header__contact:hover,
-  .site-header__contact:focus-visible {
-    background-color: var(--color-gold-deep);
-    border-color: var(--color-gold-deep);
   }
 
   .site-header.is-scrolled .site-header__bar {
