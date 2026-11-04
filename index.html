@@ -13,7 +13,7 @@ layout: default
   </section>
 
   <section class="card card--large span-2 rows-2" aria-labelledby="photography-tag">
-    <span class="tag" id="photography-tag" data-label="Photography">Photography</span>
+    <span class="tag" id="photography-tag">Photography</span>
     <div class="portfolios">
       <div class="portfolio">
         <div class="mosaic" aria-hidden="true">
@@ -39,7 +39,7 @@ layout: default
   </section>
 
   <a class="card card--wide span-2" href="{{ latest.url | default: '/blog/' | relative_url }}">
-    <span class="tag" data-label="Blog">Blog</span>
+    <span class="tag">Blog</span>
     <div class="card__text">
       {% if latest %}
         <h2 class="card__title">{{ latest.title }}</h2>
@@ -52,7 +52,7 @@ layout: default
   </a>
 
   <a class="card card--wide span-2" href="{{ '/work/' | relative_url }}">
-    <span class="tag" data-label="Work">Work</span>
+    <span class="tag">Work</span>
     <div class="card__text">
       <h2 class="card__title">Engineering</h2>
       <p class="card__desc">Apps and products I’ve built</p>
@@ -60,7 +60,7 @@ layout: default
   </a>
 
   <a class="card" href="{{ '/about/' | relative_url }}">
-    <span class="tag" data-label="About">About</span>
+    <span class="tag">About</span>
     <div class="card__text">
       <h2 class="card__title card__title--small">The story so far</h2>
       <p class="card__desc">Who I am and how I got here</p>
@@ -68,7 +68,7 @@ layout: default
   </a>
 
   <section class="card">
-    <span class="tag" data-label="Company">Company</span>
+    <span class="tag">Company</span>
     <div class="card__text">
       <h2 class="card__title card__title--small">Hackart</h2>
       <a class="text-link" href="https://www.hackart.com">hackart.com →</a>
@@ -76,7 +76,7 @@ layout: default
   </section>
 
   <section class="card">
-    <span class="tag" data-label="Follow me:">Follow me:</span>
+    <span class="tag">Follow me:</span>
     <ul class="social">
       {% for handle in site.instagram_accounts %}
       <li>
@@ -90,7 +90,7 @@ layout: default
   </section>
 
   <section class="card">
-    <span class="tag" data-label="Contact">Contact</span>
+    <span class="tag">Contact</span>
     <div class="card__text">
       <h2 class="card__title">Say hello</h2>
       <a class="text-link" href="mailto:{{ site.email }}">{{ site.email }}</a>

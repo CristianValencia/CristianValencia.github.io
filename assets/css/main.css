@@ -141,7 +141,8 @@ body {
   white-space: nowrap;
   /* The color flips quickly mid-move, so the text never washes out
      against the half-filled bar. */
-  transition: color 160ms ease 140ms, box-shadow 200ms ease, padding var(--dur-nav) var(--ease-out);
+  /* The hover fill fades in over the same 500ms (--dur-nav) as Contact's. */
+  transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease, padding var(--dur-nav) var(--ease-out);
 }
 
 .site-header__name {
@@ -217,24 +218,40 @@ body {
   box-shadow: inset 0 0 0 999px var(--color-gold-deep);
 }
 
-/* Same in both states, so it stays put while the bar changes around it. */
+/* Contact: a secondary button at the top (white, thin gold outline, petrol
+   text) so it doesn't outweigh the menu. On hover it fills with its own
+   outline gold, so it reads as one even shape; in the scrolled pill it is
+   filled gold. The 1px border stays in both states, so the size never changes. */
 .site-header__contact {
-  padding: 10px 20px;
+  padding: 9px 19px;
+  border: 1px solid var(--color-gold);
   border-radius: 999px;
-  background: var(--color-gold);
-  color: #FFFFFF;
+  background-color: var(--color-card);
+  color: var(--color-text);
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color 200ms ease;
+  transition: background-color var(--dur-nav) ease, border-color var(--dur-nav) ease, color 160ms ease 140ms;
 }
 
 .site-header__contact:hover,
 .site-header__contact:focus-visible {
-  background: var(--color-gold-deep);
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+}
+
+.site-header.is-scrolled .site-header__contact {
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+}
+
+.site-header.is-scrolled .site-header__contact:hover,
+.site-header.is-scrolled .site-header__contact:focus-visible {
+  background-color: var(--color-gold-deep);
+  border-color: var(--color-gold-deep);
   color: #FFFFFF;
 }
 
@@ -475,44 +492,15 @@ a.card:hover {
   color: var(--color-text);
 }
 
-/* Tag: outlined by default. When its card is hovered or focused, a gold
-   fill wipes in from the left; on leave it retracts back to the left.
-   The fill is a ::after copy of the label (white on gold) revealed with
-   clip-path, so the text changes color exactly where the fill is. */
+/* Card label: a small header, not a button. Bold petrol uppercase, with no
+   outline, fill or hover change, so it doesn't read as something to click. */
 .tag {
-  position: relative;
   align-self: flex-start;
-  padding: 6px 13px;
-  border: 1px solid var(--color-gold);
-  border-radius: 999px;
-  background: var(--color-card);
   color: var(--color-text);
   font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-}
-
-.tag::after {
-  content: attr(data-label) / "";
-  position: absolute;
-  inset: -1px;
-  padding: 7px 14px;
-  border-radius: inherit;
-  background: var(--color-gold);
-  color: #FFFFFF;
-  white-space: nowrap;
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path var(--dur-fill) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .card:hover .tag::after {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-.card:focus-within .tag::after {
-  clip-path: inset(0 0 0 0);
 }
 
 .card__text {
@@ -737,7 +725,7 @@ a.card:hover {
   }
 
   .site-header__contact {
-    padding: 10px 16px;
+    padding: 9px 15px; /* 1px less than before to make room for the border */
     font-size: 12px;
   }
 
