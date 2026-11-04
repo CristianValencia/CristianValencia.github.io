@@ -48,7 +48,7 @@ if (reveal && calm) {
       x: Math.min(w, Math.max(0, w / 2 + centered() * w * 0.24)),
       y: Math.min(h, Math.max(0, h / 2 + centered() * h * 0.26)),
     };
-    nextTargetAt = now + 5000 + Math.random() * 3000;
+    nextTargetAt = now + 8000 + Math.random() * 4000;
   };
 
   const paint = () => {
@@ -75,10 +75,10 @@ if (reveal && calm) {
     const dx = target.x - head.x;
     const dy = target.y - head.y;
     if (now > nextTargetAt || Math.hypot(dx, dy) < 40) pickTarget(now);
-    velocity.x = (velocity.x + dx * 0.0004) * 0.985;
-    velocity.y = (velocity.y + dy * 0.0004) * 0.985;
+    velocity.x = (velocity.x + dx * 0.0002) * 0.985;
+    velocity.y = (velocity.y + dy * 0.0002) * 0.985;
     const speed = Math.hypot(velocity.x, velocity.y);
-    const MAX_SPEED = 0.8;
+    const MAX_SPEED = 0.4;
     if (speed > MAX_SPEED) {
       velocity.x *= MAX_SPEED / speed;
       velocity.y *= MAX_SPEED / speed;
