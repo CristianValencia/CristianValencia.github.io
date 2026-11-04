@@ -1,14 +1,10 @@
 <header class="site-header">
-  <a class="site-header__name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+  {% assign on_home = false %}
+  {% if page.url == '/' or page.url == '/index.html' %}{% assign on_home = true %}{% endif %}
+  <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>{{ site.title }}</a>
   <nav class="site-nav" aria-label="Main">
     {% for item in site.nav %}
-      {% assign current = false %}
-      {% if item.url == '/' %}
-        {% if page.url == '/' or page.url == '/index.html' %}{% assign current = true %}{% endif %}
-      {% elsif page.url contains item.url %}
-        {% assign current = true %}
-      {% endif %}
-      <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ item.title }}</a>
+      <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
     {% endfor %}
   </nav>
 </header>

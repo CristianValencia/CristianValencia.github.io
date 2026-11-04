@@ -37,9 +37,8 @@ plugins:
   - jekyll-seo-tag
 
 # Main navigation, in order. The current section is underlined in gold.
+# There's no Home item: the name above the menu links home.
 nav:
-  - title: Home
-    url: /
   - title: Photography
     url: /photography/
   - title: Blog
