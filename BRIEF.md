@@ -41,16 +41,16 @@ From `inspiration/color-palette.png`:
 | Page background | neutral #F7F7F7 (decided in Claude Design: a neutral ground lets the warm tones stand out) |
 | Cards | white #FFFFFF, every card (no filled or bordered cards) |
 | Text | dark petrol #09191E; secondary text #566061 |
-| Tags (pills) | gold #B98946 with white text; the intro card has no tag |
+| Card labels | bold (600) petrol uppercase text, no pill or outline, so they read as headers, not buttons; the intro card has none |
 | Links and name accent | muted turquoise #2A8C99, no underline |
 | Hover accent | deep gold #9F6E32 |
 | Photo placeholders | creams #F5EFE0, #F8F3E7 |
 
-- Gold is used **sparingly**: tags and the primary button.
+- Gold is used **sparingly**: the menu, the Contact button and the footer plaid.
 - **Turquoise #2A8C99** (a darker take on the sea in `rehoboth-map.jpg`) is the one cool accent: text links and "Cristian Valencia" in the greeting. Tried as a card fill and as a border; both rejected.
 - Petrol is for text only; no petrol-filled cards.
 - Links have no underline. **[OPEN]** add an underline on hover so links don't rely on color alone.
-- Contrast **[OPEN]**, fix before launch: white on #B98946 tags is about 3:1 and turquoise links on white about 4:1, both below the 4.5:1 target for small text (bigger/bolder text, or slightly darker shades).
+- Contrast **[OPEN]**, fix before launch: white on the gold Contact button is about 3:1 and turquoise links on white about 4:1, both below the 4.5:1 target for small text (bigger/bolder text, or slightly darker shades).
 - **Light mode only** for version 1.
 
 ### Typography
@@ -74,7 +74,7 @@ From `inspiration/color-palette.png`:
 
 ### Photography presentation
 - Warm light, wood, amber tones (photo book reference) — choose featured photos that carry that warmth.
-- **Photography card as windows:** a mosaic of small openings showing real photos, like the die-cut photo book cover. Color photos on the left, black-and-white on the right (3 columns, 5 photos each, wide gap between), with "Color →" and "Black & White →" links under each side. No big title; just the gold tag.
+- **Photography card as windows:** a mosaic of small openings showing real photos, like the die-cut photo book cover. Color photos on the left, black-and-white on the right (3 columns, 5 photos each, wide gap between), with "Color →" and "Black & White →" links under each side. No big title; just the card label.
 
 ## 5. Sitemap (version 1)
 
@@ -91,7 +91,7 @@ From `inspiration/color-palette.png`:
 
 ## 6. Homepage cards (v1, built in `index.html`)
 
-Size: **L** large, **M** medium (wide), **S** small. Every card is white with an outlined gold tag that fills on hover; the intro card has no tag.
+Size: **L** large, **M** medium (wide), **S** small. Every card is white with a bold petrol label on top; the intro card has none.
 
 | Card | Size | Content | Links to |
 |---|---|---|---|
@@ -104,7 +104,7 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with an
 | Follow me: | S | Instagram @cris.chrome and @cris.monochrome | external |
 | Contact | S | "Say hello" · cristian@hackart.com | `mailto:` |
 
-- **Header:** one line, sticky. The name on the left links home, the menu (Photography · Blog · Work · About) sits in the center, and a gold Contact button (email) is on the right. At the top it has no background and spans the card grid, 10px inside each end. Once the page scrolls, it narrows into a centered gold light pill (860px) with white text, and the labels shorten to "Cris Valencia" and "Photos". The current page is a gold deep button with white text in both states, so it reads apart from Contact. On phones the menu drops to a second line. No Home item.
+- **Header:** one line, sticky. The name on the left links home, the menu (Photography · Blog · Work · About) sits in the center, and a Contact button (email) is on the right: secondary (white, thin gold outline) at the top, filling gold on hover, filled gold in the pill. At the top it has no background and spans the card grid, 10px inside each end. Once the page scrolls, it narrows into a centered gold light pill (860px) with white text, and the labels shorten to "Cris Valencia" and "Photos". The current page is a gold deep button with white text in both states, so it reads apart from Contact. On phones the menu drops to a second line. No Home item.
 - **Footer:** full-width soft gold diagonal plaid (gold, gold deep and gold light 24px bands crossing at 45°, low opacity on the gray page ground, so the empty diamonds match the page), with a light film grain on the bands only, and a 5px top edge in the gold light band's own transparency. With a mouse, a soft circle follows the cursor and shows a stronger plaid with the same bands and grain, fading back along a short trail. On touch screens the circle wanders on its own while the footer is on screen: slow (about 20px a second), random, drawn toward the center, and smaller (45% of the footer width). Off for reduced motion; 400px tall, 280px on phones) with a white pill in the center: turquoise "Made with ♥ by Hackart" (rounder red heart, #B8452F), tapping it switches to "In memory of Felipe Valencia"; "© Cristian Valencia" below. Woven textures and a top strip were explored in Claude Design and dropped.
 
 ## 7. Page content
