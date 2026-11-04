@@ -715,17 +715,17 @@ a.card:hover {
     gap: 28px;
   }
 
-  /* Phones: the name and a hamburger on the first line. The hamburger turns
-     into an X and opens a second line below: Photos, Blog, Work, About and
-     Contact as a gold mail button. Without JavaScript the second line just
-     stays open. */
+  /* Phones: a hamburger and the name on the first line. The hamburger turns
+     into an X, the mail icon appears on the right, and a second line opens
+     below: Photos, Blog, Work, About. Without JavaScript both just stay
+     visible. */
   .site-header {
     top: 8px;
   }
 
   .site-header__bar {
-    /* Equal outer columns keep the name centered; the hamburger sits in the
-       right one. */
+    /* Equal outer columns keep the name centered: the hamburger on the
+       left, the mail icon on the right. */
     grid-template-columns: 44px 1fr 44px;
     gap: 0 8px;
     padding: 4px;
@@ -768,8 +768,15 @@ a.card:hover {
     opacity: 1;
   }
 
+  /* Hamburger on the left; when the menu is open, the mail icon appears on
+     the right of the same line. */
   .site-header__toggle {
-    grid-column: 3;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .site-header__brand {
+    grid-row: 1;
   }
 
   .site-header__toggle:not([hidden]) {
@@ -914,15 +921,30 @@ a.card:hover {
   .site-header.is-scrolled .site-header__contact:hover,
   .site-header.is-scrolled .site-header__contact:focus-visible {
     display: grid;
+    grid-column: 3;
+    grid-row: 1;
     place-items: center;
-    flex: none;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     border-color: transparent;
     background-color: transparent;
     color: var(--color-text);
-    transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+    transition:
+      color 160ms ease 140ms,
+      box-shadow var(--dur-nav) ease,
+      opacity var(--dur-nav) ease,
+      visibility 0s linear 0s;
+  }
+
+  .site-header.has-toggle:not(.is-open) .site-header__contact {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      color 160ms ease 140ms,
+      box-shadow var(--dur-nav) ease,
+      opacity calc(var(--dur-nav) * 0.6) ease,
+      visibility 0s linear var(--dur-nav);
   }
 
   .site-header__contact:hover,
