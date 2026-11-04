@@ -75,6 +75,7 @@ exclude:
   - IDEAS.md
   - inspiration/
   - README.md
+  - assets/js/lib/README.md
   - Gemfile
   - Gemfile.lock
   - node_modules/
