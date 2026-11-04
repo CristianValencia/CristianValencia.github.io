@@ -40,6 +40,7 @@ plugins:
 # There's no Home item: the name above the menu links home.
 nav:
   - title: Photography
+    short: Photos
     url: /photography/
   - title: Blog
     url: /blog/

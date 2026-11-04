@@ -1,10 +1,21 @@
-<header class="site-header">
-  {% assign on_home = false %}
-  {% if page.url == '/' or page.url == '/index.html' %}{% assign on_home = true %}{% endif %}
-  <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>{{ site.title }}</a>
-  <nav class="site-nav" aria-label="Main">
-    {% for item in site.nav %}
-      <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
-    {% endfor %}
-  </nav>
+{%- assign on_home = false -%}
+{%- if page.url == '/' or page.url == '/index.html' -%}{%- assign on_home = true -%}{%- endif -%}
+<header class="site-header" data-site-header>
+  <div class="site-header__bar">
+    <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>
+      <span data-shrink="Cris Valencia">{{ site.title }}</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      {%- for item in site.nav %}
+      <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>
+        {%- if item.short -%}
+        <span data-shrink="{{ item.short }}">{{ item.title }}</span>
+        {%- else -%}
+        {{ item.title }}
+        {%- endif -%}
+      </a>
+      {%- endfor %}
+    </nav>
+    <a class="site-header__contact" href="mailto:{{ site.email }}">Contact</a>
+  </div>
 </header>
