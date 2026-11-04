@@ -69,14 +69,19 @@ const calm = window.matchMedia('(prefers-reduced-motion: no-preference)').matche
 const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 if (reveal && calm) {
-  const RADIUS = 400;
+  // The circle's radius is 40% of the footer's width on every screen, so it
+  // keeps the same proportion from phones to wide monitors.
+  const RADIUS_SHARE = 0.4;
   const TRAIL = 7;
   let points = [];
   let target = null;
   let active = false;
   let strength = 0;
   let frame = 0;
-  let radius = RADIUS;
+  let radius = 0;
+  const resize = () => { radius = footer.clientWidth * RADIUS_SHARE; };
+  resize();
+  window.addEventListener('resize', resize);
 
   // Wandering (touch screens only).
   const velocity = { x: 0, y: 0 };
@@ -185,8 +190,7 @@ if (reveal && calm) {
     new IntersectionObserver(([entry]) => {
       active = entry.isIntersecting;
       if (!active) return;
-      // A narrow footer gets a smaller circle, so the soft plaid still shows.
-      radius = Math.min(RADIUS, footer.clientWidth * 0.45);
+      resize();
       if (!points.length) {
         fill({ x: footer.clientWidth / 2, y: footer.clientHeight / 2 });
         pickTarget(performance.now());
