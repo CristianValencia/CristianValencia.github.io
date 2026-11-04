@@ -722,14 +722,35 @@ a.card:hover {
   }
 
   .site-header__bar {
-    grid-template-columns: 1fr auto;
-    gap: 0 12px;
-    padding: 4px 4px 4px 0;
+    /* Equal outer columns keep the name centered; the hamburger sits in the
+       right one. */
+    grid-template-columns: 44px 1fr 44px;
+    gap: 0 8px;
+    padding: 4px;
     border-radius: 24px;
   }
 
+  /* Phones always show the full name, centered, scrolled or not. */
   .site-header__name {
+    grid-column: 2;
+    justify-self: center;
     padding-block: 10px;
+  }
+
+  .site-header__name .shrink__out,
+  .site-header.is-scrolled .site-header__name .shrink__out {
+    max-width: var(--w);
+    opacity: 1;
+  }
+
+  .site-header__name .shrink__in,
+  .site-header.is-scrolled .site-header__name .shrink__in {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  .site-header__toggle {
+    grid-column: 3;
   }
 
   .site-header__toggle:not([hidden]) {
@@ -866,7 +887,7 @@ a.card:hover {
   }
 
   .site-header.is-scrolled .site-header__name {
-    padding-left: 8px;
+    padding-left: 0;
   }
 
   .site-footer {
