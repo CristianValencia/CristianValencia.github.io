@@ -104,8 +104,8 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with an
 | Follow me: | S | Instagram @cris.chrome and @cris.monochrome | external |
 | Contact | S | "Say hello" · cristian@hackart.com | `mailto:` |
 
-- **Menu:** Home · Photography · Blog · Work · About; the current section gets a gold underline.
-- **Footer:** tapping it cycles "© Cristian Valencia" → "In memory of Felipe Valencia" → "Made with ♥ in Mexico City".
+- **Header:** the name, centered on top, links home. Below it, a centered menu: Photography · Blog · Work · About; the current section gets a gold underline. No Home item.
+- **Footer:** full-width soft gold diagonal plaid (gold, gold deep and gold light 24px bands crossing at 45°, low opacity on the gray page ground, so the empty diamonds match the page), with a light film grain on the bands only. With a mouse, a soft circle follows the cursor and shows a stronger plaid with the same bands and grain, fading back along a short trail. On touch screens the circle wanders on its own while the footer is on screen: slow (about 40px a second), random, drawn toward the center, and smaller (45% of the footer width). Off for reduced motion; 400px tall, 280px on phones) with a white pill in the center: turquoise "Made with ♥ in Mexico City" (rounder red heart, #B8452F), tapping it switches to "In memory of Felipe Valencia"; "© Cristian Valencia" below. Woven textures and a top strip were explored in Claude Design and dropped.
 
 ## 7. Page content
 

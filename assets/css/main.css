@@ -7,12 +7,24 @@
   --color-link: #2A8C99;
   --color-gold: #B98946;
   --color-gold-deep: #9F6E32;
+  --color-gold-light: #C7A060;
+  --color-heart: #B8452F;
 
   --font-serif: 'Newsreader', Georgia, serif;
   --font-sans: 'Jost', system-ui, sans-serif;
 
   --radius-card: 28px;
   --gap: 20px;
+
+  /* Motion. --ease-spring is a damped spring sampled into linear():
+     SwiftUI .spring(duration: 0.75, bounce: 0.2), settling in ~1.05s.
+     Use it with --dur-spring so the whole curve plays. */
+  --ease-spring: linear(0, 0.043 3.6%, 0.142 7.1%, 0.269 10.7%, 0.402 14.3%, 0.529 17.9%, 0.641 21.4%, 0.737 25%, 0.816 28.6%, 0.877 32.1%, 0.924 35.7%, 0.958 39.3%, 0.982 42.9%, 0.997 46.4%, 1.007 50%, 1.012 53.6%, 1.015 57.1%, 1.015 60.7%, 1.014 64.3%, 1.012 67.9%, 1.01 71.4%, 1.008 75%, 1.006 78.6%, 1.005 82.1%, 1.003 85.7%, 1.002 89.3%, 1.002 92.9%, 1.001 96.4%, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-spring: 1050ms;
+  --dur-fill: 600ms;
+  --stagger: 60ms;
+  --shadow-lift: 0 14px 36px rgba(9, 25, 30, 0.08);
 }
 
 *,
@@ -58,9 +70,18 @@ img {
 
 /* Page frame */
 
-.site {
-  max-width: 1280px;
+/* The page content grows to fill the screen so the footer sits at the bottom. */
+body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  box-sizing: border-box;
   margin: 0 auto;
   padding: 40px 32px 56px;
   display: flex;
@@ -74,12 +95,13 @@ img {
 
 /* Header */
 
+/* Name on top, menu centered below it. */
 .site-header {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px 40px;
+  gap: 12px;
+  text-align: center;
 }
 
 .site-header__name {
@@ -93,6 +115,7 @@ img {
 .site-nav {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px 32px;
 }
 
@@ -112,30 +135,109 @@ img {
   text-decoration-color: var(--color-gold);
 }
 
-/* Footer */
+/* Footer: full-width soft gold plaid (translucent bands crossing at 45°,
+   overlaps darken on their own) with a white pill in the center. */
 
 .site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 0 16px;
+  background:
+    repeating-linear-gradient(45deg, rgba(185, 137, 70, 0.22) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.2) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.26) 96px 120px, transparent 120px 144px),
+    repeating-linear-gradient(-45deg, rgba(199, 160, 96, 0.26) 0 24px, transparent 24px 48px, rgba(185, 137, 70, 0.22) 48px 72px, transparent 72px 96px, rgba(159, 110, 50, 0.2) 96px 120px, transparent 120px 144px),
+    var(--color-ground);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Light film grain on the gold bands only: the mask repeats the plaid's
+   band layout, so the empty diamonds and the pill stay clean. The reveal
+   layer gets the same grain, so the stronger plaid has it too. */
+.site-footer::before,
+.site-footer__reveal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  -webkit-mask-image:
+    repeating-linear-gradient(45deg, #000 0 24px, transparent 24px 48px),
+    repeating-linear-gradient(-45deg, #000 0 24px, transparent 24px 48px);
+  mask-image:
+    repeating-linear-gradient(45deg, #000 0 24px, transparent 24px 48px),
+    repeating-linear-gradient(-45deg, #000 0 24px, transparent 24px 48px);
+}
+
+/* Footer reveal: a stronger plaid shown through a soft circle that follows
+   the mouse, or wanders on its own on touch screens. footer.js moves the
+   mask; without it nothing shows. */
+.site-footer__reveal {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(45deg, rgba(159, 110, 50, 0.5) 0 24px, transparent 24px 48px, rgba(199, 160, 96, 0.55) 48px 72px, transparent 72px 96px, rgba(185, 137, 70, 0.55) 96px 120px, transparent 120px 144px),
+    repeating-linear-gradient(-45deg, rgba(185, 137, 70, 0.55) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.5) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.55) 96px 120px, transparent 120px 144px),
+    var(--color-ground);
+  -webkit-mask-image: linear-gradient(transparent, transparent);
+  mask-image: linear-gradient(transparent, transparent);
+}
+
+.site-footer__pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 48px;
+  border-radius: 999px;
+  background: var(--color-card);
+  text-align: center;
+}
+
+/* Each tap shows the next line; footer.js does the cycling. */
+.site-footer__cycle {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.site-footer__copy {
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.site-footer__cycle {
-  padding: 10px 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
+/* The line that appears fades up softly. */
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }
 
+.site-footer__cycle > span:not([hidden]) {
+  display: inline-block;
+  animation: line-in var(--dur-fill) var(--ease-out);
+}
+
+/* Rounder than the ♥ glyph: wider than tall. */
 .heart {
-  color: var(--color-gold);
+  width: 0.95em;
+  height: 0.8em;
+  vertical-align: -0.06em;
+  fill: var(--color-heart);
 }
 
 /* Bento grid */
@@ -165,6 +267,60 @@ img {
   background: var(--color-card);
   color: var(--color-text);
   text-decoration: none;
+  transition: translate var(--dur-spring) var(--ease-spring), box-shadow var(--dur-spring) var(--ease-out);
+}
+
+/* Entrance: cards rise in one after another. Uses `transform` so the
+   hover lift (`translate`) never fights it. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+.bento > * {
+  animation: card-in var(--dur-spring) var(--ease-spring) backwards;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.bento > :nth-child(2) { --i: 1; }
+.bento > :nth-child(3) { --i: 2; }
+.bento > :nth-child(4) { --i: 3; }
+.bento > :nth-child(5) { --i: 4; }
+.bento > :nth-child(6) { --i: 5; }
+.bento > :nth-child(7) { --i: 6; }
+.bento > :nth-child(8) { --i: 7; }
+
+/* When a card lifts, its bottom edge moves up out from under the pointer,
+   which drops hover, lowers the card, and starts again: a flicker loop.
+   This invisible strip fills the gap the lift leaves, so hover stays put. */
+.card {
+  position: relative;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+/* Every card lifts on hover, but only with a real pointer
+   (on touch screens :hover sticks after a tap). Keyboard focus anywhere
+   inside a card lifts it too. */
+@media (hover: hover) {
+  .card:hover {
+    translate: 0 -6px;
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+.card:focus-within {
+  translate: 0 -6px;
+  box-shadow: var(--shadow-lift);
 }
 
 .card--wide {
@@ -180,8 +336,12 @@ a.card:hover {
   color: var(--color-text);
 }
 
-/* Tag: outlined by default, filled while its card is hovered or focused. */
+/* Tag: outlined by default. When its card is hovered or focused, a gold
+   fill wipes in from the left; on leave it retracts back to the left.
+   The fill is a ::after copy of the label (white on gold) revealed with
+   clip-path, so the text changes color exactly where the fill is. */
 .tag {
+  position: relative;
   align-self: flex-start;
   padding: 6px 13px;
   border: 1px solid var(--color-gold);
@@ -191,13 +351,29 @@ a.card:hover {
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.card:hover .tag,
-.card:focus-within .tag {
+.tag::after {
+  content: attr(data-label) / "";
+  position: absolute;
+  inset: -1px;
+  padding: 7px 14px;
+  border-radius: inherit;
   background: var(--color-gold);
   color: #FFFFFF;
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-fill) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card:hover .tag::after {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.card:focus-within .tag::after {
+  clip-path: inset(0 0 0 0);
 }
 
 .card__text {
@@ -299,11 +475,27 @@ a.card:hover {
   gap: 10px;
 }
 
+.mosaic__cell {
+  overflow: hidden;
+  border-radius: 6px;
+}
+
 .mosaic img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  transition: scale var(--dur-spring) var(--ease-spring);
+}
+
+/* Hovering a portfolio gently zooms its photos. */
+@media (hover: hover) {
+  .portfolio:hover .mosaic img {
+    scale: 1.05;
+  }
+}
+
+.portfolio:focus-within .mosaic img {
+  scale: 1.05;
 }
 
 .mosaic .tall { grid-row: span 2; }
@@ -381,6 +573,23 @@ a.card:hover {
     gap: 28px;
   }
 
+  .site-nav {
+    gap: 8px 20px;
+  }
+
+  .site-footer {
+    min-height: 280px;
+  }
+
+  .site-footer__pill {
+    padding: 18px 24px;
+    border-radius: 28px;
+  }
+
+  .site-footer__cycle {
+    font-size: 21px;
+  }
+
   .bento {
     grid-template-columns: minmax(0, 1fr);
     grid-auto-rows: auto;
@@ -406,7 +615,10 @@ a.card:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
     transition: none !important;
   }
 }
