@@ -3,7 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>document.documentElement.classList.add('is-loading')</script>
+  <script>
+    document.documentElement.classList.add('is-loading');
+    // Page transitions (see main.css): the first wheel, touch or key on the
+    // new page ends the transition at once, so the header responds. Plain
+    // scroll events are left out: the browser can fire one on its own as the
+    // page appears, which would cut the transition short for no reason.
+    // This has to be here, before the page first renders, to catch the event.
+    window.addEventListener('pagereveal', (event) => {
+      const transition = event.viewTransition;
+      if (!transition) return;
+      // Skipping rejects the transition's promises; that's expected.
+      ['ready', 'finished', 'updateCallbackDone'].forEach((k) => transition[k] && transition[k].catch(() => {}));
+      const finish = () => transition.skipTransition();
+      ['wheel', 'touchmove', 'keydown'].forEach((type) => window.addEventListener(type, finish, { once: true, passive: true }));
+    });
+    // The page being left gets the same transition; a skip rejects it too.
+    window.addEventListener('pageswap', (event) => {
+      const t = event.viewTransition;
+      if (t) ['ready', 'finished', 'updateCallbackDone'].forEach((k) => t[k] && t[k].catch(() => {}));
+    });
+  </script>
   {% seo %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
