@@ -1,5 +1,9 @@
 {%- assign on_home = false -%}
 {%- if page.url == '/' or page.url == '/index.html' -%}{%- assign on_home = true -%}{%- endif -%}
+{%- assign section = nil -%}
+{%- for item in site.nav -%}
+  {%- if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
+{%- endfor -%}
 <header class="site-header" data-site-header>
   <div class="site-header__bar">
     <a class="site-header__name" href="{{ '/' | relative_url }}"{% if on_home %} aria-current="page"{% endif %}>
@@ -9,6 +13,9 @@
       <span class="site-header__toggle-line" aria-hidden="true"></span>
       <span class="site-header__toggle-line" aria-hidden="true"></span>
     </button>
+    {%- if section %}
+    <div class="site-header__section" aria-hidden="true"><span>{{ section }}</span></div>
+    {%- endif %}
     <div class="site-header__menu" id="site-menu">
       <div class="site-header__menu-inner">
         <nav class="site-nav" aria-label="Main">

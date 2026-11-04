@@ -161,8 +161,9 @@ body {
   display: contents;
 }
 
-/* Phones only: the hamburger and Contact's mail icon. */
+/* Phones only: the hamburger, the current section and Contact's mail icon. */
 .site-header__toggle,
+.site-header__section,
 .site-header__contact-icon {
   display: none;
 }
@@ -796,10 +797,46 @@ a.card:hover {
   .site-header.is-open .site-header__toggle-line:first-child { rotate: 45deg; }
   .site-header.is-open .site-header__toggle-line:last-child { rotate: -45deg; }
 
+  /* The current section sits under the name in smaller text. It folds away
+     while the menu is open, so the menu takes its place. */
+  .site-header__section {
+    display: grid;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: center;
+    grid-template-rows: 1fr;
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition:
+      grid-template-rows var(--dur-nav) var(--ease-out),
+      opacity var(--dur-nav) ease,
+      color 160ms ease 140ms;
+  }
+
+  .site-header__section > span {
+    min-height: 0;
+    overflow: hidden;
+    padding-bottom: 8px;
+    margin-top: -8px;
+  }
+
+  .site-header.is-scrolled .site-header__section {
+    color: #FFFFFF;
+  }
+
+  .site-header.is-open .site-header__section {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
   /* The second line folds open from 0 to its own height. */
   .site-header__menu {
     display: grid;
     grid-column: 1 / -1;
+    grid-row: 3;
     grid-template-rows: 1fr;
     transition:
       grid-template-rows var(--dur-nav) var(--ease-out),
