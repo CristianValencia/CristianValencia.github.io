@@ -1750,11 +1750,14 @@ a.card:hover {
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
   .post-end__inner { padding: 20px 16px; }
-  /* Phones: one per line, Back to top on the right of its own line. */
+  /* Phones: one per line, all on the left, each with its icon first, so the
+     three icons line up in one column (Back to top's arrow moves before
+     its label). */
   .post-end__row { grid-template-columns: minmax(0, 1fr); }
   .post-end__row > *,
-  .post-end__row > .post-end__ai { grid-column: 1; justify-self: start; }
-  .post-end__row > .post-end__top { grid-column: 1; justify-self: end; }
+  .post-end__row > .post-end__ai,
+  .post-end__row > .post-end__top { grid-column: 1; justify-self: start; }
+  .post-end__top { flex-direction: row-reverse; }
 
   /* The journey runs down the left side, one stop under the other. */
   .jr-row { height: auto; }
