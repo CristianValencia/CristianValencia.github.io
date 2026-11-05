@@ -1129,13 +1129,13 @@ a.card:hover {
   gap: 4px 12px;
   margin: 0 0 20px;
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-muted);
 }
 
 .post__byline a {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-link);
   text-decoration-thickness: 1px;
@@ -1155,14 +1155,14 @@ a.card:hover {
   margin: 0 0 16px;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 48px;
+  font-size: 52px;
   line-height: 1.1;
 }
 
 .post__subtitle {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1.4;
   color: var(--color-muted);
 }
@@ -1182,7 +1182,7 @@ a.card:hover {
   background: var(--color-link);
   color: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -1291,7 +1291,7 @@ a.card:hover {
 }
 
 .post-journey__count {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--color-muted);
 }
 
@@ -1382,7 +1382,7 @@ a.card:hover {
 
 .jr-title {
   display: block;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
   transition: color 0.2s ease;
@@ -1395,7 +1395,7 @@ a.card:hover {
 .jr-summary {
   display: block;
   margin-top: 4px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--color-muted);
 }
@@ -1409,10 +1409,11 @@ a.card:hover {
 
 .post__body {
   padding: 40px 0 16px;
+  font-size: 22px;
 }
 
 /* Reading column. Sizes are in em, so they follow the text size (20px, 18px
-   on phones). */
+   on phones; posts use 22px, 20px on phones). */
 .prose > :first-child {
   margin-top: 0;
 }
@@ -1575,7 +1576,7 @@ a.card:hover {
 .figure figcaption {
   margin-top: 12px;
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   text-align: center;
   color: var(--color-muted);
@@ -1586,7 +1587,7 @@ a.card:hover {
   background: var(--color-link);
   color: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -1626,7 +1627,7 @@ a.card:hover {
 
 .post-end__sources span {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .post-end__note {
@@ -1635,8 +1636,9 @@ a.card:hover {
 }
 
 @media (max-width: 700px) {
-  .post__title { font-size: 36px; }
-  .post__subtitle { font-size: 20px; }
+  .post__title { font-size: 40px; }
+  .post__subtitle { font-size: 22px; }
+  .post__body { font-size: 20px; }
   .prose blockquote { padding: 20px; }
   .post-end__inner { padding: 20px 16px; }
 
