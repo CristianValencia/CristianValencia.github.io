@@ -1775,10 +1775,34 @@ a.card:hover {
   .jr-dot { top: 4px; left: -37px; }
 }
 
-/* Framed prints (Photography). A linen-covered frame (linen.js weaves the
-   fabric; without it the frame is its flat base color), a plain white mat
-   and the photo, as large as the screen allows, with a soft shadow as if
-   it hangs on the wall. */
+/* Linen pages (linen: in front matter). The page's whole background is
+   linen woven in code (linen.js; without it, the flat base color): neutral
+   on the page gray, or charcoal. The footer keeps its own plaid. */
+.linen-page {
+  background-repeat: repeat;
+}
+
+.linen-page--charcoal {
+  background-color: #161616;
+}
+
+/* On charcoal, everything above the footer turns light. The header's
+   pill (gold) is unchanged; its band above the pill takes the charcoal. */
+.linen-page--charcoal .site {
+  --color-ground: #161616;
+  --color-text: #F7F7F7;
+  --color-muted: #BFC4C5;
+  --color-link: #C7A060;
+  color: var(--color-text);
+}
+
+.linen-page--charcoal .site-header__contact {
+  color: #09191E;
+}
+
+/* Prints (Photography): a plain white mat with the photo, sitting straight
+   on the linen, with a soft shadow like paper lifted off the fabric. Sized so
+   the whole print fits on screen. */
 .print-page {
   display: flex;
   flex-direction: column;
@@ -1817,26 +1841,12 @@ a.card:hover {
   margin: 0;
 }
 
-.framed-print__frame {
+.framed-print__mat {
   box-sizing: border-box;
   max-width: 100%;
-  padding: clamp(16px, 3.2vw, 44px);
-  background-repeat: repeat;
-  box-shadow: 0 22px 44px rgba(9, 25, 30, 0.22), 0 4px 10px rgba(9, 25, 30, 0.12);
-}
-
-.framed-print__frame--neutral {
-  background-color: var(--color-ground);
-}
-
-/* Charcoal: the dark linen's base. */
-.framed-print__frame--charcoal {
-  background-color: #161616;
-}
-
-.framed-print__mat {
   padding: clamp(20px, 4vw, 56px);
   background: var(--color-card);
+  box-shadow: 0 18px 40px rgba(9, 25, 30, 0.2), 0 3px 8px rgba(9, 25, 30, 0.1);
 }
 
 .framed-print__mat img {
@@ -1844,9 +1854,9 @@ a.card:hover {
   width: auto;
   max-width: 100%;
   height: auto;
-  /* The whole frame fits on screen, with a little room below it: the
-     header and the frame and mat around the photo take about 372px. */
-  max-height: max(320px, calc(100vh - 372px));
+  /* The whole print fits on screen, with a little room below it: the
+     header and the mat around the photo take about 290px. */
+  max-height: max(320px, calc(100vh - 290px));
 }
 
 .framed-print figcaption {

@@ -1,15 +1,11 @@
 {%- comment -%}
-  A photo framed like a print: a linen-covered frame, a plain white mat, the photo.
-  {% include framed-print.html src="/assets/images/…" alt="…" width="1024" height="768" fabric="neutral" caption="…" %}
-  fabric is "neutral" (the page gray) or "charcoal"; linen.js weaves the fabric,
-  and without it the frame is its flat base color.
+  A photo presented like a print: a plain white mat with the photo inside,
+  meant to sit on a linen page background (linen: neutral or charcoal).
+  {% include framed-print.html src="/assets/images/…" alt="…" width="1024" height="768" caption="…" %}
 {%- endcomment -%}
-{%- assign fabric = include.fabric | default: 'neutral' -%}
 <figure class="framed-print">
-  <div class="framed-print__frame framed-print__frame--{{ fabric }}" data-linen="{{ fabric }}">
-    <div class="framed-print__mat">
-      <img src="{{ include.src | relative_url }}" alt="{{ include.alt }}" width="{{ include.width }}" height="{{ include.height }}" decoding="async">
-    </div>
+  <div class="framed-print__mat">
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt }}" width="{{ include.width }}" height="{{ include.height }}" decoding="async">
   </div>
   {%- if include.caption %}
   <figcaption>{{ include.caption }}</figcaption>
