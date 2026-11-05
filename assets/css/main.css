@@ -76,6 +76,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip; /* the header's full-width band reaches past the page */
 }
 
 .site {
@@ -104,11 +105,35 @@ body {
    Contact slide to their new places while the bar narrows, and the labels
    shrink letter by letter (Cristian -> Cris, Photography -> Photos). */
 .site-header {
+  --header-top: 16px;
   position: sticky;
-  top: 16px;
+  top: var(--header-top);
   z-index: 10;
   display: flex;
   justify-content: center;
+}
+
+/* Once the pill forms, a band of the page color runs behind it, from the top
+   of the screen to just below the pill, so text scrolling past never shows
+   in the gap above it or beside it. Its last 16px fade out, so there's no
+   hard edge. It spans the whole window; body clips the overflow. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--header-top));
+  bottom: -16px;
+  left: 50%;
+  width: 100vw;
+  translate: -50% 0;
+  background: linear-gradient(to bottom, var(--color-ground) calc(100% - 16px), rgba(247, 247, 247, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-nav) ease;
+}
+
+.site-header.is-scrolled::before {
+  opacity: 1;
 }
 
 .site-header__bar {
@@ -720,7 +745,7 @@ a.card:hover {
      below: Photos, Blog, Work, About. Without JavaScript both just stay
      visible. */
   .site-header {
-    top: 8px;
+    --header-top: 8px;
   }
 
   .site-header__bar {
