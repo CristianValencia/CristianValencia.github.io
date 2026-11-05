@@ -55,6 +55,12 @@ a:hover {
   outline-offset: 3px;
 }
 
+/* Places the page moves focus to after a jump (a section, the byline) take
+   focus quietly, so the reader keeps their place without a ring. */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 img {
   display: block;
   max-width: 100%;
