@@ -1160,15 +1160,13 @@ a.card:hover {
   align-items: baseline;
   gap: 4px 12px;
   margin: 0 0 20px;
-  font-family: var(--font-serif);
-  font-size: 21px;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 600;
   color: var(--color-muted);
 }
 
 .post__byline a {
-  font-family: var(--font-sans);
-  font-size: 17px;
-  font-weight: 600;
   color: var(--color-link);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
@@ -1176,11 +1174,6 @@ a.card:hover {
 
 .post__byline a:hover {
   color: var(--color-gold-deep);
-}
-
-.post__byline time {
-  font-variant: small-caps;
-  letter-spacing: 0.04em;
 }
 
 .post__title {
