@@ -26,6 +26,9 @@
   const COLORS = {
     charcoal: (g) => 22 + (g / MEAN - 1) * 22 * 0.4,
     neutral: (g) => 247 + (g - MEAN) * 0.2,
+    // Stamp paper on the contact postcard: the same weave on white, at 40%.
+    // Threads brighter than white are capped, so it reads a touch off-white.
+    stamp: (g) => 255 + (g - MEAN) * 0.4,
   };
 
   const rng = (seed) => {

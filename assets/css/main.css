@@ -144,6 +144,13 @@ body {
   opacity: 1;
 }
 
+/* Static header (header: static, on Contact): it stays in place at the top
+   of the page and scrolls away with it, so it never covers the content. */
+.site-header--static {
+  position: relative;
+  top: auto;
+}
+
 /* The home page has no band: its cards run up past the pill. */
 .site-header--home::before {
   display: none;
@@ -388,21 +395,39 @@ body {
   border-top: 0;
 }
 
+.post-end + .site-footer .site-footer__reveal {
+  --strip: 0px;
+}
+
+/* The reveal's grain stays on the plaid's bands, below the strip (the strip
+   keeps its own grain from .site-footer::after, which sits on top). */
+.site-footer__reveal::after {
+  inset: var(--strip) 0 0;
+}
+
 .post-end + .site-footer::after {
   display: none;
 }
 
 /* Footer reveal: a stronger plaid shown through a soft circle that follows
    the mouse, or wanders on its own on touch screens. footer.js moves the
-   mask; without it nothing shows. */
+   mask; without it nothing shows. The layer reaches up over the gold strip
+   on the footer's top edge (--strip), so the circle strengthens the strip
+   too: the gold light band at the reveal's strength. The plaid itself
+   starts below the strip, lined up with the footer's soft plaid. Covering
+   the whole footer box also lines the circle up with the cursor exactly,
+   since footer.js measures from the footer's outer edge. */
 .site-footer__reveal {
+  --strip: 5px;
   position: absolute;
-  inset: 0;
+  inset: calc(-1 * var(--strip)) 0 0;
   z-index: -1;
   pointer-events: none;
   background:
-    repeating-linear-gradient(45deg, rgba(159, 110, 50, 0.5) 0 24px, transparent 24px 48px, rgba(199, 160, 96, 0.55) 48px 72px, transparent 72px 96px, rgba(185, 137, 70, 0.55) 96px 120px, transparent 120px 144px),
-    repeating-linear-gradient(-45deg, rgba(185, 137, 70, 0.55) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.5) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.55) 96px 120px, transparent 120px 144px),
+    linear-gradient(rgba(199, 160, 96, 0.55), rgba(199, 160, 96, 0.55)) 0 0 / 100% var(--strip) no-repeat,
+    linear-gradient(var(--color-ground), var(--color-ground)) 0 0 / 100% var(--strip) no-repeat,
+    repeating-linear-gradient(45deg, rgba(159, 110, 50, 0.5) 0 24px, transparent 24px 48px, rgba(199, 160, 96, 0.55) 48px 72px, transparent 72px 96px, rgba(185, 137, 70, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip)) no-repeat,
+    repeating-linear-gradient(-45deg, rgba(185, 137, 70, 0.55) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.5) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip)) no-repeat,
     var(--color-ground);
   -webkit-mask-image: linear-gradient(transparent, transparent);
   mask-image: linear-gradient(transparent, transparent);
@@ -425,8 +450,11 @@ body {
   margin: 0;
   border: 0;
   background: none;
-  font-family: var(--font-serif);
-  font-size: 26px;
+  /* Jost (the site's sans) at regular weight, in the link color. A size
+     smaller than the serif it replaced, since Jost reads larger. */
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 22px;
   color: var(--color-link);
   cursor: pointer;
   /* Both lines share one cell, so the pill is always as wide as the longer
@@ -463,6 +491,40 @@ body {
 .site-footer__cycle > span:not([hidden]) {
   display: inline-block;
   animation: line-in var(--dur-fill) var(--ease-out);
+}
+
+/* Compact footer (footer: compact, on Contact): the same plaid, strip and
+   light in a short band. The cycling line sits in a smaller centre pill;
+   the copyright moves into its own pill on the left, lined up with the
+   page's content column.
+   Its height is the full footer's minus whole repeats of the plaid's
+   diamonds, so it starts and ends on the same diagonals: the bands repeat
+   every 48px across the 45° lines, which is 48px × √2 = 67.882px down the
+   page. 400px minus five repeats is about 61px, the smallest that still
+   fits the pills (phones: 280px minus two, about 144px). */
+.site-footer--compact {
+  --plaid-step: 67.882px;
+  min-height: calc(400px - 5 * var(--plaid-step));
+}
+
+.site-footer--compact .site-footer__pill {
+  padding: 9px 28px;
+}
+
+.site-footer--compact .site-footer__cycle {
+  font-size: 16px;
+}
+
+.site-footer__chip {
+  position: absolute;
+  top: 50%;
+  left: max(32px, calc((100% - 1280px) / 2 + 32px));
+  translate: 0 -50%;
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: var(--color-card);
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 /* Rounder than the ♥ glyph: wider than tall. */
@@ -1056,7 +1118,30 @@ a.card:hover {
   }
 
   .site-footer__cycle {
-    font-size: 21px;
+    font-size: 18px;
+  }
+
+  /* Phones: the two pills stack, centred. */
+  .site-footer--compact {
+    flex-direction: column;
+    gap: 8px;
+    min-height: calc(280px - 2 * var(--plaid-step));
+    padding: 0 16px;
+  }
+
+  .site-footer--compact .site-footer__pill {
+    padding: 8px 24px;
+    border-radius: 999px;
+  }
+
+  .site-footer--compact .site-footer__cycle {
+    font-size: 15px;
+  }
+
+  .site-footer__chip {
+    position: static;
+    translate: none;
+    order: 2;
   }
 
   .bento {
@@ -1864,4 +1949,581 @@ a.card:hover {
 
 @media (max-width: 700px) {
   .print-page__title { font-size: 30px; }
+}
+
+/* Contact: a postcard (Claude Design canvas, "Contact — postcard"). The
+   message on the left, a dashed divider, and on the right a photo stamp
+   over the address lines. It fits on one screen: the message box keeps
+   its height and scrolls inside. Type follows the blog post: the message is
+   set like post body text (23px, 1.7 line height = 39px), one ruled line
+   per line of text. */
+
+/* As wide as the expanded header bar: the full content column. */
+.contact {
+  padding: 0;
+}
+
+/* Wider screens: the postcard fills the first screen below the header, up
+   to 720px tall (past that it stays centred). It has the same room above it
+   as below it before the footer: 96px (the page's 40px gap + 56px here
+   above; 40px here + the page's 56px bottom padding below). The footer
+   starts just below the first screen, so it shows once the visitor
+   scrolls. --above is the header's height plus the page's gap: the 16px
+   top padding, the 56px bar and 40px. */
+@media (min-width: 701px) {
+  .contact {
+    --above: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100svh - var(--above));
+    padding: 56px 0 40px;
+  }
+
+  .postcard {
+    flex: 1;
+    max-height: 720px;
+  }
+
+  /* The stamp takes the room the taller card frees on the right and sits
+     centred in it, instead of leaving a gap above the address lines. */
+  .postcard .postcard__stamp-area {
+    flex: 1 0 168px;
+  }
+
+  .postcard .postcard__stamp {
+    top: calc(50% - 77px);
+  }
+}
+
+.postcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 5px minmax(0, 1fr);
+  gap: 0 56px;
+  padding: 28px 48px 20px;
+  /* A 5px edge in the gold light band at 13%, over the page; the divider's
+     pills use the same. */
+  border: 5px solid rgba(199, 160, 96, 0.13);
+  border-radius: 6px;
+  background: var(--color-card) padding-box;
+  transition: transform 600ms cubic-bezier(0.5, 0, 0.75, 0), opacity 600ms ease;
+}
+
+/* The footer's light on the edge: a soft circle that follows the cursor
+   (contact.js sets --ex, --ey, --er and .is-lit) shows the edge at the
+   footer reveal's strength, the gold light band at 55%. The circle is
+   drawn with a radial gradient, then cut to the edge's ring (the border box
+   minus the padding box; the 5px padding stands in for the border). */
+.postcard::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  padding: 5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgba(199, 160, 96, 0.55);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  -webkit-mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%),
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%) intersect,
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.postcard.is-lit::before {
+  opacity: 1;
+}
+
+/* Send: the card lifts away before the email app opens. */
+.postcard.is-sending {
+  transform: translateY(-32px);
+  opacity: 0;
+}
+
+.postcard__side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.postcard__label {
+  flex: none;
+  width: 76px;
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Reason: one of three, required. Real radio buttons, hidden over pill
+   labels, so it works with the keyboard and the form won't send without
+   one. Picked looks like the header's current page: gold deep, white text. */
+.postcard__reason {
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+}
+
+/* "Reason for contact" on its own line, centred, with the options centred
+   below it. */
+.postcard__reason legend {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 0;
+  text-align: center;
+}
+
+.postcard__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.postcard__chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border: 1px solid rgba(9, 25, 30, 0.25);
+  border-radius: 999px;
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 300ms ease, border-color 300ms ease, color 160ms ease;
+}
+
+.postcard__chip:hover {
+  border-color: var(--color-gold-deep);
+  color: var(--color-text);
+}
+
+.postcard__chip:has(input:checked) {
+  background-color: var(--color-gold-deep);
+  border-color: var(--color-gold-deep);
+  color: #FFFFFF;
+}
+
+.postcard__chip:focus-within {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+
+.postcard__chip input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.postcard__message {
+  display: block;
+  flex: 1 1 156px;
+  width: 100%;
+  min-height: 156px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  resize: none;
+  background: repeating-linear-gradient(transparent 0 38px, rgba(9, 25, 30, 0.09) 38px 39px) local;
+  color: var(--color-text);
+  caret-color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: 23px;
+  line-height: 39px;
+}
+
+.postcard__message::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+.postcard__message:focus-visible {
+  outline: none;
+}
+
+/* The dashed divider: 5px wide, in the edge's gold (13%),
+   with grain. Each dash is a small pill (14px long, round ends, 12px apart):
+   the whole divider is cut to that shape by a mask, so the grain and the
+   light below take the same shape. It carries the footer's light: the
+   dashes at the reveal's strength (55%), shown through a soft circle that
+   follows the cursor over the card (contact.js sets --lx, --ly, --lr on the
+   divider, and .is-lit). */
+.postcard__divider {
+  position: relative;
+  background: rgba(199, 160, 96, 0.13);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px repeat-y;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px repeat-y;
+}
+
+.postcard__divider::before,
+.postcard__divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.postcard__divider::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+}
+
+.postcard__divider::before {
+  background: rgba(199, 160, 96, 0.55);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  /* An ellipse, not a circle: wide across (--lrx), so the divider catches
+     the light from far to the side, and shorter up and down (--lry), so
+     only the stretch level with the cursor lights. */
+  -webkit-mask: radial-gradient(var(--lrx, 0px) var(--lry, 0px) at var(--lx, 50%) var(--ly, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
+  mask: radial-gradient(var(--lrx, 0px) var(--lry, 0px) at var(--lx, 50%) var(--ly, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
+}
+
+.postcard__divider.is-lit::before {
+  opacity: 1;
+}
+
+/* The stamp: paper in the site's linen on white (linen.js, "stamp") around
+   the photo. Only the edge is cut: a mask of holes on a 14px grid centred on
+   the edges, joined to a solid inner rectangle so only the outer row shows.
+   The stamp's sides are multiples of 14, so all four edges match. The
+   shadow sits on the outer box, so the mask doesn't clip it. */
+.postcard__stamp-area {
+  position: relative;
+  height: 168px;
+  margin-bottom: 14px;
+}
+
+.postcard__stamp {
+  position: absolute;
+  top: 6px;
+  left: calc(50% - 63px);
+  width: 126px;
+  height: 154px;
+  transform: rotate(3deg);
+  filter: drop-shadow(0 3px 6px rgba(9, 25, 30, 0.29));
+}
+
+.postcard__paper {
+  position: absolute;
+  inset: 0;
+  background-color: #FFFFFF;
+  -webkit-mask:
+    linear-gradient(#000, #000) center / calc(100% - 12px) calc(100% - 12px) no-repeat,
+    radial-gradient(circle at 7px 7px, transparent 4px, #000 4.5px) -7px -7px / 14px 14px;
+  mask:
+    linear-gradient(#000, #000) center / calc(100% - 12px) calc(100% - 12px) no-repeat,
+    radial-gradient(circle at 7px 7px, transparent 4px, #000 4.5px) -7px -7px / 14px 14px;
+}
+
+.postcard__paper img {
+  position: absolute;
+  inset: 14px;
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
+  object-fit: cover;
+}
+
+.postcard__address {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.postcard__line {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.postcard__value {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0 6px;
+  border: 0;
+  border-bottom: 1px solid rgba(9, 25, 30, 0.25);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.postcard__value--to {
+  color: var(--color-link);
+}
+
+/* Placeholders stay regular weight, so a filled-in value reads apart. */
+.postcard__value::placeholder {
+  color: var(--color-muted);
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.postcard__value:focus-visible {
+  outline: none;
+  border-bottom-color: var(--color-link);
+}
+
+.postcard__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Primary button: filled gold with white text, like the header's filled
+   Contact pill; hover deepens to gold deep. */
+.postcard__send {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 32px;
+  border: 1px solid var(--color-gold);
+  border-radius: 999px;
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(159, 110, 50, 0.28);
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease, box-shadow 300ms ease;
+}
+
+.postcard__send:hover:enabled,
+.postcard__send:focus-visible {
+  background-color: var(--color-gold-deep);
+  border-color: var(--color-gold-deep);
+}
+
+.postcard__send:active:enabled {
+  box-shadow: inset 2px 3px 6px rgba(9, 25, 30, 0.18);
+}
+
+/* Off until every field is filled in (contact.js): the page's neutral gray
+   with its text set like the fields' placeholders (the secondary gray at
+   70%), no outline, flat, no hover. The border stays (in the fill's own
+   color), so the button keeps its size. */
+.postcard__send:disabled {
+  border-color: var(--color-ground);
+  background-color: var(--color-ground);
+  color: rgba(66, 77, 80, 0.7);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.postcard__note {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+/* Phones: one column. The reason sits on the left with the stamp beside it
+   on the right; then the message; then the divider's pills, lying
+   horizontal; then the address lines and Send. The message uses the blog
+   post's phone body size (21px, 36px lines). */
+@media (max-width: 760px) {
+  .postcard {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "reason stamp"
+      "message message"
+      "divider divider"
+      "address address"
+      "actions actions";
+    gap: 24px 16px;
+    padding: 24px 20px;
+  }
+
+  .postcard__side {
+    display: contents;
+  }
+
+  .postcard__reason {
+    grid-area: reason;
+    align-self: center;
+    margin: 0;
+  }
+
+  .postcard__reason legend {
+    text-align: left;
+  }
+
+  /* The reasons as a vertical list, one pill per line, left-aligned. */
+  .postcard__chips {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .postcard__message {
+    grid-area: message;
+    min-height: 144px;
+    font-size: 21px;
+    line-height: 36px;
+    background: repeating-linear-gradient(transparent 0 35px, rgba(9, 25, 30, 0.09) 35px 36px) local;
+  }
+
+  /* The divider turns on its side: a row of the same small pills, 5px
+     tall. */
+  .postcard__divider {
+    grid-area: divider;
+    height: 5px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px repeat-x;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px repeat-x;
+  }
+
+  /* The stamp, beside the reason: 112 × 140px (multiples of 14, so the
+     perforations stay even). */
+  .postcard__stamp-area {
+    grid-area: stamp;
+    width: 124px;
+    height: 152px;
+    margin: 0;
+  }
+
+  .postcard__stamp {
+    top: 6px;
+    left: 6px;
+    width: 112px;
+    height: 140px;
+  }
+
+  .postcard__address {
+    grid-area: address;
+    margin-top: 0;
+  }
+
+  .postcard__actions {
+    grid-area: actions;
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .postcard {
+    transition: none;
+  }
+}
+
+/* The header bar is always the gold light pill, at the top too.
+   Only its width (and the shortened labels) change on scroll: at the top it
+   spans the card grid, scrolled it narrows to 860px, as before. These rules
+   set the scrolled colors for both states; the .is-scrolled rules above
+   still handle the width. The page starts the bar at the same distance from
+   the top as it sticks at once scrolled (--header-top: 16px, 8px on phones),
+   so it doesn't jump up when it starts to stick. */
+.site {
+  padding-top: 16px;
+}
+
+.site-header .site-header__bar {
+  background-color: var(--color-gold-light);
+  box-shadow: 0 8px 24px rgba(9, 25, 30, 0.12);
+}
+
+.site-header .site-header__name,
+.site-header .site-nav__link,
+.site-header .site-nav__link:hover {
+  color: #FFFFFF;
+}
+
+.site-header .site-nav__link:not([aria-current="page"]):hover,
+.site-header .site-nav__link:not([aria-current="page"]):focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+.site-header .site-header__name {
+  padding-left: 20px;
+}
+
+.site-header .site-header__contact,
+.linen-page--charcoal .site-header .site-header__contact {
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+}
+
+.site-header .site-header__contact:hover,
+.site-header .site-header__contact:focus-visible {
+  background-color: var(--color-gold-deep);
+  border-color: var(--color-gold-deep);
+  color: #FFFFFF;
+}
+
+@media (max-width: 700px) {
+  .site-header .site-header__toggle:not([hidden]),
+  .site-header .site-header__contact,
+  .site-header .site-header__contact:hover,
+  .site-header .site-header__contact:focus-visible {
+    color: #FFFFFF;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .site-header .site-header__contact:hover,
+  .site-header .site-header__contact:focus-visible {
+    box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+  }
+
+  .site-header .site-header__name {
+    padding-left: 0;
+  }
+
+  .site-header .site-header__section {
+    color: #FFFFFF;
+  }
+
+  .site {
+    padding-top: 8px;
+  }
+}
+
+/* On the contact page, Contact is the current page: gold deep with white
+   text, like the current section in the menu, and it doesn't react (no
+   hover; contact.js stops the click, so it doesn't reload the page). On
+   phones, where Contact is just the mail icon, the icon sits in a gold
+   deep circle. */
+.site-header .site-header__contact[aria-current="page"],
+.site-header .site-header__contact[aria-current="page"]:hover,
+.site-header .site-header__contact[aria-current="page"]:focus-visible,
+.site-header.is-scrolled .site-header__contact[aria-current="page"],
+.site-header.is-scrolled .site-header__contact[aria-current="page"]:hover {
+  border-color: var(--color-gold-deep);
+  background-color: var(--color-gold-deep);
+  color: #FFFFFF;
+  cursor: default;
+}
+
+@media (max-width: 700px) {
+  .site-header .site-header__contact[aria-current="page"],
+  .site-header .site-header__contact[aria-current="page"]:hover,
+  .site-header .site-header__contact[aria-current="page"]:focus-visible,
+  .site-header.is-scrolled .site-header__contact[aria-current="page"],
+  .site-header.is-scrolled .site-header__contact[aria-current="page"]:hover {
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 999px var(--color-gold-deep);
+    color: #FFFFFF;
+  }
 }

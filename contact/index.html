@@ -1,0 +1,65 @@
+---
+layout: default
+title: Contact
+description: Write me a postcard. It goes straight to my inbox.
+footer: compact
+header: static
+---
+{%- comment -%}
+  The contact page as a postcard (Claude Design canvas, "Contact — postcard"):
+  the message on the left, a dashed divider, and on the right a photo stamp
+  over the address lines. Send opens the visitor's email app with the
+  postcard filled in (mailto:), so it works on a static site with no form
+  service.
+{%- endcomment -%}
+<article class="contact">
+  <h1 class="visually-hidden">Contact</h1>
+
+  <form class="postcard" data-postcard data-to="{{ site.email }}">
+    <div class="postcard__side">
+      <fieldset class="postcard__reason">
+        <legend class="postcard__label">Reason for contact</legend>
+        <div class="postcard__chips">
+          <label class="postcard__chip"><input type="radio" name="reason" value="General" required><span>General</span></label>
+          <label class="postcard__chip"><input type="radio" name="reason" value="Work" required><span>Work</span></label>
+          <label class="postcard__chip"><input type="radio" name="reason" value="Photography" required><span>Photography</span></label>
+        </div>
+      </fieldset>
+      <label class="visually-hidden" for="postcard-message">Your message</label>
+      <textarea class="postcard__message" id="postcard-message" name="message" placeholder="Write your message here." required></textarea>
+    </div>
+
+    <div class="postcard__divider" aria-hidden="true"></div>
+
+    <div class="postcard__side">
+      <div class="postcard__stamp-area" aria-hidden="true">
+        <div class="postcard__stamp">
+          <div class="postcard__paper" data-linen="stamp">
+            <img src="{{ '/assets/images/home/color-flower.jpg' | relative_url }}" alt="" width="640" height="480" decoding="async">
+          </div>
+        </div>
+      </div>
+
+      <div class="postcard__address">
+        <div class="postcard__line">
+          <span class="postcard__label">To</span>
+          <span class="postcard__value postcard__value--to">Cristian Valencia</span>
+        </div>
+        <label class="postcard__line">
+          <span class="postcard__label">From</span>
+          <input class="postcard__value" type="text" name="name" autocomplete="name" placeholder="Your name" required>
+        </label>
+        <label class="postcard__line">
+          <span class="postcard__label">Reply to</span>
+          <input class="postcard__value" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+        </label>
+      </div>
+
+      <div class="postcard__actions">
+        <button class="postcard__send" type="submit">Send</button>
+        <p class="postcard__note">Opens your email app, ready to send.</p>
+      </div>
+    </div>
+  </form>
+</article>
+<script src="{{ '/assets/js/contact.js' | relative_url }}" defer></script>
