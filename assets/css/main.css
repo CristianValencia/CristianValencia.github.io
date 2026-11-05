@@ -1231,6 +1231,17 @@ a.card:hover {
   cursor: pointer;
 }
 
+.post-meta__btn:is(a),
+.post-meta__btn:is(a):hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* Back to top sits at the right end of the end stripe's row. */
+.post-end__top {
+  margin-left: auto;
+}
+
 .post-meta__btn[hidden] {
   display: none;
 }

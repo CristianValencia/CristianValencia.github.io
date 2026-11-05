@@ -83,6 +83,16 @@ const scrollToSection = (target) => {
   });
 };
 
+// Back to top: glides up to the start of the post, the byline (name and date).
+const backToTop = document.querySelector('[data-back-to-top]');
+const postStart = document.getElementById('post-start');
+if (backToTop && postStart) {
+  backToTop.addEventListener('click', (event) => {
+    event.preventDefault();
+    scrollToSection(postStart);
+  });
+}
+
 // Post journey: one stop per section title (h2, h3) of the post, three per
 // row. Rows alternate direction and join with a rounded turn. Each stop shows
 // the title and the first sentence after it.
