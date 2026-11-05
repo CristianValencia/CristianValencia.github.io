@@ -1162,11 +1162,11 @@ a.card:hover {
   margin: 0 0 20px;
   font-family: var(--font-sans);
   font-size: 17px;
-  font-weight: 600;
   color: var(--color-muted);
 }
 
 .post__byline a {
+  font-weight: 600;
   color: var(--color-link);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
