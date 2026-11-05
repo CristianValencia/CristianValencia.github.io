@@ -1160,27 +1160,19 @@ a.card:hover {
   align-items: baseline;
   gap: 4px 12px;
   margin: 0 0 20px;
-  font-family: var(--font-serif);
-  font-size: 21px;
+  font-family: var(--font-sans);
+  font-size: 17px;
   color: var(--color-muted);
 }
 
 .post__byline a {
-  font-family: var(--font-sans);
-  font-size: 17px;
   font-weight: 600;
   color: var(--color-link);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-decoration: none;
 }
 
 .post__byline a:hover {
   color: var(--color-gold-deep);
-}
-
-.post__byline time {
-  font-variant: small-caps;
-  letter-spacing: 0.04em;
 }
 
 .post__title {
@@ -1642,19 +1634,43 @@ a.card:hover {
   flex-direction: column;
   gap: 12px;
   margin: 0;
-  padding: 20px 0 4px 1.2em;
+  padding: 20px 0 4px;
+  list-style: none;
+  counter-reset: source;
 }
 
+/* Numbered like the post's steps (01, 02…), in white on the turquoise. */
 .post-end__sources li {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: grid;
+  grid-template-columns: 2.4em minmax(0, 1fr);
+  align-items: baseline;
+  row-gap: 2px;
+  counter-increment: source;
+}
+
+.post-end__sources li::before {
+  content: counter(source, decimal-leading-zero);
+  grid-row: 1;
+  font-family: var(--font-sans);
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.post-end__sources li > * {
+  grid-column: 2;
 }
 
 .post-end__sources a,
 .post-end__sources a:hover {
   color: #FFFFFF;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.post-end__sources a:hover {
+  text-decoration-thickness: 2px;
 }
 
 .post-end__sources span {
@@ -1665,6 +1681,14 @@ a.card:hover {
 .post-end__note {
   margin: 0;
   padding: 20px 0 4px;
+}
+
+.post-end__note + .post-end__note {
+  padding-top: 12px;
+}
+
+.post-end__note strong {
+  font-weight: 600;
 }
 
 @media (max-width: 700px) {
