@@ -1111,9 +1111,108 @@ a.card:hover {
   color: var(--color-muted);
 }
 
+/* Blog post: the title, an optional subtitle in muted serif, and the date. */
+.post__header {
+  margin-bottom: 40px;
+}
+
+.post__header .page__title {
+  margin-bottom: 16px;
+}
+
+.post__subtitle {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+.post__date {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--color-muted);
+}
+
+/* Reading column. Sizes are in em, so they follow the text size (20px, 18px
+   on phones). */
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin: 0 0 1.1em;
+}
+
 .prose h2,
 .prose h3 {
-  margin: 1.6em 0 0.4em;
+  margin: 1.8em 0 0.5em;
   font-weight: 500;
   line-height: 1.2;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+}
+
+.prose h3 {
+  font-size: 1.2em;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose a,
+.prose u {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.prose a:hover {
+  color: var(--color-gold-deep);
+}
+
+/* Quotes: italic, set off by a thin gold rule. */
+.prose blockquote {
+  margin: 1.6em 0;
+  padding-left: 24px;
+  border-left: 2px solid var(--color-gold);
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Photos: rounded like the cards, with a small sans caption. A plain
+   Markdown image gets the same spacing. */
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}
+
+.prose > p > img:only-child {
+  margin: 1.6em 0;
+}
+
+.figure {
+  margin: 1.6em 0;
+}
+
+.figure figcaption {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+@media (max-width: 700px) {
+  .post__subtitle { font-size: 20px; }
+  .prose blockquote { padding-left: 16px; }
 }

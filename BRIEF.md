@@ -118,6 +118,7 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 
 ### Blog
 - Remove the default "Welcome to Jekyll" post.
+- Post anatomy (see the sample post, `_posts/2026-11-04-lorem-ipsum.md`): title, optional `subtitle` in muted serif, date, then the reading column with section titles (`##`), smaller subtitles (`###`), italic, bold, underline, links, quotes (italic with a thin gold rule), line breaks inside a paragraph, and photos rounded like the cards with an optional sans caption (`{% raw %}{% include figure.html %}{% endraw %}`).
 - Topics and first posts **[TODO]**
 - Categories or tags? **[TODO]**
 
