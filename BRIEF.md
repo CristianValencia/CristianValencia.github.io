@@ -114,6 +114,7 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 - Organized as **[TODO: collections / series / places / years?]**
 - Each photo: image, optional title, place, date **[CONFIRM]**
 - Show camera/lens details? **[TODO]**
+- **Framed prints** (designed on the canvas's Photography page): each photo hangs like a print, in a linen-covered frame with a plain white mat and a soft shadow, sized so the whole frame fits on screen, with the title and text below it like a gallery label. Color photos use the **neutral linen** (on the page gray #F7F7F7), black-and-white the **charcoal linen** (#161616). Both linens are woven in code (`assets/js/linen.js`), matched to the Rule of Three site's linen; `{% raw %}{% include framed-print.html %}{% endraw %}`, or `layout: print` with a `print:` block in front matter. For now, one sample on each portfolio page.
 
 ### Blog
 - Remove the default "Welcome to Jekyll" post.

@@ -1774,3 +1774,87 @@ a.card:hover {
   .jr-stop { padding: 0 0 0 8px; }
   .jr-dot { top: 4px; left: -37px; }
 }
+
+/* Framed prints (Photography). A linen-covered frame (linen.js weaves the
+   fabric; without it the frame is its flat base color), a plain white mat
+   and the photo, as large as the screen allows, with a soft shadow as if
+   it hangs on the wall. */
+.print-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding-top: 16px;
+}
+
+.print-page__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 680px;
+  text-align: center;
+}
+
+.print-page__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+.print-page__text p {
+  margin: 0;
+}
+
+.framed-print {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  margin: 0;
+}
+
+.framed-print__frame {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: clamp(16px, 3.2vw, 44px);
+  background-repeat: repeat;
+  box-shadow: 0 22px 44px rgba(9, 25, 30, 0.22), 0 4px 10px rgba(9, 25, 30, 0.12);
+}
+
+.framed-print__frame--neutral {
+  background-color: var(--color-ground);
+}
+
+/* Charcoal: the dark linen's base. */
+.framed-print__frame--charcoal {
+  background-color: #161616;
+}
+
+.framed-print__mat {
+  padding: clamp(20px, 4vw, 56px);
+  background: var(--color-card);
+}
+
+.framed-print__mat img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  /* The whole frame fits on screen, with a little room below it: the
+     header and the frame and mat around the photo take about 372px. */
+  max-height: max(320px, calc(100vh - 372px));
+}
+
+.framed-print figcaption {
+  font-size: 15px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .print-page__title { font-size: 30px; }
+}
