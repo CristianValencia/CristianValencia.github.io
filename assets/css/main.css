@@ -368,6 +368,21 @@ body {
     repeating-linear-gradient(-45deg, #000 0 24px, transparent 24px 48px);
 }
 
+/* The same grain on the thin gold strip along the footer's top edge, so it
+   reads as one of the plaid's bands. */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 /* Footer reveal: a stronger plaid shown through a soft circle that follows
    the mouse, or wanders on its own on touch screens. footer.js moves the
    mask; without it nothing shows. */
