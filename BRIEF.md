@@ -40,7 +40,7 @@ From `inspiration/color-palette.png`:
 |---|---|
 | Page background | neutral #F7F7F7 (decided in Claude Design: a neutral ground lets the warm tones stand out) |
 | Cards | white #FFFFFF, every card (no filled or bordered cards) |
-| Text | dark petrol #09191E; secondary text #566061 |
+| Text | dark petrol #09191E; secondary text #424D50 |
 | Card labels | bold (600) petrol uppercase text, no pill or outline, so they read as headers, not buttons; the intro card has none |
 | Links and name accent | muted turquoise #2A8C99, no underline |
 | Hover accent | deep gold #9F6E32 |
