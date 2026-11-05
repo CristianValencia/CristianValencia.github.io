@@ -349,9 +349,11 @@ body {
     var(--color-ground);
   position: relative;
   isolation: isolate;
-  /* A thin edge in the gold light band's own transparency. */
+  /* A thin edge in the gold light band's own transparency, along the top
+     and the bottom. */
   border-top: 5px solid rgba(199, 160, 96, 0.26);
-  background-clip: padding-box; /* the plaid starts below the edge */
+  border-bottom: 5px solid rgba(199, 160, 96, 0.26);
+  background-clip: padding-box; /* the plaid sits between the edges */
 }
 
 /* Light film grain on the gold bands only: the mask repeats the plaid's
@@ -375,22 +377,30 @@ body {
     repeating-linear-gradient(-45deg, #000 0 24px, transparent 24px 48px);
 }
 
-/* The same grain on the thin gold strip along the footer's top edge, so it
-   reads as one of the plaid's bands. */
+/* The same grain on the thin gold strips along the footer's top and bottom
+   edges, so they read as the plaid's bands: one layer over the whole box,
+   cut to the two 5px strips. */
 .site-footer::after {
   content: "";
   position: absolute;
   top: -5px;
+  bottom: -5px;
   left: 0;
   right: 0;
-  height: 5px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) 0 0 / 100% 5px no-repeat,
+    linear-gradient(#000 0 0) 0 100% / 100% 5px no-repeat;
+  mask:
+    linear-gradient(#000 0 0) 0 0 / 100% 5px no-repeat,
+    linear-gradient(#000 0 0) 0 100% / 100% 5px no-repeat;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   opacity: 0.22;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
 
-/* Under a post's turquoise end stripe, the footer drops its gold strip. */
+/* Under a post's turquoise end stripe, the footer drops its top strip (the
+   bottom one stays). */
 .post-end + .site-footer {
   border-top: 0;
 }
@@ -399,35 +409,41 @@ body {
   --strip: 0px;
 }
 
-/* The reveal's grain stays on the plaid's bands, below the strip (the strip
-   keeps its own grain from .site-footer::after, which sits on top). */
+/* The reveal's grain stays on the plaid's bands, between the strips (the
+   strips keep their own grain from .site-footer::after, which sits on top). */
 .site-footer__reveal::after {
-  inset: var(--strip) 0 0;
+  inset: var(--strip) 0 var(--strip-bottom);
 }
 
 .post-end + .site-footer::after {
-  display: none;
+  top: 0;
+  -webkit-mask: linear-gradient(#000 0 0) 0 100% / 100% 5px no-repeat;
+  mask: linear-gradient(#000 0 0) 0 100% / 100% 5px no-repeat;
 }
 
 /* Footer reveal: a stronger plaid shown through a soft circle that follows
    the mouse, or wanders on its own on touch screens. footer.js moves the
-   mask; without it nothing shows. The layer reaches up over the gold strip
-   on the footer's top edge (--strip), so the circle strengthens the strip
-   too: the gold light band at the reveal's strength. The plaid itself
-   starts below the strip, lined up with the footer's soft plaid. Covering
+   mask; without it nothing shows. The layer reaches over the gold strips
+   on the footer's top and bottom edges (--strip, --strip-bottom), so the
+   circle strengthens them too: the gold light band at the reveal's
+   strength. The plaid itself sits between them, lined up with the footer's
+   soft plaid. Covering
    the whole footer box also lines the circle up with the cursor exactly,
    since footer.js measures from the footer's outer edge. */
 .site-footer__reveal {
   --strip: 5px;
+  --strip-bottom: 5px;
   position: absolute;
-  inset: calc(-1 * var(--strip)) 0 0;
+  inset: calc(-1 * var(--strip)) 0 calc(-1 * var(--strip-bottom));
   z-index: -1;
   pointer-events: none;
   background:
     linear-gradient(rgba(199, 160, 96, 0.55), rgba(199, 160, 96, 0.55)) 0 0 / 100% var(--strip) no-repeat,
     linear-gradient(var(--color-ground), var(--color-ground)) 0 0 / 100% var(--strip) no-repeat,
-    repeating-linear-gradient(45deg, rgba(159, 110, 50, 0.5) 0 24px, transparent 24px 48px, rgba(199, 160, 96, 0.55) 48px 72px, transparent 72px 96px, rgba(185, 137, 70, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip)) no-repeat,
-    repeating-linear-gradient(-45deg, rgba(185, 137, 70, 0.55) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.5) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip)) no-repeat,
+    linear-gradient(rgba(199, 160, 96, 0.55), rgba(199, 160, 96, 0.55)) 0 100% / 100% var(--strip-bottom) no-repeat,
+    linear-gradient(var(--color-ground), var(--color-ground)) 0 100% / 100% var(--strip-bottom) no-repeat,
+    repeating-linear-gradient(45deg, rgba(159, 110, 50, 0.5) 0 24px, transparent 24px 48px, rgba(199, 160, 96, 0.55) 48px 72px, transparent 72px 96px, rgba(185, 137, 70, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip) - var(--strip-bottom)) no-repeat,
+    repeating-linear-gradient(-45deg, rgba(185, 137, 70, 0.55) 0 24px, transparent 24px 48px, rgba(159, 110, 50, 0.5) 48px 72px, transparent 72px 96px, rgba(199, 160, 96, 0.55) 96px 120px, transparent 120px 144px) 0 var(--strip) / 100% calc(100% - var(--strip) - var(--strip-bottom)) no-repeat,
     var(--color-ground);
   -webkit-mask-image: linear-gradient(transparent, transparent);
   mask-image: linear-gradient(transparent, transparent);
