@@ -55,6 +55,12 @@ a:hover {
   outline-offset: 3px;
 }
 
+/* Places the page moves focus to after a jump (a section, the byline) take
+   focus quietly, so the reader keeps their place without a ring. */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -1231,6 +1237,18 @@ a.card:hover {
   cursor: pointer;
 }
 
+.post-meta__btn:is(a),
+.post-meta__btn:is(a):hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* Back to top sits at the right end of the end stripe's row. */
+.post-end__row > .post-end__top {
+  grid-column: 3;
+  justify-self: end;
+}
+
 .post-meta__btn[hidden] {
   display: none;
 }
@@ -1622,11 +1640,22 @@ a.card:hover {
   box-sizing: content-box;
 }
 
+/* Three equal-sided columns: Sources on the left, the no-AI note centered
+   on the page (in line with the footer pill below), Back to top on the right. */
 .post-end__row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 14px 40px;
+}
+
+.post-end__row > * {
+  justify-self: start;
+}
+
+.post-end__row > .post-end__ai {
+  grid-column: 2;
+  justify-self: center;
 }
 
 .post-end__sources {
@@ -1697,6 +1726,11 @@ a.card:hover {
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
   .post-end__inner { padding: 20px 16px; }
+  /* Phones: one per line, Back to top on the right of its own line. */
+  .post-end__row { grid-template-columns: minmax(0, 1fr); }
+  .post-end__row > *,
+  .post-end__row > .post-end__ai { grid-column: 1; justify-self: start; }
+  .post-end__row > .post-end__top { grid-column: 1; justify-self: end; }
 
   /* The journey runs down the left side, one stop under the other. */
   .jr-row { height: auto; }

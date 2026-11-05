@@ -11,7 +11,7 @@ layout: default
 {%- endcomment -%}
 <article class="post">
   <header class="post__header">
-    <p class="post__byline">
+    <p class="post__byline" id="post-start">
       <a href="{{ '/about/' | relative_url }}">{{ site.title }}</a>
       <span aria-hidden="true">|</span>
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
