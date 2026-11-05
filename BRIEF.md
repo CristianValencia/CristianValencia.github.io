@@ -44,7 +44,6 @@ From `inspiration/color-palette.png`:
 | Card labels | bold (600) petrol uppercase text, no pill or outline, so they read as headers, not buttons; the intro card has none |
 | Links and name accent | muted turquoise #2A8C99, no underline |
 | Hover accent | deep gold #9F6E32 |
-| Photo placeholders | creams #F5EFE0, #F8F3E7 |
 
 - Gold is used **sparingly**: the menu, the Contact button and the footer plaid.
 - **Turquoise #2A8C99** (a darker take on the sea in `rehoboth-map.jpg`) is the one cool accent: text links and "Cristian Valencia" in the greeting. Tried as a card fill and as a border; both rejected.
