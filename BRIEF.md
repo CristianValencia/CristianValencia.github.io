@@ -118,7 +118,7 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 
 ### Blog
 - Remove the default "Welcome to Jekyll" post.
-- Post anatomy (see the sample post, `_posts/2026-11-04-lorem-ipsum.md`): title, optional `subtitle` in muted serif, date, then the reading column with section titles (`##`), smaller subtitles (`###`), italic, bold, underline, links, quotes (italic with a thin gold rule), line breaks inside a paragraph, and photos rounded like the cards with an optional sans caption (`{% raw %}{% include figure.html %}{% endraw %}`).
+- Post anatomy (designed on the canvas's "Blog post" board; sample: `_posts/2026-11-04-lorem-ipsum.md`), all in the 680px column: byline (Cristian Valencia / date in small caps) → title → optional `subtitle` → turquoise details strip (Journey, Share, tags) → post journey (folds open from Journey: every section as a stop on a winding line, three per row; tapping a stop glides there on a Motion spring) → cover photo (`image` in front matter, also the thumbnail) → the text. The text can use section titles (`##`, `###`), italic, bold, underline, links, inline code, numbered steps (`{: .steps}` under a list), line breaks, photos with square corners and centered captions (`{% raw %}{% include figure.html %}{% endraw %}`), and quotes in a white box framed by small plaid with the footer's light. The post ends on a full-width turquoise stripe on the footer: Sources (`sources` in front matter) and "Written by a human. No Gen AI." with a short note.
 - Topics and first posts **[TODO]**
 - Categories or tags? **[TODO]**
 

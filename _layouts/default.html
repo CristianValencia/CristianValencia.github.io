@@ -38,10 +38,16 @@
       {{ content }}
     </main>
   </div>
+  {%- if page.layout == 'post' %}
+  {% include post-end.html %}
+  {%- endif %}
   {% include footer.html %}
   <script src="{{ '/assets/js/header.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/lib/motion-14.4.0.min.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/bounce.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/footer.js' | relative_url }}" defer></script>
+  {%- if page.layout == 'post' %}
+  <script src="{{ '/assets/js/post.js' | relative_url }}" defer></script>
+  {%- endif %}
 </body>
 </html>
