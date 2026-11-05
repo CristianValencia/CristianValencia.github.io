@@ -138,6 +138,11 @@ body {
   opacity: 1;
 }
 
+/* The home page has no band: its cards run up past the pill. */
+.site-header--home::before {
+  display: none;
+}
+
 .site-header__bar {
   width: 100%;
   max-width: 100%;
