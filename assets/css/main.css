@@ -1801,8 +1801,8 @@ a.card:hover {
 }
 
 /* Prints (Photography): a plain white mat with the photo, sitting straight
-   on the linen, with a soft shadow like paper lifted off the fabric. Sized so
-   the whole print fits on screen. */
+   and flat on the linen, with no shadow. Sized so the whole print fits on
+   screen. */
 .print-page {
   display: flex;
   flex-direction: column;
@@ -1846,7 +1846,6 @@ a.card:hover {
   max-width: 100%;
   padding: clamp(20px, 4vw, 56px);
   background: var(--color-card);
-  box-shadow: 0 18px 40px rgba(9, 25, 30, 0.2), 0 3px 8px rgba(9, 25, 30, 0.1);
 }
 
 .framed-print__mat img {

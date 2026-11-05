@@ -114,7 +114,7 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 - Organized as **[TODO: collections / series / places / years?]**
 - Each photo: image, optional title, place, date **[CONFIRM]**
 - Show camera/lens details? **[TODO]**
-- **Prints on linen** (designed on the canvas's Photography page): the linen replaces the page's gray background, and each photo sits straight on it in a plain white mat with a soft shadow, sized so the whole print fits on screen, with the title and text below it like a gallery label. Color pages use the **neutral linen** (the page gray #F7F7F7, so it reads as the site's own background), black-and-white pages the **charcoal linen** (#161616, with the header and text turned light). Both linens are woven in code (`assets/js/linen.js`), matched to the Rule of Three site's linen. Use `layout: print` with `linen:` and a `print:` block in front matter. For now, one sample on each portfolio page.
+- **Prints on linen** (designed on the canvas's Photography page): the linen replaces the page's gray background, and each photo sits straight and flat on it in a plain white mat (no shadow), sized so the whole print fits on screen, with the title and text below it like a gallery label. Color pages use the **neutral linen** (the page gray #F7F7F7, so it reads as the site's own background), black-and-white pages the **charcoal linen** (#161616, with the header and text turned light). Both linens are woven in code (`assets/js/linen.js`), matched to the Rule of Three site's linen. Use `layout: print` with `linen:` and a `print:` block in front matter. For now, one sample on each portfolio page.
 
 ### Blog
 - Remove the default "Welcome to Jekyll" post.
