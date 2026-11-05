@@ -114,19 +114,20 @@ body {
 }
 
 /* Once the pill forms, a band of the page color runs behind it, from the top
-   of the screen to just below the pill, so text scrolling past never shows
-   in the gap above it or beside it. Its last 16px fade out, so there's no
-   hard edge. It spans the whole window; body clips the overflow. */
+   of the screen to the pill's bottom edge, so text scrolling past never
+   shows in the gap above it or beside it. It ends in a clean edge: a fade
+   would show as a gray glow over dark photos. It spans the whole window;
+   body clips the overflow. */
 .site-header::before {
   content: "";
   position: absolute;
   z-index: -1;
   top: calc(-1 * var(--header-top));
-  bottom: -16px;
+  bottom: 0;
   left: 50%;
   width: 100vw;
   translate: -50% 0;
-  background: linear-gradient(to bottom, var(--color-ground) calc(100% - 16px), rgba(247, 247, 247, 0));
+  background: var(--color-ground);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur-nav) ease;
