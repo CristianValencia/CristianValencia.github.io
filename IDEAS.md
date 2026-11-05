@@ -51,7 +51,7 @@ Screenshots and reference images go in `inspiration/` (e.g. `inspiration/bento-h
 ## Reference review (with Claude)
 
 ### 1. `color-palette.png`
-Colors: #09191E (dark petrol), #9F6E32, #B98946, #C7A060 (golds), #F5EFE0, #F8F3E7, #FAF8F0, #FAFAFA (creams).
+Colors: #09191E (dark petrol), #9F6E32, #B98946, #C7A060 (golds), #FAF8F0, #FAFAFA (creams).
 - What I like: everything. The golds evoke **warmth**, one of the most incredible human feelings. The many light, not-pure-white tones evoke **calm, space, tranquility, something natural**.
 - Use: **cream background, gold as accent**, dark petrol for text.
 
