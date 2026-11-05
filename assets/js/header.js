@@ -45,20 +45,24 @@ if (header) {
   measure();
   if (document.fonts) document.fonts.ready.then(measure);
 
-  let ticking = false;
-  const update = () => {
-    header.classList.toggle('is-scrolled', window.scrollY > 24);
-    ticking = false;
-  };
+  // A static header (data-static, e.g. Contact) never turns into the pill:
+  // it stays as it is at the top and scrolls away with the page.
+  if (!header.hasAttribute('data-static')) {
+    let ticking = false;
+    const update = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+      ticking = false;
+    };
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
 
-  update();
+    update();
+  }
 
   // Phones: the hamburger opens and closes the menu line. Escape, a tap
   // outside the header, or a wider screen closes it.

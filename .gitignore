@@ -9,3 +9,12 @@ inspiration/*
 !inspiration/color-palette.png
 !inspiration/color-photos/
 !inspiration/black-white-photos/
+
+# Masqualero (Monotype) is licensed for desktop use only: local trial, never committed
+assets/fonts/masqualero/
+
+# Michelangelus (Microsoft) has no distribution or web rights: local trial, never committed
+assets/fonts/michelangelus/
+
+# Soberana (Gobierno Federal - Mexico): web license not confirmed yet: local trial, never committed
+assets/fonts/soberana/
