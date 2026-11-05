@@ -113,20 +113,22 @@ body {
   justify-content: center;
 }
 
-/* Once the pill forms, a band of the page color runs behind it, from the top
-   of the screen to just below the pill, so text scrolling past never shows
-   in the gap above it or beside it. Its last 16px fade out, so there's no
-   hard edge. It spans the whole window; body clips the overflow. */
+/* Once the pill forms, a band of the page color fills the gap above it,
+   from the top of the screen to the pill's top edge, so text scrolling past
+   never shows there. Beside the pill the page stays visible (the home
+   cards run right past it). It ends in a clean edge: a fade would show as
+   a gray glow over dark photos. It spans the whole window; body clips the
+   overflow. */
 .site-header::before {
   content: "";
   position: absolute;
   z-index: -1;
   top: calc(-1 * var(--header-top));
-  bottom: -16px;
+  height: var(--header-top);
   left: 50%;
   width: 100vw;
   translate: -50% 0;
-  background: linear-gradient(to bottom, var(--color-ground) calc(100% - 16px), rgba(247, 247, 247, 0));
+  background: var(--color-ground);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur-nav) ease;
@@ -134,6 +136,11 @@ body {
 
 .site-header.is-scrolled::before {
   opacity: 1;
+}
+
+/* The home page has no band: its cards run up past the pill. */
+.site-header--home::before {
+  display: none;
 }
 
 .site-header__bar {
@@ -1136,13 +1143,13 @@ a.card:hover {
   color: var(--color-muted);
 }
 
-/* Blog post. Everything sits in the 680px reading column, top to bottom:
+/* Blog post. Everything sits in the 714px reading column, top to bottom:
    byline, title, subtitle, the details strip (Journey, Share, tags), the
    post journey (folded away until Journey is tapped), the cover photo and
    the text. The end stripe (.post-end) runs the full width on the footer.
    post.js builds the journey and wires the buttons. */
 .post {
-  max-width: 680px;
+  max-width: 714px;
   margin: 0 auto;
   padding-top: 16px;
 }
@@ -1154,13 +1161,13 @@ a.card:hover {
   gap: 4px 12px;
   margin: 0 0 20px;
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 21px;
   color: var(--color-muted);
 }
 
 .post__byline a {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--color-link);
   text-decoration-thickness: 1px;
@@ -1180,14 +1187,14 @@ a.card:hover {
   margin: 0 0 16px;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 52px;
+  font-size: 55px;
   line-height: 1.1;
 }
 
 .post__subtitle {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 27px;
   line-height: 1.4;
   color: var(--color-muted);
 }
@@ -1207,7 +1214,7 @@ a.card:hover {
   background: var(--color-link);
   color: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.4;
 }
 
@@ -1316,7 +1323,7 @@ a.card:hover {
 }
 
 .post-journey__count {
-  font-size: 16px;
+  font-size: 17px;
   color: var(--color-muted);
 }
 
@@ -1407,7 +1414,7 @@ a.card:hover {
 
 .jr-title {
   display: block;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
   transition: color 0.2s ease;
@@ -1420,7 +1427,7 @@ a.card:hover {
 .jr-summary {
   display: block;
   margin-top: 4px;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.5;
   color: var(--color-muted);
 }
@@ -1434,11 +1441,11 @@ a.card:hover {
 
 .post__body {
   padding: 40px 0 16px;
-  font-size: 22px;
+  font-size: 23px;
 }
 
 /* Reading column. Sizes are in em, so they follow the text size (20px, 18px
-   on phones; posts use 22px, 20px on phones). */
+   on phones; posts use 23px, 21px on phones). */
 .prose > :first-child {
   margin-top: 0;
 }
@@ -1601,7 +1608,7 @@ a.card:hover {
 .figure figcaption {
   margin-top: 12px;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.5;
   text-align: center;
   color: var(--color-muted);
@@ -1612,12 +1619,12 @@ a.card:hover {
   background: var(--color-link);
   color: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.4;
 }
 
 .post-end__inner {
-  max-width: 680px;
+  max-width: 714px;
   margin: 0 auto;
   padding: 20px 32px;
   box-sizing: content-box;
@@ -1652,7 +1659,7 @@ a.card:hover {
 
 .post-end__sources span {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .post-end__note {
@@ -1661,9 +1668,9 @@ a.card:hover {
 }
 
 @media (max-width: 700px) {
-  .post__title { font-size: 40px; }
-  .post__subtitle { font-size: 22px; }
-  .post__body { font-size: 20px; }
+  .post__title { font-size: 42px; }
+  .post__subtitle { font-size: 23px; }
+  .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
   .post-end__inner { padding: 20px 16px; }
 

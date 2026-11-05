@@ -4,7 +4,7 @@
 {%- for item in site.nav -%}
   {%- if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
 {%- endfor -%}
-<header class="site-header{% if section %} has-section{% endif %}" data-site-header>
+<header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}" data-site-header>
   <div class="site-header__bar">
     <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" hidden>
       <span class="site-header__toggle-line" aria-hidden="true"></span>
@@ -22,7 +22,7 @@
       <div class="site-header__menu-inner">
         <nav class="site-nav" aria-label="Main">
           {%- for item in site.nav %}
-          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>
+          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' %} aria-current="page"{% endif %}>
             {%- if item.short -%}
             <span data-shrink="{{ item.short }}">{{ item.title }}</span>
             {%- else -%}
