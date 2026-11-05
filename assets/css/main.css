@@ -383,6 +383,15 @@ body {
   pointer-events: none;
 }
 
+/* Under a post's turquoise end stripe, the footer drops its gold strip. */
+.post-end + .site-footer {
+  border-top: 0;
+}
+
+.post-end + .site-footer::after {
+  display: none;
+}
+
 /* Footer reveal: a stronger plaid shown through a soft circle that follows
    the mouse, or wanders on its own on touch screens. footer.js moves the
    mask; without it nothing shows. */
