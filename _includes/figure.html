@@ -1,0 +1,11 @@
+{%- comment -%}
+  A photo with an optional caption, for posts.
+  {% include figure.html src="/assets/images/…" alt="…" width="640" height="426" caption="…" %}
+  width and height are the file's real pixel size, so the space is held while it loads.
+{%- endcomment -%}
+<figure class="figure">
+  <img src="{{ include.src | relative_url }}" alt="{{ include.alt }}" width="{{ include.width }}" height="{{ include.height }}" loading="lazy" decoding="async">
+  {%- if include.caption %}
+  <figcaption>{{ include.caption }}</figcaption>
+  {%- endif %}
+</figure>

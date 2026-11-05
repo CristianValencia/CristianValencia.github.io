@@ -1,10 +1,66 @@
 ---
 layout: default
 ---
-<article class="page">
-  <h1 class="page__title">{{ page.title }}</h1>
-  <p class="post-list__date">{{ page.date | date: '%B %-d, %Y' }}</p>
-  <div class="prose">
+{%- comment -%}
+  A blog post: byline, title, subtitle, the details strip (Journey, Share,
+  tags), the post journey (folded away until Journey is tapped), the cover
+  photo, then the text. The end stripe (sources and the no-AI note) is in
+  _includes/post-end.html, placed by the default layout so it can run the
+  full width and sit on the footer. post.js builds the journey and wires
+  the buttons; without it, they stay hidden and the post reads as is.
+{%- endcomment -%}
+<article class="post">
+  <header class="post__header">
+    <p class="post__byline">
+      <a href="{{ '/about/' | relative_url }}">{{ site.title }}</a>
+      <span aria-hidden="true">/</span>
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
+    </p>
+    <h1 class="post__title">{{ page.title }}</h1>
+    {%- if page.subtitle %}
+    <p class="post__subtitle">{{ page.subtitle }}</p>
+    {%- endif %}
+    <ul class="post-meta">
+      <li>
+        <button type="button" class="post-meta__btn" aria-expanded="false" aria-controls="post-journey" data-journey-toggle hidden>
+          <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+          Journey
+          <svg class="post-meta__chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="post-meta__btn" data-share hidden>
+          <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span aria-live="polite" data-share-label>Share</span>
+        </button>
+      </li>
+      {%- if page.tags.size > 0 %}
+      <li class="post-meta__item">
+        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>
+        <span><span class="visually-hidden">Tags: </span>{{ page.tags | join: ', ' }}</span>
+      </li>
+      {%- endif %}
+    </ul>
+  </header>
+
+  <div class="post-journey fold is-collapsed" id="post-journey" data-journey hidden>
+    <div class="fold__inner">
+      <nav class="post-journey__nav" aria-label="Post journey">
+        <div class="post-journey__head">
+          <h2 class="post-journey__title">Post journey</h2>
+          <span class="post-journey__count" data-journey-count></span>
+        </div>
+        <div class="jr-rows" data-journey-rows></div>
+      </nav>
+    </div>
+  </div>
+
+  {%- if page.image %}
+  {%- assign cover = page.image %}
+  <img class="post__cover" src="{{ cover.path | relative_url }}" alt="{{ cover.alt }}" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async">
+  {%- endif %}
+
+  <div class="prose post__body">
     {{ content }}
   </div>
 </article>
