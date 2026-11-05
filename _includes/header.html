@@ -22,7 +22,7 @@
       <div class="site-header__menu-inner">
         <nav class="site-nav" aria-label="Main">
           {%- for item in site.nav %}
-          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>
+          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' %} aria-current="page"{% endif %}>
             {%- if item.short -%}
             <span data-shrink="{{ item.short }}">{{ item.title }}</span>
             {%- else -%}
