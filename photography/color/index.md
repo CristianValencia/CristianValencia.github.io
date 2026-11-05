@@ -1,6 +1,5 @@
 ---
 layout: print
-linen: neutral
 title: Color
 print:
   src: /assets/images/photography/color-flower.jpg

@@ -1844,8 +1844,6 @@ a.card:hover {
 .framed-print__mat {
   box-sizing: border-box;
   max-width: 100%;
-  padding: clamp(20px, 4vw, 56px);
-  background: var(--color-card);
 }
 
 .framed-print__mat img {
@@ -1853,9 +1851,9 @@ a.card:hover {
   width: auto;
   max-width: 100%;
   height: auto;
-  /* The whole print fits on screen, with a little room below it: the
-     header and the mat around the photo take about 290px. */
-  max-height: max(320px, calc(100vh - 290px));
+  /* The whole photo fits on screen, with a little room below it: the
+     header and the space around it take about 180px. */
+  max-height: max(320px, calc(100vh - 180px));
 }
 
 .framed-print figcaption {

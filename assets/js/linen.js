@@ -1,7 +1,7 @@
 // Linen: fabric backgrounds generated in code, for photo frames.
 // Any element with data-linen="charcoal" or data-linen="neutral" gets a
-// seamless 300×301 linen tile as its background. Without this script the
-// frame shows its flat base color, set in CSS.
+// seamless 300×301 linen tile as its background: the page itself on every
+// page (see default.html). Without this script it's the flat base color.
 //
 // The weave is the classic Photoshop linen recipe: seeded per-pixel noise,
 // motion-blurred straight down (vertical threads) and straight across
@@ -20,11 +20,12 @@
   const MEAN = 43.3; // the reference linen's average gray
 
   // Site palette. Charcoal: base #161616, each thread brightens or darkens it
-  // by its share of the base (neutral threads, the same in red, green and blue).
-  // Neutral: the same weave on the page gray #F7F7F7, at 30% of its contrast.
+  // by its share of the base (neutral threads, the same in red, green and
+  // blue), at 40% of the reference's contrast.
+  // Neutral: the same weave on the page gray #F7F7F7, at 20% of its contrast.
   const COLORS = {
-    charcoal: (g) => 22 + (g / MEAN - 1) * 22,
-    neutral: (g) => 247 + (g - MEAN) * 0.3,
+    charcoal: (g) => 22 + (g / MEAN - 1) * 22 * 0.4,
+    neutral: (g) => 247 + (g - MEAN) * 0.2,
   };
 
   const rng = (seed) => {
@@ -92,9 +93,13 @@
     return levels;
   };
 
+  // Each tile is kept for the visit (sessionStorage), so moving between pages
+  // doesn't weave it again. The key names the recipe, so a change makes a new one.
   const tiles = {};
+  const KEY = (name) => `linen-v1-${name}-${COLORS[name]}`; // includes the color recipe
   const tile = (name) => {
     if (tiles[name]) return tiles[name];
+    try { const saved = sessionStorage.getItem(KEY(name)); if (saved) return (tiles[name] = saved); } catch (e) { /* storage off */ }
     weave = weave || makeWeave();
     const color = COLORS[name];
     const c = document.createElement('canvas');
@@ -107,6 +112,7 @@
     }
     ctx.putImageData(img, 0, 0);
     tiles[name] = c.toDataURL();
+    try { sessionStorage.setItem(KEY(name), tiles[name]); } catch (e) { /* storage off or full */ }
     return tiles[name];
   };
 
