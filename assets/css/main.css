@@ -509,34 +509,11 @@ body {
   animation: line-in var(--dur-fill) var(--ease-out);
 }
 
-/* Compact footer (footer: compact, on Contact): the same plaid, strip and
-   light in a short band. The cycling line sits in a smaller centre pill;
-   the copyright moves into its own pill on the left, lined up with the
-   page's content column.
-   Its height is the full footer's minus whole repeats of the plaid's
-   diamonds, so it starts and ends on the same diagonals: the bands repeat
-   every 48px across the 45° lines, which is 48px × √2 = 67.882px down the
-   page. 400px minus five repeats is about 61px, the smallest that still
-   fits the pills (phones: 280px minus two, about 144px). */
-.site-footer--compact {
-  --plaid-step: 67.882px;
-  min-height: calc(400px - 5 * var(--plaid-step));
-}
-
-.site-footer--compact .site-footer__pill {
-  padding: 9px 28px;
-}
-
-.site-footer--compact .site-footer__cycle {
-  font-size: 16px;
-}
-
+/* The copyright's own pill, used by the phone footer (see the phones
+   block). Wider screens keep the copyright inside the centre pill. */
 .site-footer__chip {
-  position: absolute;
-  top: 50%;
-  left: max(32px, calc((100% - 1280px) / 2 + 32px));
-  translate: 0 -50%;
-  padding: 9px 20px;
+  display: none;
+  padding: 8px 20px;
   border-radius: 999px;
   background: var(--color-card);
   font-size: 11px;
@@ -1124,40 +1101,33 @@ a.card:hover {
     padding-left: 0;
   }
 
+  /* Phones: the compact footer on every page. A shorter band (280px
+     minus two whole repeats of the plaid's diamonds, 48px × √2 = 67.882px
+     down the page, so it starts and ends on the same diagonals as the full
+     band: about 144px), with two pills stacked in the centre: the cycling
+     line, then the copyright in its own pill. */
   .site-footer {
-    min-height: 280px;
-  }
-
-  .site-footer__pill {
-    padding: 18px 24px;
-    border-radius: 28px;
-  }
-
-  .site-footer__cycle {
-    font-size: 18px;
-  }
-
-  /* Phones: the two pills stack, centred. */
-  .site-footer--compact {
     flex-direction: column;
     gap: 8px;
-    min-height: calc(280px - 2 * var(--plaid-step));
+    min-height: calc(280px - 2 * 67.882px);
     padding: 0 16px;
   }
 
-  .site-footer--compact .site-footer__pill {
+  .site-footer .site-footer__pill {
     padding: 8px 24px;
     border-radius: 999px;
   }
 
-  .site-footer--compact .site-footer__cycle {
+  .site-footer .site-footer__cycle {
     font-size: 15px;
   }
 
+  .site-footer__copy--inline {
+    display: none;
+  }
+
   .site-footer__chip {
-    position: static;
-    translate: none;
-    order: 2;
+    display: inline-block;
   }
 
   .bento {
