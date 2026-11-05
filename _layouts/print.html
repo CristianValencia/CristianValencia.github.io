@@ -1,0 +1,19 @@
+---
+layout: default
+---
+{%- comment -%}
+  A photography page built around one print: a white mat with the photo,
+  sitting straight on the page's linen background (linen: in front matter),
+  sized so it fits on screen, then the title and text below it, like a label
+  on a gallery wall. The print comes from the page's front matter
+  (print: src, alt, width, height, caption).
+{%- endcomment -%}
+<article class="print-page">
+  {% include framed-print.html src=page.print.src alt=page.print.alt width=page.print.width height=page.print.height caption=page.print.caption %}
+  <div class="print-page__label">
+    <h1 class="print-page__title">{{ page.title }}</h1>
+    <div class="prose print-page__text">
+      {{ content }}
+    </div>
+  </div>
+</article>

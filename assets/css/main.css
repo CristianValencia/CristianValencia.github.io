@@ -1774,3 +1774,94 @@ a.card:hover {
   .jr-stop { padding: 0 0 0 8px; }
   .jr-dot { top: 4px; left: -37px; }
 }
+
+/* Linen pages (linen: in front matter). The page's whole background is
+   linen woven in code (linen.js; without it, the flat base color): neutral
+   on the page gray, or charcoal. The footer keeps its own plaid. */
+.linen-page {
+  background-repeat: repeat;
+}
+
+.linen-page--charcoal {
+  background-color: #161616;
+}
+
+/* On charcoal, everything above the footer turns light. The header's
+   pill (gold) is unchanged; its band above the pill takes the charcoal. */
+.linen-page--charcoal .site {
+  --color-ground: #161616;
+  --color-text: #F7F7F7;
+  --color-muted: #BFC4C5;
+  --color-link: #C7A060;
+  color: var(--color-text);
+}
+
+.linen-page--charcoal .site-header__contact {
+  color: #09191E;
+}
+
+/* Prints (Photography): a plain white mat with the photo, sitting straight
+   and flat on the linen, with no shadow. Sized so the whole print fits on
+   screen. */
+.print-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding-top: 16px;
+}
+
+.print-page__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 680px;
+  text-align: center;
+}
+
+.print-page__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+.print-page__text p {
+  margin: 0;
+}
+
+.framed-print {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  margin: 0;
+}
+
+.framed-print__mat {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.framed-print__mat img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  /* The whole photo fits on screen, with a little room below it: the
+     header and the space around it take about 180px. */
+  max-height: max(320px, calc(100vh - 180px));
+}
+
+.framed-print figcaption {
+  font-size: 15px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .print-page__title { font-size: 30px; }
+}

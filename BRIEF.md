@@ -114,6 +114,8 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 - Organized as **[TODO: collections / series / places / years?]**
 - Each photo: image, optional title, place, date **[CONFIRM]**
 - Show camera/lens details? **[TODO]**
+- **Linen everywhere**: every page's background is linen woven in code (`assets/js/linen.js`, matched to the Rule of Three site's linen), the **neutral linen** on the page gray #F7F7F7 at 20% of the reference's contrast. A page can set `linen: charcoal` for the **charcoal linen** (#161616 at 40%, with the header and text turned light); the Black & White page does. The footer keeps its plaid. The tile is woven once per visit and kept in sessionStorage.
+- **Photo pages** (designed on the canvas's Photography page): `layout: print` with a `print:` block in front matter. The photo sits straight on the linen, with no frame or mat, sized so it fits on screen, with the title and text below it like a gallery label. For now, one sample on each portfolio page: the flower on Color, the deer on Black & White.
 
 ### Blog
 - Remove the default "Welcome to Jekyll" post.

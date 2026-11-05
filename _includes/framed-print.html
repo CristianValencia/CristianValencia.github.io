@@ -1,0 +1,13 @@
+{%- comment -%}
+  A photo presented like a print: a plain white mat with the photo inside,
+  meant to sit on a linen page background (linen: neutral or charcoal).
+  {% include framed-print.html src="/assets/images/…" alt="…" width="1024" height="768" caption="…" %}
+{%- endcomment -%}
+<figure class="framed-print">
+  <div class="framed-print__mat">
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt }}" width="{{ include.width }}" height="{{ include.height }}" decoding="async">
+  </div>
+  {%- if include.caption %}
+  <figcaption>{{ include.caption }}</figcaption>
+  {%- endif %}
+</figure>

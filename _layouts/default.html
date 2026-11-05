@@ -31,7 +31,10 @@
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   {% feed_meta %}
 </head>
-<body>
+{%- comment -%} Every page's background is linen woven in code (linen.js): the neutral
+  linen on the page gray, or charcoal where a page sets linen: charcoal. {%- endcomment %}
+{%- assign linen = page.linen | default: 'neutral' %}
+<body class="linen-page linen-page--{{ linen }}" data-linen="{{ linen }}">
   <div class="site">
     {% include header.html %}
     <main id="content">
@@ -49,5 +52,6 @@
   {%- if page.layout == 'post' %}
   <script src="{{ '/assets/js/post.js' | relative_url }}" defer></script>
   {%- endif %}
+  <script src="{{ '/assets/js/linen.js' | relative_url }}" defer></script>
 </body>
 </html>
