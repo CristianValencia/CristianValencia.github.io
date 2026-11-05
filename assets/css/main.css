@@ -113,17 +113,18 @@ body {
   justify-content: center;
 }
 
-/* Once the pill forms, a band of the page color runs behind it, from the top
-   of the screen to the pill's bottom edge, so text scrolling past never
-   shows in the gap above it or beside it. It ends in a clean edge: a fade
-   would show as a gray glow over dark photos. It spans the whole window;
-   body clips the overflow. */
+/* Once the pill forms, a band of the page color fills the gap above it,
+   from the top of the screen to the pill's top edge, so text scrolling past
+   never shows there. Beside the pill the page stays visible (the home
+   cards run right past it). It ends in a clean edge: a fade would show as
+   a gray glow over dark photos. It spans the whole window; body clips the
+   overflow. */
 .site-header::before {
   content: "";
   position: absolute;
   z-index: -1;
   top: calc(-1 * var(--header-top));
-  bottom: 0;
+  height: var(--header-top);
   left: 50%;
   width: 100vw;
   translate: -50% 0;
