@@ -43,8 +43,8 @@ nav:
     url: /blog/
   - title: Work
     url: /work/
-  - title: About
-    url: /about/
+  - title: Life
+    url: /life/
 
 # Exclude from processing.
 # The following items will not be processed, by default.

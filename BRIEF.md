@@ -84,13 +84,13 @@ From `inspiration/color-palette.png`:
 | Color | `/photography/color/` | Color portfolio |
 | Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
 | Journal | `/blog/` | "Latest thoughts" (a smaller Jost heading, 30px, 26px on phones): posts newest first, laid out like the posts' numbered steps (date in small gold deep caps where the number goes, bold turquoise title at the size of a post's section titles, then the subtitle or the first lines as an excerpt; on phones the date sits above the title) |
-| Work | `/work/` | Developer projects and shipped apps |
-| About | `/about/` | The story so far |
+| Work | `/work/` | The professional bio (moved from About), then developer projects and shipped apps |
+| Life | `/life/` | The story so far (replaces About; `/about/` now forwards to Work) |
 | 404 | `/404.html` | Friendly dead end with a link home |
 
 ## 6. Homepage cards (v1, built in `index.html`)
 
-Size: **L** large, **M** medium (wide). Every card is white with a bold petrol label on top; the intro card has none. The four small cards (About, Company, Follow me, Contact) were removed: About and Contact are in the header, and the social links are in the footer.
+Size: **L** large, **M** medium (wide). Every card is white with a bold petrol label on top; the intro card has none. The four small cards (About, Company, Follow me, Contact) were removed: Life (formerly About) and Contact are in the header, and the social links are in the footer.
 
 | Card | Size | Content | Links to |
 |---|---|---|---|
@@ -100,7 +100,7 @@ Size: **L** large, **M** medium (wide). Every card is white with a bold petrol l
 | Work | M | "Engineering" · "Apps and products I've built" | `/work/` |
 
 - **Page transitions:** moving between pages uses the browser's View Transitions (Chrome, Edge, Safari): the whole page crossfades, the old one fading out while the new one fades in and rises slightly, with the header staying in place (about 0.75s). Scrolling with the wheel, touch or keys ends it at once. Other browsers change pages instantly; off for reduced motion.
-- **Header:** one line, sticky, always a gold light pill with white text, 16px from the top (8px on phones) both at load and once stuck. The name on the left links home, the menu (Photography · Journal · Work · About) sits in the center, and a filled gold Contact button on the right opens the contact page. At the top the pill spans the card grid; once the page scrolls it narrows to 860px and the labels shorten to "Cris Valencia" and "Photos". The current page, Contact included, is a gold deep button with white text, and tapping it does nothing. On phones a hamburger opens the menu on a second line. No Home item. A page can set `header: static` to keep it in place at the top (it scrolls away and never turns into the narrow pill); Contact does.
+- **Header:** one line, sticky, always a gold light pill with white text, 16px from the top (8px on phones) both at load and once stuck. The name on the left links home, the menu (Photography · Journal · Work · Life) sits in the center, and a filled gold Contact button on the right opens the contact page. At the top the pill spans the card grid; once the page scrolls it narrows to 860px and the labels shorten to "Cris Valencia" and "Photos". The current page, Contact included, is a gold deep button with white text, and tapping it does nothing. On phones a hamburger opens the menu on a second line. No Home item. A page can set `header: static` to keep it in place at the top (it scrolls away and never turns into the narrow pill); Contact does.
 - **Footer:** full-width soft gold diagonal plaid (gold, gold deep and gold light 24px bands crossing at 45°, low opacity on the gray page ground, so the empty diamonds match the page), with a light film grain on the bands only, and 5px top and bottom edges in the gold light band's own transparency. With a mouse, a soft circle (radius 40% of the footer width on every screen) follows the cursor and shows a stronger plaid with the same bands and grain, fading back along a short trail. On touch screens the circle wanders on its own while the footer is on screen: slow (about 20px a second), random, drawn toward the center. Off for reduced motion. 400px tall, with two 400 × 68px pills stacked in the center, both on a 30% linen on white and lifting with the contact stamp's shadow as the light comes up. The first holds the Threads (@cris.chrome), Instagram (@cris.monochrome) and Foto (@cristianvalencia) icons: gray, with only the one closest to the light taking its brand colors. The second holds "Made with ♥ by **Hackart**" in Jost 26px, gray until the light comes up and then turquoise with the red heart (#B8452F); tapping it switches to "In memory of **Felipe Valencia**". Hovering an icon slowly crossfades the line into that account's handle (bold). Below the band, a 68px gold deep bar holds the copyright, centered, and Back to top on the right. On phones the band is shorter (four rows of the plaid's diamonds, about 146px, with the plaid laid out from its top edge so both edges land on the diamonds' tips at any phone width) with 240 × 38px pills, the icons always in their brand colors and no handles, and the gold bar is thinner (44px, plus 5px clear of the screen's rounded corners) with the copyright on the left. The light also strengthens both edge strips.
 
 ## 7. Page content
@@ -124,10 +124,10 @@ Size: **L** large, **M** medium (wide). Every card is white with a bold petrol l
 Per project: name, one-line summary, role, stack, platform, link, 1–3 screenshots, one result.
 Candidates **[TODO: pick and confirm each is OK to show publicly]**: Aspire Rewards, Griddy, other shipped apps.
 
-Background for this section (from the current About page): Product Owner and Technical Lead, 10+ years in mobile, 10+ apps shipped on iOS and Android, cross-platform (.NET MAUI, Flutter, Uno, Avalonia, Xamarin.Forms) and native (Swift, SwiftUI), currently leading AI initiatives.
+The bio that was on About now opens this page: Product Owner and Technical Lead, 10+ years in mobile, 10+ apps shipped on iOS and Android, cross-platform (.NET MAUI, Flutter, Uno, Avalonia, Xamarin.Forms) and native (Swift, SwiftUI), currently leading AI initiatives.
 
-### About
-Rewrite as a personal story, not just a professional summary **[TODO]**.
+### Life
+Was About; the professional bio moved to Work. A personal story **[TODO]**. The post byline now links to Work.
 
 ## 8. Contact and links
 
