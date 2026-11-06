@@ -916,6 +916,23 @@ a.card:hover {
   line-height: 1.7;
 }
 
+/* Line endings: paragraphs avoid a lone word on their last line and keep
+   their right edge even; titles split into lines of similar length.
+   Browsers without support just wrap as usual. */
+.prose p,
+.prose li,
+.prose blockquote,
+.post__subtitle {
+  text-wrap: pretty;
+}
+
+.prose h2,
+.prose h3,
+.page__title,
+.post__title {
+  text-wrap: balance;
+}
+
 .prose a {
   color: var(--color-link);
 }
