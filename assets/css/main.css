@@ -1447,13 +1447,14 @@ a.card:hover {
 .prose .post-list__title {
   margin: 0;
   font-family: inherit;
-  font-size: 1em;
+  font-size: 1.5em;
   font-weight: 700;
-  line-height: inherit;
+  line-height: 1.2;
 }
 
+/* Turquoise at this size is large text, so it clears AA on the page. */
 .prose .post-list__title a {
-  color: inherit;
+  color: var(--color-link);
   text-decoration: none;
 }
 
@@ -1462,7 +1463,7 @@ a.card:hover {
 }
 
 .post-list__excerpt {
-  margin-top: 0.4em;
+  margin-top: 0.3em;
 }
 
 @media (max-width: 700px) {
