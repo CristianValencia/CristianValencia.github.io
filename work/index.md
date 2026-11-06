@@ -1,10 +1,8 @@
 ---
-layout: page
+layout: post
 title: Engineering
+subtitle: Product Owner | Technical Lead | Mobile & AI
 ---
-
-## Cristian Valencia  
-Product Owner | Technical Lead | Mobile & AI
 
 Product Owner with 10 years of hands-on experience in mobile app development and delivery. I have led the end-to-end launch of 10+ highly rated mobile applications for Android and iOS.
 

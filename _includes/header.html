@@ -2,7 +2,7 @@
 {%- if page.url == '/' or page.url == '/index.html' -%}{%- assign on_home = true -%}{%- endif -%}
 {%- assign section = nil -%}
 {%- for item in site.nav -%}
-  {%- if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
+  {%- if page.url contains item.url or page.collection == 'posts' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
 {%- endfor -%}
 {%- comment -%} header: static in front matter (Contact): the bar stays at the top of the page and scrolls away with it, instead of following as the pill. {%- endcomment -%}
 <header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}{% if page.header == 'static' %} site-header--static{% endif %}" data-site-header{% if page.header == 'static' %} data-static{% endif %}>
@@ -23,7 +23,7 @@
       <div class="site-header__menu-inner">
         <nav class="site-nav" aria-label="Main">
           {%- for item in site.nav %}
-          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url or page.layout == 'post' and item.url == '/blog/' %} aria-current="page"{% endif %}>
+          <a class="site-nav__link" href="{{ item.url | relative_url }}"{% if page.url contains item.url or page.collection == 'posts' and item.url == '/blog/' %} aria-current="page"{% endif %}>
             {%- if item.short -%}
             <span data-shrink="{{ item.short }}">{{ item.title }}</span>
             {%- else -%}
