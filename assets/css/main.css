@@ -1569,8 +1569,8 @@ a.card:hover {
   gap: 10px;
 }
 
-/* On phones the four details sit in two even columns: Sections and Share,
-   then reading time and the date. */
+/* On phones the four details sit in two even columns: Sections and the
+   date, then reading time and Share. */
 @media (max-width: 700px) {
   .post-meta {
     display: grid;

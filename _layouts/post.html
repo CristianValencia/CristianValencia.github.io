@@ -3,7 +3,7 @@ layout: default
 ---
 {%- comment -%}
   A journal post: byline, title, subtitle, the details strip (Sections,
-  Share, reading time, date), the post journey (folded away until Sections is tapped), the cover
+  date, reading time, Share), the post journey (folded away until Sections is tapped), the cover
   photo, then the text. The end stripe (sources and the no-AI note) is in
   _includes/post-end.html, placed by the default layout so it can run the
   full width and sit on the footer. post.js builds the journey and wires
@@ -34,21 +34,22 @@ layout: default
           <svg class="post-meta__chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
         </button>
       </li>
-      <li>
-        <button type="button" class="post-meta__btn" data-share hidden>
-          <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
-          <span aria-live="polite" data-share-label>Share</span>
-        </button>
+      <li class="post-meta__item">
+        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
       </li>
+
       {%- comment %} Reading time: about 200 words a minute, rounded up. {% endcomment %}
       {%- assign minutes = content | number_of_words | plus: 199 | divided_by: 200 %}
       <li class="post-meta__item">
         <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         {% if minutes < 1 %}1{% else %}{{ minutes }}{% endif %} min read
       </li>
-      <li class="post-meta__item">
-        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
-        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
+      <li>
+        <button type="button" class="post-meta__btn" data-share hidden>
+          <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span aria-live="polite" data-share-label>Share</span>
+        </button>
       </li>
     </ul>
     {%- endunless %}
