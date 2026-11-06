@@ -1,11 +1,6 @@
 ---
 title: Lorem ipsum dolor sit amet
 subtitle: A sample post with every element a post can use, to design them all in one place.
-image:
-  path: /assets/images/home/color-flower.jpg
-  width: 640
-  height: 480
-  alt: A yellow flower leaning to one side against a soft blur of warm yellow and brown, with an unopened bud beside it.
 tags: [Lorem, Ipsum]
 sources:
   - title: Lorem ipsum
