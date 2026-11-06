@@ -901,6 +901,15 @@ a.card:hover {
   line-height: 1.1;
 }
 
+/* A smaller sans heading (heading_sans in front matter), for pages where
+   the heading only introduces a list: "Latest thoughts" on the Journal. */
+.page__title--sans {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
 .prose {
   font-family: var(--font-serif);
   font-size: 20px;
@@ -927,7 +936,7 @@ a.card:hover {
 
   /* Phones: a hamburger and the name on the first line. The hamburger turns
      into an X, the mail icon appears on the right, and a second line opens
-     below: Photos, Blog, Work, About. Without JavaScript both just stay
+     below: Photos, Journal, Life, Work. Without JavaScript both just stay
      visible. */
   .site-header {
     --header-top: 8px;
@@ -1109,14 +1118,14 @@ a.card:hover {
   }
 
   /* The X lines up with the P of Photos and the mail icon with the end of
-     About's T, so the icons and the menu line share one left and one right
+     Work's K, so the icons and the menu line share one left and one right
      edge. */
   .site-header__toggle {
     translate: 5px 0;
   }
 
   .site-header__contact {
-    translate: -14px 0;
+    translate: -16px 0;
   }
 
   .site-nav__link {
@@ -1333,6 +1342,7 @@ a.card:hover {
   }
 
   .page__title { font-size: 36px; }
+  .page__title--sans { font-size: 26px; }
   .prose { font-size: 18px; }
 }
 
@@ -1408,7 +1418,10 @@ a.card:hover {
   }
 }
 
-/* Blog list */
+/* Journal list ("Latest thoughts"): laid out like the posts' numbered
+   steps, with the date in the steps' small gold deep type where the
+   number would be, then the title in bold and a short excerpt below it.
+   On phones the date sits above the title. */
 
 .post-list {
   margin: 0;
@@ -1416,14 +1429,67 @@ a.card:hover {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.2em;
 }
 
-.post-list__date {
-  display: block;
+.post-list__item {
+  display: grid;
+  grid-template-columns: 8.5em minmax(0, 1fr);
+  align-items: baseline;
+}
+
+.post-list__item > * {
+  grid-column: 2;
+  margin: 0;
+}
+
+.prose .post-list__date {
+  grid-column: 1;
+  grid-row: 1;
   font-family: var(--font-sans);
-  font-size: 15px;
-  color: var(--color-muted);
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gold-deep);
+}
+
+.prose .post-list__title {
+  margin: 0;
+  font-family: inherit;
+  font-size: 1.5em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Turquoise at this size is large text, so it clears AA on the page. */
+.prose .post-list__title a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.prose .post-list__title a:hover {
+  text-decoration: underline;
+}
+
+.post-list__excerpt {
+  margin-top: 0.3em;
+}
+
+@media (max-width: 700px) {
+  .post-list__item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .post-list__item > *,
+  .prose .post-list__date {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .prose .post-list__date {
+    margin-bottom: 0.3em;
+  }
 }
 
 /* Journal post. Everything sits in the 714px reading column, top to bottom:
@@ -1438,14 +1504,11 @@ a.card:hover {
 }
 
 .post__byline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
   margin: 0 0 20px;
   font-family: var(--font-sans);
   font-size: 17px;
-  color: var(--color-muted);
+  font-weight: 600;
+  color: var(--color-link);
 }
 
 .post__byline a {
@@ -1464,6 +1527,15 @@ a.card:hover {
   font-weight: 400;
   font-size: 55px;
   line-height: 1.1;
+}
+
+/* Without the byline the title opens the page: on wider screens, a little
+   more room above it, about three quarters of what the byline took. Phones
+   keep the original spacing. */
+@media (min-width: 701px) {
+  .post__header > .post__title:first-child {
+    margin-top: 36px;
+  }
 }
 
 .post__subtitle {
@@ -1498,6 +1570,24 @@ a.card:hover {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* On phones the four details sit in two rows: Sections and Share, then
+   the date and reading time. (The order in the page stays Sections, date,
+   reading time, Share.) */
+@media (max-width: 700px) {
+  .post-meta {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 14px 20px;
+    white-space: nowrap;
+  }
+
+  .post-meta > :nth-child(1) { grid-area: 1 / 1; }
+  .post-meta > :nth-child(2) { grid-area: 2 / 1; }
+  .post-meta > :nth-child(3) { grid-area: 2 / 2; }
+  .post-meta > :nth-child(4) { grid-area: 1 / 2; }
 }
 
 .post-meta__btn {
@@ -1715,16 +1805,29 @@ a.card:hover {
   color: var(--color-muted);
 }
 
-.post__cover {
-  display: block;
+/* The cover photo sits in the same white frame as the photos in the text
+   (.figure, below). */
+.figure.post__cover {
+  margin: 32px 0 0;
+}
+
+.post__cover img {
   width: 100%;
   height: auto;
-  margin-top: 32px;
 }
 
 .post__body {
   padding: 40px 0 16px;
   font-size: 23px;
+}
+
+/* When the text follows the turquoise strip directly (no cover photo),
+   wider screens give it more room, so the post clearly starts. Phones keep
+   the original spacing. */
+@media (min-width: 701px) {
+  .post-journey + .post__body {
+    padding-top: 64px;
+  }
 }
 
 /* Reading column. Sizes are in em, so they follow the text size (20px, 18px

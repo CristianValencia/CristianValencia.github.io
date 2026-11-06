@@ -331,5 +331,5 @@ const frameLight = (figure) => {
   figure.addEventListener('pointerleave', () => figure.classList.remove('is-lit'));
 };
 
-if (calm) document.querySelectorAll('.post__body .figure').forEach(frameLight);
+if (calm) document.querySelectorAll('.post__cover, .post__body .figure').forEach(frameLight);
 }

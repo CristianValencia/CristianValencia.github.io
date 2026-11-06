@@ -2,17 +2,18 @@
 const header = document.querySelector('[data-site-header]');
 
 // Split a label into the letters its long and short versions share and the
-// letters that differ ("Photo" + "graphy"/"s", "Cris" + "tian"/"" + " Valencia"),
-// so CSS can collapse one part and open the other. The link keeps its full
-// name for screen readers.
+// letters that differ ("Photo" + "graphy"/"s", "Cris" + "tian"/"" + " Valencia",
+// "My " + "life"), so CSS can collapse one part and open the other. Letters
+// are matched ignoring case, since the labels are shown in capitals. The
+// link keeps its full name for screen readers.
 const splitLabel = (el) => {
   const long = el.textContent;
   const short = el.dataset.shrink;
   let start = 0;
-  while (start < long.length && start < short.length && long[start] === short[start]) start++;
+  while (start < long.length && start < short.length && long[start].toLowerCase() === short[start].toLowerCase()) start++;
   let end = 0;
   while (end < long.length - start && end < short.length - start
-    && long[long.length - 1 - end] === short[short.length - 1 - end]) end++;
+    && long[long.length - 1 - end].toLowerCase() === short[short.length - 1 - end].toLowerCase()) end++;
 
   const part = (text, cls) => {
     const span = document.createElement('span');

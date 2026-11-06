@@ -2,7 +2,7 @@
 layout: default
 ---
 <article class="page">
-  <h1 class="page__title">{{ page.title }}</h1>
+  <h1 class="page__title{% if page.heading_sans %} page__title--sans{% endif %}">{{ page.heading | default: page.title }}</h1>
   <div class="prose">
     {{ content }}
   </div>
