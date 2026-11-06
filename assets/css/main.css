@@ -1100,6 +1100,16 @@ a.card:hover {
     opacity: 0;
   }
 
+  /* The narrowest phones (under 360px) can't fit the name and the section
+     between the two icons, so the section label stays folded away; the
+     menu still marks the current page. */
+  @media (max-width: 359px) {
+    .site-header__section {
+      max-width: 0;
+      opacity: 0;
+    }
+  }
+
   /* The second line folds open from 0 to its own height. */
   .site-header__menu {
     display: grid;
