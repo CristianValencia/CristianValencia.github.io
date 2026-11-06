@@ -65,13 +65,16 @@ if (header) {
   }
 
   // Phones: the hamburger opens and closes the menu line. Escape, a tap
-  // outside the header, or a wider screen closes it.
+  // outside the header, scrolling down, or a wider screen closes it (it
+  // folds away with its usual transition).
   const toggle = header.querySelector('.site-header__toggle');
   if (toggle) {
     const phone = window.matchMedia('(max-width: 700px)');
+    let openedAt = 0; // scroll position when the menu opened
     const setOpen = (open) => {
       header.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', String(open));
+      if (open) openedAt = window.scrollY;
     };
 
     toggle.hidden = false;
@@ -88,6 +91,11 @@ if (header) {
     document.addEventListener('click', (event) => {
       if (!header.contains(event.target)) setOpen(false);
     });
+
+    // A little slack (24px) so a tap's jitter doesn't close it.
+    window.addEventListener('scroll', () => {
+      if (header.classList.contains('is-open') && window.scrollY > openedAt + 24) setOpen(false);
+    }, { passive: true });
 
     phone.addEventListener('change', () => setOpen(false));
   }
