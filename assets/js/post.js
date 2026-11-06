@@ -1,4 +1,4 @@
-// Blog posts: the post journey, the Journey / Share / Sources / no-AI
+// Journal posts: the post journey, the Sections / Share / Sources / no-AI
 // buttons, and the light on quotes. Loaded only on posts (see default.html).
 // Without this script the buttons stay hidden and every panel stays open.
 // Wrapped in a block: the site's scripts share one global scope.
@@ -82,16 +82,6 @@ const scrollToSection = (target) => {
     onComplete: () => { stopGlide(); land(); },
   });
 };
-
-// Back to top: glides up to the start of the post, the byline (name and date).
-const backToTop = document.querySelector('[data-back-to-top]');
-const postStart = document.getElementById('post-start');
-if (backToTop && postStart) {
-  backToTop.addEventListener('click', (event) => {
-    event.preventDefault();
-    scrollToSection(postStart);
-  });
-}
 
 // Post journey: one stop per section title (h2, h3) of the post, three per
 // row. Rows alternate direction and join with a rounded turn. Each stop shows
@@ -299,4 +289,47 @@ const quoteLight = (quote) => {
 };
 
 if (calm) document.querySelectorAll('.post__body blockquote').forEach(quoteLight);
+
+// Photo frames: the contact postcard's edge light, kept
+// quieter so it doesn't pull the eye from the photo. One soft circle, 35%
+// of the frame's width (the postcard's is 60%), eases after the cursor (or a
+// finger) while it's over the frame and fades out when it leaves. The frame
+// is wider than the figure (main.css), so positions are measured from it.
+const frameLight = (figure) => {
+  const head = { x: 0, y: 0 };
+  let target = null;
+  let frame = 0;
+  const box = () => {
+    const r = figure.getBoundingClientRect();
+    const w = Math.min(860, document.documentElement.clientWidth);
+    return { left: r.left + r.width / 2 - w / 2, top: r.top, w };
+  };
+  const place = () => {
+    const b = box();
+    figure.style.setProperty('--ex', `${(head.x - b.left).toFixed(1)}px`);
+    figure.style.setProperty('--ey', `${(head.y - b.top).toFixed(1)}px`);
+  };
+  const move = () => {
+    head.x += (target.x - head.x) * 0.2;
+    head.y += (target.y - head.y) * 0.2;
+    place();
+    frame = Math.hypot(target.x - head.x, target.y - head.y) > 0.5 ? requestAnimationFrame(move) : 0;
+  };
+  const at = (event) => ({ x: event.clientX, y: event.clientY });
+  figure.addEventListener('pointerenter', (event) => {
+    target = at(event);
+    head.x = target.x;
+    head.y = target.y;
+    figure.style.setProperty('--er', `${(box().w * 0.35).toFixed(0)}px`);
+    figure.classList.add('is-lit');
+    move();
+  });
+  figure.addEventListener('pointermove', (event) => {
+    target = at(event);
+    if (!frame) frame = requestAnimationFrame(move);
+  });
+  figure.addEventListener('pointerleave', () => figure.classList.remove('is-lit'));
+};
+
+if (calm) document.querySelectorAll('.post__body .figure').forEach(frameLight);
 }

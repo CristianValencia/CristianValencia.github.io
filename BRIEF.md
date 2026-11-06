@@ -12,7 +12,7 @@ A personal home for Cristian's whole life, not only a CV. It grows over time, on
 
 **Version 1 focuses on:**
 1. **Photography portfolio** — the first thing to explore
-2. **Blog** — writing about anything: life, photography, tech
+2. **Journal** (at `/blog/`) — writing about anything: life, photography, tech
 3. **Work as a developer** — products, apps, and projects
 
 Later sections are added as cards when they're ready (see §6).
@@ -83,29 +83,25 @@ From `inspiration/color-palette.png`:
 | Photography | `/photography/` | Entry to the two portfolios |
 | Color | `/photography/color/` | Color portfolio |
 | Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
-| Blog | `/blog/` | Posts, newest first |
+| Journal | `/blog/` | Posts, newest first |
 | Work | `/work/` | Developer projects and shipped apps |
 | About | `/about/` | The story so far |
 | 404 | `/404.html` | Friendly dead end with a link home |
 
 ## 6. Homepage cards (v1, built in `index.html`)
 
-Size: **L** large, **M** medium (wide), **S** small. Every card is white with a bold petrol label on top; the intro card has none.
+Size: **L** large, **M** medium (wide). Every card is white with a bold petrol label on top; the intro card has none. The four small cards (About, Company, Follow me, Contact) were removed: About and Contact are in the header, and the social links are in the footer.
 
 | Card | Size | Content | Links to |
 |---|---|---|---|
 | Intro | L | "Hi, I'm **Cristian Valencia**." (name in turquoise) · "A simple human finding its way on the web." · ENGINEER · PHOTOGRAPHER · WRITER | — |
 | Photography | L | Photo mosaic: 5 color photos left, 5 B&W right, with "Color →" / "Black & White →" under each | `/photography/color/`, `/photography/black-and-white/` |
-| Blog | M | Latest post title + date ("First posts coming soon" until there is one) | latest post or `/blog/` |
+| Journal | M | Latest post title + date ("First posts coming soon" until there is one) | latest post or `/blog/` |
 | Work | M | "Engineering" · "Apps and products I've built" | `/work/` |
-| About | S | "The story so far" · "Who I am and how I got here" | `/about/` |
-| Company | S | "Hackart" · "hackart.com →" | https://www.hackart.com |
-| Follow me: | S | Instagram @cris.chrome and @cris.monochrome | external |
-| Contact | S | A postcard form at `/contact/` | Opens the visitor's email app (`mailto:`) |
 
 - **Page transitions:** moving between pages uses the browser's View Transitions (Chrome, Edge, Safari): the whole page crossfades, the old one fading out while the new one fades in and rises slightly, with the header staying in place (about 0.75s). Scrolling with the wheel, touch or keys ends it at once. Other browsers change pages instantly; off for reduced motion.
-- **Header:** one line, sticky, always a gold light pill with white text, 16px from the top (8px on phones) both at load and once stuck. The name on the left links home, the menu (Photography · Blog · Work · About) sits in the center, and a filled gold Contact button on the right opens the contact page. At the top the pill spans the card grid; once the page scrolls it narrows to 860px and the labels shorten to "Cris Valencia" and "Photos". The current page, Contact included, is a gold deep button with white text, and tapping it does nothing. On phones a hamburger opens the menu on a second line. No Home item. A page can set `header: static` to keep it in place at the top (it scrolls away and never turns into the narrow pill); Contact does.
-- **Footer:** full-width soft gold diagonal plaid (gold, gold deep and gold light 24px bands crossing at 45°, low opacity on the gray page ground, so the empty diamonds match the page), with a light film grain on the bands only, and 5px top and bottom edges in the gold light band's own transparency. With a mouse, a soft circle (radius 40% of the footer width on every screen) follows the cursor and shows a stronger plaid with the same bands and grain, fading back along a short trail. On touch screens the circle wanders on its own while the footer is on screen: slow (about 20px a second), random, drawn toward the center. Off for reduced motion. 400px tall, with a white pill in the center: turquoise "Made with ♥ by Hackart" (rounder red heart, #B8452F), tapping it switches to "In memory of Felipe Valencia"; "© Cristian Valencia" below. Turquoise Jost (regular weight) for the line. On phones every page gets the compact footer: a short band (about 144px, sized so its plaid starts and ends on the same diagonals as the full one) with the copyright in its own pill under the line's pill. The light also strengthens both edge strips.
+- **Header:** one line, sticky, always a gold light pill with white text, 16px from the top (8px on phones) both at load and once stuck. The name on the left links home, the menu (Photography · Journal · Work · About) sits in the center, and a filled gold Contact button on the right opens the contact page. At the top the pill spans the card grid; once the page scrolls it narrows to 860px and the labels shorten to "Cris Valencia" and "Photos". The current page, Contact included, is a gold deep button with white text, and tapping it does nothing. On phones a hamburger opens the menu on a second line. No Home item. A page can set `header: static` to keep it in place at the top (it scrolls away and never turns into the narrow pill); Contact does.
+- **Footer:** full-width soft gold diagonal plaid (gold, gold deep and gold light 24px bands crossing at 45°, low opacity on the gray page ground, so the empty diamonds match the page), with a light film grain on the bands only, and 5px top and bottom edges in the gold light band's own transparency. With a mouse, a soft circle (radius 40% of the footer width on every screen) follows the cursor and shows a stronger plaid with the same bands and grain, fading back along a short trail. On touch screens the circle wanders on its own while the footer is on screen: slow (about 20px a second), random, drawn toward the center. Off for reduced motion. 400px tall, with two 400 × 68px pills stacked in the center, both on a 30% linen on white and lifting with the contact stamp's shadow as the light comes up. The first holds the Threads (@cris.chrome), Instagram (@cris.monochrome) and Foto (@cristianvalencia) icons: gray, with only the one closest to the light taking its brand colors. The second holds "Made with ♥ by **Hackart**" in Jost 26px, gray until the light comes up and then turquoise with the red heart (#B8452F); tapping it switches to "In memory of **Felipe Valencia**". Hovering an icon slowly crossfades the line into that account's handle (bold). Below the band, a 68px gold deep bar holds the copyright, centered, and Back to top on the right. On phones the band is shorter (about 144px, sized so its plaid starts and ends on the same diagonals as the full one) with 240 × 38px pills and no handles, and the gold bar is thinner (44px) with the copyright on the left. The light also strengthens both edge strips.
 
 ## 7. Page content
 
@@ -116,9 +112,11 @@ Size: **L** large, **M** medium (wide), **S** small. Every card is white with a 
 - **Linen everywhere**: every page's background is linen woven in code (`assets/js/linen.js`, matched to the Rule of Three site's linen), the **neutral linen** on the page gray #F7F7F7 at 20% of the reference's contrast. A page can set `linen: charcoal` for the **charcoal linen** (#161616 at 40%, with the header and text turned light); the Black & White page does. The footer keeps its plaid. The tile is woven once per visit and kept in sessionStorage.
 - **Photo pages** (designed on the canvas's Photography page): `layout: print` with a `print:` block in front matter. The photo sits straight on the linen, with no frame or mat, sized so it fits on screen, with the title and text below it like a gallery label. For now, one sample on each portfolio page: the flower on Color, the deer on Black & White.
 
-### Blog
+### Journal
+
+- Called "Journal" everywhere on the site; the address stays `/blog/` so existing links keep working.
 - Remove the default "Welcome to Jekyll" post.
-- Post anatomy (designed on the canvas's "Blog post" board; sample: `_posts/2026-11-04-lorem-ipsum.md`), all in the 680px column: byline (Cristian Valencia / date in small caps) → title → optional `subtitle` → turquoise details strip (Journey, Share, tags) → post journey (folds open from Journey: every section as a stop on a winding line, three per row; tapping a stop glides there on a Motion spring) → cover photo (`image` in front matter, also the thumbnail) → the text. The text can use section titles (`##`, `###`), italic, bold, underline, links, inline code, numbered steps (`{: .steps}` under a list), line breaks, photos with square corners and centered captions (`{% raw %}{% include figure.html %}{% endraw %}`), and quotes in a white box framed by small plaid with the footer's light. The post ends on a full-width turquoise stripe on the footer: Sources (`sources` in front matter) and "Written by a human. No Gen AI." with a short note.
+- Post anatomy (designed on the canvas's "Blog post" board; sample: `_posts/2026-11-04-lorem-ipsum.md`), all in the 680px column: byline (Cristian Valencia / date in small caps) → title → optional `subtitle` → turquoise details strip (Sections, Share, reading time at about 200 words a minute) → post journey (folds open from Sections, titled with the count, e.g. "3 sections": every section as a stop on a winding line, three per row; tapping a stop glides there on a Motion spring) → cover photo (`image` in front matter, also the thumbnail) → the text. The text can use section titles (`##`, `###`), italic, bold, underline, links, inline code, numbered steps (`{: .steps}` under a list), line breaks, photos with square corners, each in a white frame as wide as the header's compact pill (860px), 73px above and beside it, with the caption in turquoise in the frame's bottom 73px, and the contact postcard's 5px gold edge with its cursor light (on phones the white frame runs edge to edge, 16px beside the photo and 24px above and below, with no gold edge or light) (`{% raw %}{% include figure.html %}{% endraw %}`), and quotes in a white box framed by small plaid with the footer's light, as wide as the photo frames (860px) on wider screens. The post ends on a full-width turquoise stripe on the footer: Sources (`sources` in front matter), "Written by a human. No Gen AI." with a short note, and the tags on the right. Both turquoise strips are 68px tall, like the footer's gold bar.
 - Topics and first posts **[TODO]**
 - Categories or tags? **[TODO]**
 

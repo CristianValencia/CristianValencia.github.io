@@ -29,6 +29,8 @@
     // Stamp paper on the contact postcard: the same weave on white, at 40%.
     // Threads brighter than white are capped, so it reads a touch off-white.
     stamp: (g) => 255 + (g - MEAN) * 0.4,
+    // The footer's pills: the same weave on white, at 30%.
+    pill: (g) => 255 + (g - MEAN) * 0.3,
   };
 
   const rng = (seed) => {

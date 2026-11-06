@@ -8,6 +8,29 @@
 
   const form = document.querySelector('[data-postcard]');
 
+  // The stamp changes with the reason: each reason has its own photo
+  // (General the flower, Work the postbox, Photography the umbrella). A
+  // photo loads the first time its reason is picked, then fades in.
+  const photos = form ? [...form.querySelectorAll('.postcard__paper img[data-reason]')] : [];
+  if (photos.length) {
+    form.addEventListener('change', (event) => {
+      if (event.target.name !== 'reason') return;
+      const next = photos.find((img) => img.dataset.reason === event.target.value);
+      if (!next) return;
+      // Only if it's still the picked reason when it finishes loading.
+      const show = () => {
+        const picked = form.querySelector('input[name="reason"]:checked');
+        if (picked && picked.value === next.dataset.reason) photos.forEach((img) => img.classList.toggle('is-shown', img === next));
+      };
+      if (!next.getAttribute('src')) {
+        next.addEventListener('load', show, { once: true });
+        next.src = next.dataset.src;
+      } else {
+        show();
+      }
+    });
+  }
+
   // The stamp grows with the room the card gives it on wider screens: as
   // tall as its area allows (less a little air), from 154px up to 308px,
   // keeping its proportions. Both sides snap to multiples of 14, so the

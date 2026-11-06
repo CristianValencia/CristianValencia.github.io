@@ -1,8 +1,8 @@
 {%- comment -%}
   The end of a post: a full-width turquoise stripe that sits on the footer.
   Sources (from the post's front matter) and the no-AI note fold open from
-  their buttons; post.js wires them, and without it both stay open. Back to
-  top, on the right, glides up to the byline (a plain link without JS).
+  their buttons; post.js wires them, and without it both stay open. The
+  post's tags sit on the right (Back to top is in the footer's gold bar).
 {%- endcomment -%}
 <aside class="post-end" aria-label="About this post">
   <div class="post-end__inner">
@@ -19,10 +19,12 @@
         Written by a human. No Gen AI
         <svg class="post-meta__chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <a class="post-meta__btn post-end__top" href="#post-start" data-back-to-top>
-        Back to top
-        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-      </a>
+      {%- if page.tags.size > 0 %}
+      <p class="post-meta__item post-end__tags">
+        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>
+        <span><span class="visually-hidden">Tags: </span>{{ page.tags | join: ', ' }}</span>
+      </p>
+      {%- endif %}
     </div>
     {%- if page.sources.size > 0 %}
     <div class="fold" id="post-sources">
