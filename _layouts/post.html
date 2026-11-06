@@ -3,7 +3,7 @@ layout: default
 ---
 {%- comment -%}
   A journal post: byline, title, subtitle, the details strip (Sections,
-  Share, reading time), the post journey (folded away until Sections is tapped), the cover
+  Share, reading time, date), the post journey (folded away until Sections is tapped), the cover
   photo, then the text. The end stripe (sources and the no-AI note) is in
   _includes/post-end.html, placed by the default layout so it can run the
   full width and sit on the footer. post.js builds the journey and wires
@@ -17,8 +17,6 @@ layout: default
     {%- unless page.plain %}
     <p class="post__byline" id="post-start">
       <a href="{{ '/work/' | relative_url }}">{{ site.title }}</a>
-      <span aria-hidden="true">|</span>
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
     </p>
     {%- endunless %}
     <h1 class="post__title">{{ page.title }}</h1>
@@ -45,6 +43,10 @@ layout: default
       <li class="post-meta__item">
         <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         {% if minutes < 1 %}1{% else %}{{ minutes }}{% endif %} min read
+      </li>
+      <li class="post-meta__item">
+        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
       </li>
     </ul>
     {%- endunless %}
