@@ -1822,9 +1822,12 @@ a.card:hover {
 }
 
 /* When the text follows the turquoise strip directly (no cover photo),
-   it gets more room, so the post clearly starts. */
-.post-journey + .post__body {
-  padding-top: 64px;
+   wider screens give it more room, so the post clearly starts. Phones keep
+   the original spacing. */
+@media (min-width: 701px) {
+  .post-journey + .post__body {
+    padding-top: 64px;
+  }
 }
 
 /* Reading column. Sizes are in em, so they follow the text size (20px, 18px
