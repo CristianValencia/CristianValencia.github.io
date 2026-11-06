@@ -2092,7 +2092,7 @@ a.card:hover {
   min-height: calc((860px - 714px) / 2);
   padding: 12px 0;
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.5;
   text-align: center;
   color: var(--color-muted);
