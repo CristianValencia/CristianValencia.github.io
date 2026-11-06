@@ -1529,10 +1529,13 @@ a.card:hover {
   line-height: 1.1;
 }
 
-/* Without the byline the title opens the page: a little more room above
-   it, about three quarters of what the byline took. */
-.post__header > .post__title:first-child {
-  margin-top: 36px;
+/* Without the byline the title opens the page: on wider screens, a little
+   more room above it, about three quarters of what the byline took. Phones
+   keep the original spacing. */
+@media (min-width: 701px) {
+  .post__header > .post__title:first-child {
+    margin-top: 36px;
+  }
 }
 
 .post__subtitle {
