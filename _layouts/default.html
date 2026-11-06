@@ -28,7 +28,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,600&display=swap">
-  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  {%- comment %} Our own CSS and JS carry the build time, so a new deploy never pairs
+    new pages with a stylesheet or script the browser cached earlier. {% endcomment %}
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   {% feed_meta %}
 </head>
 {%- comment -%} Every page's background is linen woven in code (linen.js): the neutral
@@ -45,13 +47,13 @@
   {% include post-end.html %}
   {%- endif %}
   {% include footer.html %}
-  <script src="{{ '/assets/js/header.js' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/footer.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/header.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+  <script src="{{ '/assets/js/footer.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   {%- if page.layout == 'post' %}
   {%- comment %} Motion only where it's used: the post journey's spring glide. {% endcomment %}
   <script src="{{ '/assets/js/lib/motion-14.4.0.min.js' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/post.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/post.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   {%- endif %}
-  <script src="{{ '/assets/js/linen.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/linen.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 </body>
 </html>
