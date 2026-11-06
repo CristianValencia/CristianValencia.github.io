@@ -14,7 +14,7 @@ Cristian Valencia's personal site, published with GitHub Pages at https://cristi
 - No theme. Layouts: `_layouts/default.html` (frame), `page.html`, `post.html`; header and footer in `_includes/`.
 - Styles: one file, `assets/css/main.css`; design tokens are the custom properties at its top. Footer tap-to-cycle: `assets/js/footer.js`.
 - Third-party JS is copied into `assets/js/lib/` (never loaded from a CDN); `assets/js/lib/README.md` lists each file, its version and how to update it. Motion 14.4.0 is there for real spring physics (gestures, interruptible animations); load it only on pages that use it. Simple motion stays in CSS.
-- Homepage: `index.html` (bento grid). Nav items and Instagram handles live in `_config.yml` (`nav`, `instagram_accounts`).
+- Homepage: `index.html` (bento grid). Nav items live in `_config.yml` (`nav`). The social links (Threads, Instagram, Foto) are in `_includes/footer.html`.
 - Photos go through `exiftool -all= --icc_profile:all` (strip GPS/camera data) and get resized before they're added.
 - Run locally: `bundle exec jekyll serve` → http://localhost:4000. Restart after editing `_config.yml`.
 - Deploys automatically from `main`. Do feature work on a branch.

@@ -80,6 +80,7 @@ if (reveal && calm) {
   let frame = 0;
   let radius = 0;
   const resize = () => { radius = footer.clientWidth * RADIUS_SHARE; };
+  footer.style.setProperty('--glow', '0'); // the line starts gray
   resize();
   window.addEventListener('resize', resize);
 
@@ -113,6 +114,33 @@ if (reveal && calm) {
       : 'linear-gradient(transparent, transparent)';
     reveal.style.webkitMaskImage = mask;
     reveal.style.maskImage = mask;
+    icons.forEach((icon) => icon.el.style.setProperty('--lit', icon.lit.toFixed(3)));
+    // The line's colors come up with the light (on touch screens, while the
+    // light wanders).
+    footer.style.setProperty('--glow', strength.toFixed(3));
+  };
+
+  // Social icons: only the one closest to the light's head takes its brand
+  // colors (anywhere in the footer, not just over the pill); the others stay
+  // gray. Each eases in and out at the light's own pace, so passing from one
+  // icon's side to the next crossfades them.
+  const icons = [...footer.querySelectorAll('.site-footer__soc')].map((el) => ({ el, lit: 0 }));
+  const lightIcons = () => {
+    if (!icons.length) return;
+    const box = footer.getBoundingClientRect();
+    const head = points[0];
+    let closest = null;
+    let best = Infinity;
+    icons.forEach((icon) => {
+      const r = icon.el.getBoundingClientRect();
+      if (!r.width) return; // hidden (phones)
+      const d = Math.hypot(r.left + r.width / 2 - box.left - head.x, r.top + r.height / 2 - box.top - head.y);
+      if (d < best) { best = d; closest = icon; }
+    });
+    icons.forEach((icon) => {
+      const goal = active && icon === closest ? 1 : 0;
+      icon.lit += (goal - icon.lit) * (hasMouse ? 0.08 : 0.03);
+    });
   };
 
   // Mouse: the head eases toward the cursor.
@@ -148,9 +176,11 @@ if (reveal && calm) {
       points[i].y += (points[i - 1].y - points[i].y) * 0.28;
     }
     strength += ((active ? 1 : 0) - strength) * (hasMouse ? 0.08 : 0.03);
+    lightIcons();
 
     if (!active && strength < 0.01) {
       strength = 0;
+      icons.forEach((icon) => { icon.lit = 0; });
       frame = 0;
       paint();
       return;
@@ -198,4 +228,27 @@ if (reveal && calm) {
       start();
     }).observe(footer);
   }
+}
+
+// Social icons: hovering or focusing one fades the footer's line into that
+// account's handle (main.css does the crossfade from data-handle).
+if (footer) {
+  footer.querySelectorAll('[data-handle]').forEach((link) => {
+    const show = () => { footer.dataset.handle = link.dataset.handle; };
+    const hide = () => { delete footer.dataset.handle; };
+    link.addEventListener('mouseenter', show);
+    link.addEventListener('focus', show);
+    link.addEventListener('mouseleave', hide);
+    link.addEventListener('blur', hide);
+  });
+}
+
+// Back to top in the gold bar: glides up to the top of the page (jumps, for
+// reduced motion). Without this script the link still goes to the top.
+const pageTop = document.querySelector('[data-page-top]');
+if (pageTop) {
+  pageTop.addEventListener('click', (event) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: calm ? 'smooth' : 'auto' });
+  });
 }

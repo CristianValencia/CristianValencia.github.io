@@ -34,7 +34,11 @@ header: static
       <div class="postcard__stamp-area" aria-hidden="true">
         <div class="postcard__stamp">
           <div class="postcard__paper" data-linen="stamp">
-            <img src="{{ '/assets/images/home/color-flower.jpg' | relative_url }}" alt="" width="640" height="480" decoding="async">
+            {%- comment %} One photo per reason: General shows the flower; the others load
+              when their reason is picked (contact.js) and fade in over it. {% endcomment %}
+            <img class="is-shown" data-reason="General" src="{{ '/assets/images/home/color-flower.jpg' | relative_url }}" alt="" width="640" height="480" decoding="async">
+            <img data-reason="Work" data-src="{{ '/assets/images/home/color-postbox.jpg' | relative_url }}" alt="" width="640" height="426" decoding="async">
+            <img data-reason="Photography" data-src="{{ '/assets/images/home/bw-umbrella.jpg' | relative_url }}" alt="" width="478" height="640" decoding="async">
           </div>
         </div>
       </div>

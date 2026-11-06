@@ -2,8 +2,8 @@
 layout: default
 ---
 {%- comment -%}
-  A blog post: byline, title, subtitle, the details strip (Journey, Share,
-  tags), the post journey (folded away until Journey is tapped), the cover
+  A journal post: byline, title, subtitle, the details strip (Sections,
+  Share, reading time), the post journey (folded away until Sections is tapped), the cover
   photo, then the text. The end stripe (sources and the no-AI note) is in
   _includes/post-end.html, placed by the default layout so it can run the
   full width and sit on the footer. post.js builds the journey and wires
@@ -24,7 +24,7 @@ layout: default
       <li>
         <button type="button" class="post-meta__btn" aria-expanded="false" aria-controls="post-journey" data-journey-toggle hidden>
           <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
-          Journey
+          Sections
           <svg class="post-meta__chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
         </button>
       </li>
@@ -34,21 +34,20 @@ layout: default
           <span aria-live="polite" data-share-label>Share</span>
         </button>
       </li>
-      {%- if page.tags.size > 0 %}
+      {%- comment %} Reading time: about 200 words a minute, rounded up. {% endcomment %}
+      {%- assign minutes = content | number_of_words | plus: 199 | divided_by: 200 %}
       <li class="post-meta__item">
-        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>
-        <span><span class="visually-hidden">Tags: </span>{{ page.tags | join: ', ' }}</span>
+        <svg class="post-meta__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        {% if minutes < 1 %}1{% else %}{{ minutes }}{% endif %} min read
       </li>
-      {%- endif %}
     </ul>
   </header>
 
   <div class="post-journey fold is-collapsed" id="post-journey" data-journey hidden>
     <div class="fold__inner">
-      <nav class="post-journey__nav" aria-label="Post journey">
+      <nav class="post-journey__nav" aria-label="Sections">
         <div class="post-journey__head">
-          <h2 class="post-journey__title">Post journey</h2>
-          <span class="post-journey__count" data-journey-count></span>
+          <h2 class="post-journey__title" data-journey-count>Sections</h2>
         </div>
         <div class="jr-rows" data-journey-rows></div>
       </nav>

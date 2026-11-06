@@ -26,9 +26,6 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://cristianvalencia.mx" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: crisvalenciamx
 github_username:  CristianValencia
-instagram_accounts:
-  - cris.chrome
-  - cris.monochrome
 
 # Build settings
 theme: null # no theme; layouts and styles are our own
@@ -42,7 +39,7 @@ nav:
   - title: Photography
     short: Photos
     url: /photography/
-  - title: Blog
+  - title: Journal # the address stays /blog/
     url: /blog/
   - title: Work
     url: /work/
