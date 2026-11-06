@@ -929,7 +929,8 @@ a.card:hover {
 .prose h2,
 .prose h3,
 .page__title,
-.post__title {
+.post__title,
+.figure figcaption {
   text-wrap: balance;
 }
 
@@ -2094,7 +2095,7 @@ a.card:hover {
   font-size: 17px;
   line-height: 1.5;
   text-align: center;
-  color: var(--color-link);
+  color: var(--color-muted);
 }
 
 @media (max-width: 700px) {
