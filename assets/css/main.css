@@ -1529,6 +1529,12 @@ a.card:hover {
   line-height: 1.1;
 }
 
+/* Without the byline the title opens the page: a little more room above
+   it, about half of what the byline took. */
+.post__header > .post__title:first-child {
+  margin-top: 24px;
+}
+
 .post__subtitle {
   margin: 0;
   font-family: var(--font-serif);
