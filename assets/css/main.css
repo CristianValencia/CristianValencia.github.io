@@ -1530,9 +1530,9 @@ a.card:hover {
 }
 
 /* Without the byline the title opens the page: a little more room above
-   it, about half of what the byline took. */
+   it, about three quarters of what the byline took. */
 .post__header > .post__title:first-child {
-  margin-top: 24px;
+  margin-top: 36px;
 }
 
 .post__subtitle {
