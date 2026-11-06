@@ -1948,7 +1948,8 @@ a.card:hover {
   /* Every plaid layer starts at the outer edge, like the light and the grain. */
   background-origin: padding-box, border-box, border-box;
   background-clip: padding-box, border-box, border-box;
-  color: var(--color-link);
+  /* Gold deep like the steps' numbers, so a quote isn't mistaken for a link. */
+  color: var(--color-gold-deep);
   font-style: italic;
   font-size: 1.1em;
   line-height: 1.6;
@@ -1964,6 +1965,9 @@ a.card:hover {
 @media (min-width: 701px) {
   .prose blockquote {
     margin-inline: calc((100% - min(860px, 100vw)) / 2);
+    /* The frame reaches out, but the words stay in line with the text
+       column, so reading flows straight on (12px is the plaid frame). */
+    padding-inline: max(24px, calc((min(860px, 100vw) - 100%) / 2 - 12px));
   }
 }
 
