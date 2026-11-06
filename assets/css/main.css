@@ -1099,15 +1099,22 @@ a.card:hover {
       visibility 0s linear var(--dur-nav);
   }
 
+  /* The menu line sits as far in from the pill's ends as the X and the
+     mail icon (16px), and every item is at least 72px wide, so a short
+     word like Work gets a current-page pill like the others'. */
   .site-nav {
     flex: 1;
     justify-content: space-between;
+    padding: 0 12px;
   }
 
   .site-nav__link {
+    display: inline-block;
+    min-width: 72px;
     padding: 10px 8px;
     font-size: 12px;
     letter-spacing: 0.14em;
+    text-align: center;
   }
 
   /* The open menu always uses the short labels (Photos). */
