@@ -2,7 +2,7 @@
 layout: default
 ---
 {%- comment -%}
-  A journal post (and the Work page, which reads like one): byline, title, subtitle, the details strip (Sections,
+  A journal post: byline, title, subtitle, the details strip (Sections,
   Share, reading time), the post journey (folded away until Sections is tapped), the cover
   photo, then the text. The end stripe (sources and the no-AI note) is in
   _includes/post-end.html, placed by the default layout so it can run the
@@ -11,23 +11,21 @@ layout: default
 {%- endcomment -%}
 <article class="post">
   <header class="post__header">
-    {%- comment %} Work uses this layout too: it has no date, and the name
-      doesn't link to the page it's on. {% endcomment %}
+    {%- comment %} plain: true in front matter (Work) keeps only the post's
+      type: title, subtitle and text, without the byline, the turquoise
+      strips or the journey. {% endcomment %}
+    {%- unless page.plain %}
     <p class="post__byline" id="post-start">
-      {%- if page.url == '/work/' %}
-      <span>{{ site.title }}</span>
-      {%- else %}
       <a href="{{ '/work/' | relative_url }}">{{ site.title }}</a>
-      {%- endif %}
-      {%- if page.date %}
       <span aria-hidden="true">|</span>
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
-      {%- endif %}
     </p>
+    {%- endunless %}
     <h1 class="post__title">{{ page.title }}</h1>
     {%- if page.subtitle %}
     <p class="post__subtitle">{{ page.subtitle }}</p>
     {%- endif %}
+    {%- unless page.plain %}
     <ul class="post-meta">
       <li>
         <button type="button" class="post-meta__btn" aria-expanded="false" aria-controls="post-journey" data-journey-toggle hidden>
@@ -49,8 +47,10 @@ layout: default
         {% if minutes < 1 %}1{% else %}{{ minutes }}{% endif %} min read
       </li>
     </ul>
+    {%- endunless %}
   </header>
 
+  {%- unless page.plain %}
   <div class="post-journey fold is-collapsed" id="post-journey" data-journey hidden>
     <div class="fold__inner">
       <nav class="post-journey__nav" aria-label="Sections">
@@ -61,6 +61,7 @@ layout: default
       </nav>
     </div>
   </div>
+  {%- endunless %}
 
   {%- if page.image %}
   {%- assign cover = page.image %}

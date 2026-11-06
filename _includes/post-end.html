@@ -4,7 +4,7 @@
   their buttons; post.js wires them, and without it both stay open. The
   post's tags sit on the right (Back to top is in the footer's gold bar).
 {%- endcomment -%}
-<aside class="post-end" aria-label="About this {% if page.collection == 'posts' %}post{% else %}page{% endif %}">
+<aside class="post-end" aria-label="About this post">
   <div class="post-end__inner">
     <div class="post-end__row">
       {%- if page.sources.size > 0 %}
@@ -43,7 +43,7 @@
     {%- endif %}
     <div class="fold" id="post-ai-note">
       <div class="fold__inner">
-        <p class="post-end__note">I value transparency over what you read. <strong>This {% if page.collection == 'posts' %}post{% else %}page{% endif %} has been written by myself</strong> without any Gen AI help.</p>
+        <p class="post-end__note">I value transparency over what you read. <strong>This post has been written by myself</strong> without any Gen AI help.</p>
         <p class="post-end__note">Whenever AI plays any part in what you read, it will be disclosed.</p>
       </div>
     </div>

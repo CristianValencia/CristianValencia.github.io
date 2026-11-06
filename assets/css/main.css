@@ -936,7 +936,7 @@ a.card:hover {
 
   /* Phones: a hamburger and the name on the first line. The hamburger turns
      into an X, the mail icon appears on the right, and a second line opens
-     below: Photos, Journal, Work, Life. Without JavaScript both just stay
+     below: Photos, Journal, Life, Work. Without JavaScript both just stay
      visible. */
   .site-header {
     --header-top: 8px;
@@ -1118,14 +1118,14 @@ a.card:hover {
   }
 
   /* The X lines up with the P of Photos and the mail icon with the end of
-     Life's E, so the icons and the menu line share one left and one right
+     Work's K, so the icons and the menu line share one left and one right
      edge. */
   .site-header__toggle {
     translate: 5px 0;
   }
 
   .site-header__contact {
-    translate: -23px 0;
+    translate: -16px 0;
   }
 
   .site-nav__link {

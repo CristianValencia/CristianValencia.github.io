@@ -43,7 +43,7 @@
       {{ content }}
     </main>
   </div>
-  {%- if page.layout == 'post' %}
+  {%- if page.layout == 'post' and page.plain != true %}
   {% include post-end.html %}
   {%- endif %}
   {% include footer.html %}

@@ -1,5 +1,6 @@
 ---
 layout: post
+plain: true
 title: Engineering
 subtitle: Product Owner | Technical Lead | Mobile & AI
 ---

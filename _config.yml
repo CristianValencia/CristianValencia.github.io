@@ -41,11 +41,11 @@ nav:
     url: /photography/
   - title: Journal # the address stays /blog/
     url: /blog/
-  - title: Work
-    url: /work/
   - title: My life
     short: Life
     url: /life/
+  - title: Work
+    url: /work/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
