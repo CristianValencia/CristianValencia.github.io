@@ -1504,10 +1504,6 @@ a.card:hover {
 }
 
 .post__byline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
   margin: 0 0 20px;
   font-family: var(--font-sans);
   font-size: 17px;
