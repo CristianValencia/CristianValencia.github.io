@@ -23,7 +23,7 @@ Sed dignissim lacinia nunc. Curabitur tortor, pellentesque nibh. Aenean quam, in
 
 Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum, nulla metus metus, ullamcorper vel tincidunt sed, euismod in nibh. Quisque volutpat condimentum velit.
 
-> Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.
+> Class aptent **taciti sociosqu ad litora** torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.
 
 Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Set it with `display: grid` and nulla facilisi. Ut fringilla.
 

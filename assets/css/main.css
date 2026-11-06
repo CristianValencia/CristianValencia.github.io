@@ -916,6 +916,24 @@ a.card:hover {
   line-height: 1.7;
 }
 
+/* Line endings: paragraphs avoid a lone word on their last line and keep
+   their right edge even; titles split into lines of similar length.
+   Browsers without support just wrap as usual. */
+.prose p,
+.prose li,
+.prose blockquote,
+.post__subtitle {
+  text-wrap: pretty;
+}
+
+.prose h2,
+.prose h3,
+.page__title,
+.post__title,
+.figure figcaption {
+  text-wrap: balance;
+}
+
 .prose a {
   color: var(--color-link);
 }
@@ -932,6 +950,14 @@ a.card:hover {
   .site {
     padding: 24px 16px 40px;
     gap: 28px;
+  }
+
+  /* Reading pages (posts, Work, Life, Latest thoughts) sit 8px further in
+     than the header pill, so the pill frames the text as it does on
+     desktop. Photo frames still run edge to edge. */
+  .post,
+  .page {
+    padding-inline: 8px;
   }
 
   /* Phones: a hamburger and the name on the first line. The hamburger turns
@@ -1072,6 +1098,16 @@ a.card:hover {
   .site-header.is-open .site-header__section {
     max-width: 0;
     opacity: 0;
+  }
+
+  /* The narrowest phones (under 360px) can't fit the name and the section
+     between the two icons, so the section label stays folded away; the
+     menu still marks the current page. */
+  @media (max-width: 359px) {
+    .site-header__section {
+      max-width: 0;
+      opacity: 0;
+    }
   }
 
   /* The second line folds open from 0 to its own height. */
@@ -1577,6 +1613,7 @@ a.card:hover {
    reading time, Share.) */
 @media (max-width: 700px) {
   .post-meta {
+    padding-inline: 20px;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: start;
@@ -1588,6 +1625,16 @@ a.card:hover {
   .post-meta > :nth-child(2) { grid-area: 2 / 1; }
   .post-meta > :nth-child(3) { grid-area: 2 / 2; }
   .post-meta > :nth-child(4) { grid-area: 1 / 2; }
+}
+
+/* The narrowest phones (under 360px, like a 320px iPhone SE) can't fit two
+   columns: one per line, Sections, Share, the date, reading time. */
+@media (max-width: 359px) {
+  .post-meta { grid-template-columns: auto; }
+  .post-meta > :nth-child(1) { grid-area: 1 / 1; }
+  .post-meta > :nth-child(4) { grid-area: 2 / 1; }
+  .post-meta > :nth-child(2) { grid-area: 3 / 1; }
+  .post-meta > :nth-child(3) { grid-area: 4 / 1; }
 }
 
 .post-meta__btn {
@@ -1947,6 +1994,9 @@ a.card:hover {
 @media (min-width: 701px) {
   .prose blockquote {
     margin-inline: calc((100% - min(860px, 100vw)) / 2);
+    /* The frame reaches out, but the words stay in line with the text
+       column, so reading flows straight on (12px is the plaid frame). */
+    padding-inline: max(24px, calc((min(860px, 100vw) - 100%) / 2 - 12px));
   }
 }
 
@@ -2071,10 +2121,10 @@ a.card:hover {
   min-height: calc((860px - 714px) / 2);
   padding: 12px 0;
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.5;
   text-align: center;
-  color: var(--color-link);
+  color: var(--color-muted);
 }
 
 @media (max-width: 700px) {
@@ -2206,6 +2256,9 @@ a.card:hover {
   .post__subtitle { font-size: 23px; }
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
+  /* 24px, not 23: large text by WCAG's measure, so the quote's color
+     clears AA contrast on white. */
+  .post__body blockquote { font-size: 24px; }
   .post-end__inner { padding: 20px 16px; }
   /* Phones: one per line, all on the left, each with its icon first, so the
      three icons line up in one column. */
