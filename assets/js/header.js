@@ -71,10 +71,14 @@ if (header) {
   if (toggle) {
     const phone = window.matchMedia('(max-width: 700px)');
     let openedAt = 0; // scroll position when the menu opened
+    let closedHeight = 0; // the header's height before it opened
     const setOpen = (open) => {
+      if (open && !header.classList.contains('is-open')) {
+        openedAt = window.scrollY;
+        closedHeight = header.offsetHeight;
+      }
       header.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', String(open));
-      if (open) openedAt = window.scrollY;
     };
 
     toggle.hidden = false;
@@ -92,9 +96,14 @@ if (header) {
       if (!header.contains(event.target)) setOpen(false);
     });
 
-    // A little slack (24px) so a tap's jitter doesn't close it.
+    // Opening makes the header taller, and the browser scrolls the page by
+    // the same amount to keep the text in place; that isn't the visitor
+    // scrolling, so it doesn't count. Past that, a little slack (24px) so a
+    // tap's jitter doesn't close it either.
     window.addEventListener('scroll', () => {
-      if (header.classList.contains('is-open') && window.scrollY > openedAt + 24) setOpen(false);
+      if (!header.classList.contains('is-open')) return;
+      const grown = header.offsetHeight - closedHeight;
+      if (window.scrollY > openedAt + grown + 24) setOpen(false);
     }, { passive: true });
 
     phone.addEventListener('change', () => setOpen(false));
