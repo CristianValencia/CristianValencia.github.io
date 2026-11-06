@@ -1225,7 +1225,7 @@ a.card:hover {
   }
 
   /* Icons: smaller, in a pill as tall as the line's (38px). No hover on
-     phones, so no handles; the wandering light colors the closest icon. */
+     phones, so no handles. */
   .site-footer__socials {
     width: 240px;
     gap: 40px;
@@ -1242,18 +1242,29 @@ a.card:hover {
     inset: -7px -20px;
   }
 
+  /* With no mouse to follow, all three icons show their brand colors. */
+  .site-footer__soc-on {
+    opacity: 1;
+  }
+
+  .site-footer__soc-off {
+    opacity: 0;
+  }
+
   .site-footer__handle {
     display: none;
   }
 
   /* Gold bar: thinner than on desktop (44px, still a full touch target for
-     Back to top), the copyright on the left, Back to top on the right. */
+     Back to top), the copyright on the left, Back to top on the right. 5px
+     of extra room on the sides and below keeps both clear of a phone's
+     rounded screen corners. */
   .site-subfooter {
-    min-height: 44px;
+    min-height: 49px;
     grid-template-columns: auto auto;
     justify-content: space-between;
     gap: 16px;
-    padding: 0 16px;
+    padding: 0 21px 5px;
     font-size: 11px;
   }
 
