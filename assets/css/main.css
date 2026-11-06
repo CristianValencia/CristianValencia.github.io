@@ -2227,6 +2227,9 @@ a.card:hover {
   .post__subtitle { font-size: 23px; }
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
+  /* 24px, not 23: large text by WCAG's measure, so the quote's color
+     clears AA contrast on white. */
+  .post__body blockquote { font-size: 24px; }
   .post-end__inner { padding: 20px 16px; }
   /* Phones: one per line, all on the left, each with its icon first, so the
      three icons line up in one column. */
