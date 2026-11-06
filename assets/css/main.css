@@ -1099,15 +1099,33 @@ a.card:hover {
       visibility 0s linear var(--dur-nav);
   }
 
+  /* The menu line sits as far in from the pill's ends as the X and the
+     mail icon (16px), and every item is at least 72px wide, so a short
+     word like Work gets a current-page pill like the others'. */
   .site-nav {
     flex: 1;
     justify-content: space-between;
+    padding: 0 12px;
+  }
+
+  /* The X lines up with the P of Photos and the mail icon with the end of
+     About's T, so the icons and the menu line share one left and one right
+     edge. */
+  .site-header__toggle {
+    translate: 5px 0;
+  }
+
+  .site-header__contact {
+    translate: -14px 0;
   }
 
   .site-nav__link {
+    display: inline-block;
+    min-width: 72px;
     padding: 10px 8px;
     font-size: 12px;
     letter-spacing: 0.14em;
+    text-align: center;
   }
 
   /* The open menu always uses the short labels (Photos). */
@@ -1201,16 +1219,38 @@ a.card:hover {
     padding-left: 0;
   }
 
-  /* Phones: the compact footer on every page. A shorter band (280px
-     minus two whole repeats of the plaid's diamonds, 48px × √2 = 67.882px
-     down the page, so it starts and ends on the same diagonals as the full
-     band: about 144px), with two 240px pills stacked in the centre: the
-     icons, then the cycling line. The gold bar follows, as on desktop. */
+  /* Phones: the compact footer on every page: a shorter band with two
+     240px pills stacked in the centre (the icons, then the cycling line),
+     and the gold bar below, as on desktop.
+     The plaid is laid out as a tile (one full color cycle: 144px × √2 =
+     203.647px square) from the band's top edge, centered across it, instead
+     of from its corners. Its white diamonds then meet in rows every
+     24px × √2 = 33.941px down from the top, whatever the phone's width, so a
+     band of exactly four rows (plus its two 5px strips) starts and ends on
+     the diamonds' tips: nothing gets cut at either edge. The reveal and the
+     grain use the same tile, so they stay on the bands. */
   .site-footer {
+    --tile: 203.647px;
     flex-direction: column;
     gap: 8px;
-    min-height: calc(280px - 2 * 67.882px);
+    min-height: calc(4 * 33.941px + 10px);
     padding: 0 16px;
+    background-size: var(--tile) var(--tile), var(--tile) var(--tile), auto;
+    background-position: center top, center top, 0 0;
+  }
+
+  .site-footer::before,
+  .site-footer__reveal::after {
+    -webkit-mask-size: var(--tile) var(--tile);
+    mask-size: var(--tile) var(--tile);
+    -webkit-mask-position: center top;
+    mask-position: center top;
+  }
+
+  .site-footer__reveal {
+    background-size: 100% var(--strip), 100% var(--strip), 100% var(--strip-bottom), 100% var(--strip-bottom), var(--tile) var(--tile), var(--tile) var(--tile), auto;
+    background-position: 0 0, 0 0, 0 100%, 0 100%, center var(--strip), center var(--strip), 0 0;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat, no-repeat;
   }
 
   .site-footer .site-footer__pill {
@@ -1225,7 +1265,7 @@ a.card:hover {
   }
 
   /* Icons: smaller, in a pill as tall as the line's (38px). No hover on
-     phones, so no handles; the wandering light colors the closest icon. */
+     phones, so no handles. */
   .site-footer__socials {
     width: 240px;
     gap: 40px;
@@ -1242,18 +1282,29 @@ a.card:hover {
     inset: -7px -20px;
   }
 
+  /* With no mouse to follow, all three icons show their brand colors. */
+  .site-footer__soc-on {
+    opacity: 1;
+  }
+
+  .site-footer__soc-off {
+    opacity: 0;
+  }
+
   .site-footer__handle {
     display: none;
   }
 
   /* Gold bar: thinner than on desktop (44px, still a full touch target for
-     Back to top), the copyright on the left, Back to top on the right. */
+     Back to top), the copyright on the left, Back to top on the right. 5px
+     of extra room on the sides and below keeps both clear of a phone's
+     rounded screen corners. */
   .site-subfooter {
-    min-height: 44px;
+    min-height: 49px;
     grid-template-columns: auto auto;
     justify-content: space-between;
     gap: 16px;
-    padding: 0 16px;
+    padding: 0 21px 5px;
     font-size: 11px;
   }
 
