@@ -952,6 +952,14 @@ a.card:hover {
     gap: 28px;
   }
 
+  /* Reading pages (posts, Work, Life, Latest thoughts) sit 8px further in
+     than the header pill, so the pill frames the text as it does on
+     desktop. Photo frames still run edge to edge. */
+  .post,
+  .page {
+    padding-inline: 8px;
+  }
+
   /* Phones: a hamburger and the name on the first line. The hamburger turns
      into an X, the mail icon appears on the right, and a second line opens
      below: Photos, Journal, Life, Work. Without JavaScript both just stay
@@ -1595,6 +1603,7 @@ a.card:hover {
    reading time, Share.) */
 @media (max-width: 700px) {
   .post-meta {
+    padding-inline: 20px;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: start;
@@ -1606,6 +1615,16 @@ a.card:hover {
   .post-meta > :nth-child(2) { grid-area: 2 / 1; }
   .post-meta > :nth-child(3) { grid-area: 2 / 2; }
   .post-meta > :nth-child(4) { grid-area: 1 / 2; }
+}
+
+/* The narrowest phones (under 360px, like a 320px iPhone SE) can't fit two
+   columns: one per line, Sections, Share, the date, reading time. */
+@media (max-width: 359px) {
+  .post-meta { grid-template-columns: auto; }
+  .post-meta > :nth-child(1) { grid-area: 1 / 1; }
+  .post-meta > :nth-child(4) { grid-area: 2 / 1; }
+  .post-meta > :nth-child(2) { grid-area: 3 / 1; }
+  .post-meta > :nth-child(3) { grid-area: 4 / 1; }
 }
 
 .post-meta__btn {
