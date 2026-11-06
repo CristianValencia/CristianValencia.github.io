@@ -1796,11 +1796,15 @@ a.card:hover {
   color: var(--color-muted);
 }
 
-.post__cover {
-  display: block;
+/* The cover photo sits in the same white frame as the photos in the text
+   (.figure, below). */
+.figure.post__cover {
+  margin: 32px 0 0;
+}
+
+.post__cover img {
   width: 100%;
   height: auto;
-  margin-top: 32px;
 }
 
 .post__body {

@@ -70,7 +70,14 @@ layout: default
 
   {%- if page.image %}
   {%- assign cover = page.image %}
-  <img class="post__cover" src="{{ cover.path | relative_url }}" alt="{{ cover.alt }}" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async">
+  {%- comment %} In the same white frame as the photos in the text, with an
+    optional caption (image.caption in front matter). {% endcomment %}
+  <figure class="figure post__cover">
+    <img src="{{ cover.path | relative_url }}" alt="{{ cover.alt }}" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async">
+    {%- if cover.caption %}
+    <figcaption>{{ cover.caption }}</figcaption>
+    {%- endif %}
+  </figure>
   {%- endif %}
 
   <div class="prose post__body">
