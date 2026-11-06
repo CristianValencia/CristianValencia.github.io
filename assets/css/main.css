@@ -1108,6 +1108,17 @@ a.card:hover {
     padding: 0 12px;
   }
 
+  /* The X lines up with the P of Photos and the mail icon with the end of
+     About's T, so the icons and the menu line share one left and one right
+     edge. */
+  .site-header__toggle {
+    translate: 5px 0;
+  }
+
+  .site-header__contact {
+    translate: -14px 0;
+  }
+
   .site-nav__link {
     display: inline-block;
     min-width: 72px;
