@@ -1507,7 +1507,8 @@ a.card:hover {
   margin: 0 0 20px;
   font-family: var(--font-sans);
   font-size: 17px;
-  color: var(--color-muted);
+  font-weight: 600;
+  color: var(--color-link);
 }
 
 .post__byline a {
