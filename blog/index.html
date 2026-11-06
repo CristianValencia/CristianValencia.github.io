@@ -6,9 +6,10 @@ heading: Latest thoughts
 {% if site.posts.size > 0 %}
 <ul class="post-list">
   {% for post in site.posts %}
-  <li>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <span class="post-list__date">{{ post.date | date: '%B %-d, %Y' }}</span>
+  <li class="post-list__item">
+    <time class="post-list__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+    <h2 class="post-list__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <p class="post-list__excerpt">{{ post.subtitle | default: post.excerpt | strip_html | strip_newlines | truncatewords: 30 }}</p>
   </li>
   {% endfor %}
 </ul>
