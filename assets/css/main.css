@@ -1812,6 +1812,12 @@ a.card:hover {
   font-size: 23px;
 }
 
+/* When the text follows the turquoise strip directly (no cover photo),
+   it gets more room, so the post clearly starts. */
+.post-journey + .post__body {
+  padding-top: 64px;
+}
+
 /* Reading column. Sizes are in em, so they follow the text size (20px, 18px
    on phones; posts use 23px, 21px on phones). */
 .prose > :first-child {
