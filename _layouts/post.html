@@ -14,11 +14,13 @@ layout: default
     {%- comment %} plain: true in front matter (Work) keeps only the post's
       type: title, subtitle and text, without the byline, the turquoise
       strips or the journey. {% endcomment %}
-    {%- unless page.plain %}
+    {%- comment %} The byline is off for now while Cristian decides whether to
+      keep it: set post_byline: true in _config.yml to bring it back. {% endcomment %}
+    {%- if site.post_byline and page.plain != true %}
     <p class="post__byline" id="post-start">
       <a href="{{ '/work/' | relative_url }}">By {{ site.title }}</a>
     </p>
-    {%- endunless %}
+    {%- endif %}
     <h1 class="post__title">{{ page.title }}</h1>
     {%- if page.subtitle %}
     <p class="post__subtitle">{{ page.subtitle }}</p>

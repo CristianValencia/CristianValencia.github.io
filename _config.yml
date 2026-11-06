@@ -33,6 +33,10 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# The "By Cristian Valencia" line above each post's title. Hidden for now;
+# set to true to show it again.
+post_byline: false
+
 # Main navigation, in order. The current section is underlined in gold.
 # There's no Home item: the name above the menu links home.
 nav:
