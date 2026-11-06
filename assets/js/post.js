@@ -301,7 +301,7 @@ const frameLight = (figure) => {
   let frame = 0;
   const box = () => {
     const r = figure.getBoundingClientRect();
-    const w = Math.min(860, document.documentElement.clientWidth);
+    const w = Math.min(812, document.documentElement.clientWidth);
     return { left: r.left + r.width / 2 - w / 2, top: r.top, w };
   };
   const place = () => {

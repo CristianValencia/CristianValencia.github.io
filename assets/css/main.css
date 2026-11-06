@@ -1989,14 +1989,14 @@ a.card:hover {
 }
 
 /* Wider screens: the quote reaches past the text column to the photo
-   frames' width (the header's compact pill, 860px). Phones keep it in the
+   frames' width (812px, 24px inside the header's compact pill on each side). Phones keep it in the
    column, so its plaid frame isn't cut by the screen's edges. */
 @media (min-width: 701px) {
   .prose blockquote {
-    margin-inline: calc((100% - min(860px, 100vw)) / 2);
+    margin-inline: calc((100% - min(812px, 100vw)) / 2);
     /* The frame reaches out, but the words stay in line with the text
        column, so reading flows straight on (12px is the plaid frame). */
-    padding-inline: max(24px, calc((min(860px, 100vw) - 100%) / 2 - 12px));
+    padding-inline: max(24px, calc((min(812px, 100vw) - 100%) / 2 - 12px));
   }
 }
 
@@ -2037,9 +2037,10 @@ a.card:hover {
 }
 
 /* Photos: square corners. Every photo (figure.html) sits in a white frame
-   as wide as the header's compact pill (860px), so the photo keeps the
-   column's width with 73px of white around it; a caption, in turquoise,
-   fills the frame's bottom 73px. On narrower screens the frame runs to the
+   812px wide, 24px inside the header's compact pill (860px) on each side so
+   the pill still frames it. The photo keeps the column's width, with 49px
+   of white beside it and 73px above and below; a caption, in gray, fills
+   the frame's bottom 73px. On narrower screens the frame runs to the
    window's edges; on phones it's 16px beside and 24px above and below,
    with no gold edge or light. body clips any overflow.
    The frame has the contact postcard's edge: 5px of the gold light band at
@@ -2081,7 +2082,7 @@ a.card:hover {
   z-index: -1;
   inset: 0 auto;
   left: 50%;
-  width: min(860px, 100vw);
+  width: min(812px, 100vw);
   translate: -50% 0;
   border-radius: 6px;
 }
