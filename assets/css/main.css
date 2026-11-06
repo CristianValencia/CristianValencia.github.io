@@ -1948,8 +1948,7 @@ a.card:hover {
   /* Every plaid layer starts at the outer edge, like the light and the grain. */
   background-origin: padding-box, border-box, border-box;
   background-clip: padding-box, border-box, border-box;
-  /* Gold deep like the steps' numbers, so a quote isn't mistaken for a link. */
-  color: var(--color-gold-deep);
+  color: var(--color-link);
   font-style: italic;
   font-size: 1.1em;
   line-height: 1.6;
