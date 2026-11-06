@@ -901,6 +901,15 @@ a.card:hover {
   line-height: 1.1;
 }
 
+/* A smaller sans heading (heading_sans in front matter), for pages where
+   the heading only introduces a list: "Latest thoughts" on the Journal. */
+.page__title--sans {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
 .prose {
   font-family: var(--font-serif);
   font-size: 20px;
@@ -1333,6 +1342,7 @@ a.card:hover {
   }
 
   .page__title { font-size: 36px; }
+  .page__title--sans { font-size: 26px; }
   .prose { font-size: 18px; }
 }
 

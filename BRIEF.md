@@ -83,7 +83,7 @@ From `inspiration/color-palette.png`:
 | Photography | `/photography/` | Entry to the two portfolios |
 | Color | `/photography/color/` | Color portfolio |
 | Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
-| Journal | `/blog/` | "Latest thoughts": posts newest first, laid out like the posts' numbered steps (date in small gold deep caps where the number goes, bold turquoise title at the size of a post's section titles, then the subtitle or the first lines as an excerpt; on phones the date sits above the title) |
+| Journal | `/blog/` | "Latest thoughts" (a smaller Jost heading, 30px, 26px on phones): posts newest first, laid out like the posts' numbered steps (date in small gold deep caps where the number goes, bold turquoise title at the size of a post's section titles, then the subtitle or the first lines as an excerpt; on phones the date sits above the title) |
 | Work | `/work/` | Developer projects and shipped apps |
 | About | `/about/` | The story so far |
 | 404 | `/404.html` | Friendly dead end with a link home |
