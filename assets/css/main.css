@@ -1566,10 +1566,17 @@ a.card:hover {
 }
 
 /* On hover the outline thickens to 1.5px: the extra half pixel is drawn
-   just inside the 1px border, so nothing shifts. */
-.gallery__picker:hover,
+   just inside the 1px border, so nothing shifts. Hover styles apply only
+   where there's a real hover (a mouse or trackpad): on touch screens a
+   tapped picker keeps :hover, which would leave it looking chosen. */
 .gallery__picker:focus-visible {
   box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+@media (hover: hover) {
+  .gallery__picker:hover {
+    box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+  }
 }
 
 /* Once a choice is made, the outline stays at 1.5px (drawn the same way). */
@@ -1577,9 +1584,14 @@ a.card:hover {
   box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
 }
 
-.gallery__control.is-set .gallery__picker:hover,
 .gallery__control.is-set .gallery__picker:focus-visible {
   box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+@media (hover: hover) {
+  .gallery__control.is-set .gallery__picker:hover {
+    box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+  }
 }
 
 /* Until the visitor picks something other than what the page opened with
@@ -1594,11 +1606,18 @@ a.card:hover {
   transition: border-color 300ms ease, color 160ms ease, box-shadow var(--dur-nav) ease;
 }
 
-.gallery__control:not(.is-set) .gallery__picker:hover,
 .gallery__control:not(.is-set) .gallery__picker:focus-visible {
   border-color: var(--color-gold-deep);
   color: var(--color-text);
   box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+}
+
+@media (hover: hover) {
+  .gallery__control:not(.is-set) .gallery__picker:hover {
+    border-color: var(--color-gold-deep);
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+  }
 }
 
 /* Every option's name, from both controls, sits in the same spot with
@@ -1661,9 +1680,14 @@ a.card:hover {
   transition: box-shadow var(--dur-nav) ease, opacity var(--dur-nav) ease;
 }
 
-.gallery__filter:hover,
 .gallery__filter:focus-visible {
   box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+@media (hover: hover) {
+  .gallery__filter:hover {
+    box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+  }
 }
 
 /* The current option sits on gold deep, the picker outline's color, in
@@ -2877,11 +2901,15 @@ a.card:hover {
 }
 
 /* On hover the outline thickens to 1.5px, as on the Photography pickers:
-   the extra half pixel is drawn just inside the border, so nothing shifts. */
-.postcard__chip:hover {
-  border-color: var(--color-gold-deep);
-  color: var(--color-text);
-  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+   the extra half pixel is drawn just inside the border, so nothing shifts.
+   Only where there's a real hover (a mouse or trackpad): on touch screens
+   a tapped element keeps :hover, which would leave it looking chosen. */
+@media (hover: hover) {
+  .postcard__chip:hover {
+    border-color: var(--color-gold-deep);
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+  }
 }
 
 .postcard__chip:has(input:checked) {
