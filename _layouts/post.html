@@ -21,7 +21,9 @@ layout: default
       <a href="{{ '/work/' | relative_url }}">By {{ site.title }}</a>
     </p>
     {%- endif %}
-    <h1 class="post__title">{{ page.title }}</h1>
+    {%- comment %} heading_sans: true in front matter (Work) sets the title in
+      the Journal's sans heading. {% endcomment %}
+    <h1 class="post__title{% if page.heading_sans %} post__title--sans{% endif %}">{{ page.title }}</h1>
     {%- if page.subtitle %}
     <p class="post__subtitle">{{ page.subtitle }}</p>
     {%- endif %}

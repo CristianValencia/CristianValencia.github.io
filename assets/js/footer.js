@@ -66,7 +66,16 @@ document.querySelectorAll('[data-footer-cycle]').forEach((button) => {
 const footer = document.querySelector('.site-footer');
 const reveal = footer && footer.querySelector('.site-footer__reveal');
 const calm = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
-const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+// Mouse or touch, checked live: connecting a trackpad to a tablet (or
+// unplugging it) switches the footer over without a reload.
+const mouseQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+let hasMouse = mouseQuery.matches;
+let onInputChange = () => {}; // the footer light's part of the switch, set below
+mouseQuery.addEventListener('change', () => {
+  hasMouse = mouseQuery.matches;
+  if (footer && !hasMouse) delete footer.dataset.handle;
+  onInputChange();
+});
 
 if (reveal && calm) {
   // The circle's radius is 40% of the footer's width on every screen, so it
@@ -126,7 +135,8 @@ if (reveal && calm) {
   // icon's side to the next crossfades them.
   const icons = [...footer.querySelectorAll('.site-footer__soc')].map((el) => ({ el, lit: 0 }));
   const lightIcons = () => {
-    if (!icons.length) return;
+    // Touch screens show all three in color (main.css), so only the mouse lights one.
+    if (!icons.length || !hasMouse) return;
     const box = footer.getBoundingClientRect();
     const head = points[0];
     let closest = null;
@@ -193,51 +203,72 @@ if (reveal && calm) {
     if (!frame) frame = requestAnimationFrame(tick);
   };
 
-  if (hasMouse) {
-    const pointFrom = (event) => {
-      const box = footer.getBoundingClientRect();
-      return { x: event.clientX - box.left, y: event.clientY - box.top };
-    };
+  // Both sets of listeners stay on; each only acts while its input is the
+  // current one.
+  const pointFrom = (event) => {
+    const box = footer.getBoundingClientRect();
+    return { x: event.clientX - box.left, y: event.clientY - box.top };
+  };
 
-    footer.addEventListener('mouseenter', (event) => {
-      target = pointFrom(event);
-      if (strength < 0.01) fill(target);
-      active = true;
-      start();
-    });
+  footer.addEventListener('mouseenter', (event) => {
+    if (!hasMouse) return;
+    target = pointFrom(event);
+    if (strength < 0.01) fill(target);
+    active = true;
+    start();
+  });
 
-    footer.addEventListener('mousemove', (event) => {
-      target = pointFrom(event);
-      if (!points.length) fill(target);
-      active = true;
-      start();
-    });
+  footer.addEventListener('mousemove', (event) => {
+    if (!hasMouse) return;
+    target = pointFrom(event);
+    if (!points.length) fill(target);
+    active = true;
+    start();
+  });
 
-    footer.addEventListener('mouseleave', () => {
-      active = false;
-    });
-  } else if ('IntersectionObserver' in window) {
+  footer.addEventListener('mouseleave', () => {
+    if (hasMouse) active = false;
+  });
+
+  // Touch: the light wanders while the footer is on screen.
+  let onScreen = false;
+  const wake = () => {
+    active = onScreen;
+    if (!active) return;
+    resize();
+    if (!points.length) fill({ x: footer.clientWidth / 2, y: footer.clientHeight / 2 });
+    pickTarget(performance.now());
+    start();
+  };
+
+  if ('IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => {
-      active = entry.isIntersecting;
-      if (!active) return;
-      resize();
-      if (!points.length) {
-        fill({ x: footer.clientWidth / 2, y: footer.clientHeight / 2 });
-        pickTarget(performance.now());
-      }
-      start();
+      onScreen = entry.isIntersecting;
+      if (!hasMouse) wake();
     }).observe(footer);
   }
+
+  // Switching to a mouse dims the light until the cursor comes into the
+  // footer; switching to touch starts it wandering from where it is.
+  onInputChange = () => {
+    if (hasMouse) active = false;
+    else wake();
+  };
 }
 
-// Social icons: hovering or focusing one fades the footer's line into that
-// account's handle (main.css does the crossfade from data-handle).
+// Social icons: hovering one, or reaching it with the keyboard, fades the
+// footer's line into that account's handle (main.css does the crossfade from
+// data-handle). Taps leave the line alone: on phones there are no handles,
+// so the line would just go blank. A tap focuses the link too, but not as
+// keyboard focus (:focus-visible).
 if (footer) {
   footer.querySelectorAll('[data-handle]').forEach((link) => {
     const show = () => { footer.dataset.handle = link.dataset.handle; };
     const hide = () => { delete footer.dataset.handle; };
-    link.addEventListener('mouseenter', show);
-    link.addEventListener('focus', show);
+    // Safari on iPhone and iPad fakes a mouseenter on each tap; only a real
+    // mouse counts.
+    link.addEventListener('mouseenter', () => { if (hasMouse) show(); });
+    link.addEventListener('focus', () => { if (link.matches(':focus-visible')) show(); });
     link.addEventListener('mouseleave', hide);
     link.addEventListener('blur', hide);
   });

@@ -214,6 +214,17 @@ body {
   display: none;
 }
 
+/* The probe: a hidden copy of the header that header.js lays out at full
+   width to see which version of the bar fits. It never animates. */
+.site-header--probe,
+.site-header--probe * {
+  transition: none !important;
+}
+
+.site-header--probe::before {
+  display: none;
+}
+
 /* Shrinking labels: header.js splits each label into the letters both
    versions share and the letters that differ. The differing parts collapse
    or open to their measured width (--w), so the word shrinks in place. */
@@ -237,12 +248,14 @@ body {
   opacity: 0;
 }
 
-.site-header.is-scrolled .shrink__out {
+.site-header.is-scrolled .shrink__out,
+.site-header.is-compact .shrink__out {
   max-width: 0;
   opacity: 0;
 }
 
-.site-header.is-scrolled .shrink__in {
+.site-header.is-scrolled .shrink__in,
+.site-header.is-compact .shrink__in {
   max-width: var(--w);
   opacity: 1;
 }
@@ -497,6 +510,18 @@ body {
 
 .site-footer__soc-on {
   opacity: var(--lit, 0);
+}
+
+/* Touch screens (tablets too, not just phones): there's no cursor to light
+   one icon at a time, so all three show their brand colors. */
+@media not ((hover: hover) and (pointer: fine)) {
+  .site-footer__soc-on {
+    opacity: 1;
+  }
+
+  .site-footer__soc-off {
+    opacity: 0;
+  }
 }
 
 /* The line's pill sits right below the icons' pill. */
@@ -901,9 +926,11 @@ a.card:hover {
   line-height: 1.1;
 }
 
-/* A smaller sans heading (heading_sans in front matter), for pages where
-   the heading only introduces a list: "Latest thoughts" on the Journal. */
-.page__title--sans {
+/* A smaller sans heading (heading_sans in front matter): "Latest thoughts"
+   on the Journal, and the Life and Work titles. Work uses the post layout,
+   so its title takes the same style through .post__title--sans. */
+.page__title--sans,
+.post__title.post__title--sans {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 30px;
@@ -946,6 +973,314 @@ a.card:hover {
   }
 }
 
+/* Narrow header: the phone layout (hamburger, centered name, the menu on a
+   second line). header.js adds .is-narrow on phones (700px and under) and
+   on any wider window where even the short labels don't fit on one line,
+   so Contact never runs off the bar. The rules sit in :where() so they
+   weigh exactly what they did inside the old phone media query.
+   A hamburger and the name sit on the first line. The hamburger turns
+   into an X, the mail icon appears on the right, and a second line opens
+   below: Photos, Journal, Life, Work. */
+.site-header:where(.is-narrow) {
+  --header-top: 8px;
+}
+
+:where(.site-header.is-narrow) .site-header__bar {
+  /* Equal outer columns keep the name centered: the hamburger on the
+     left, the mail icon on the right. */
+  grid-template-columns: 44px 1fr 44px;
+  gap: 0 8px;
+  padding: 4px;
+  border-radius: 24px;
+}
+
+/* Phones: the name, centered, scrolled or not. Inside a section it reads
+   "Cris Valencia | Photos", so both fit on one line. */
+:where(.site-header.is-narrow) .site-header__brand {
+  display: flex;
+  grid-column: 2;
+  justify-self: center;
+  align-items: baseline;
+  min-width: 0;
+}
+
+:where(.site-header.is-narrow) .site-header__name {
+  padding-block: 10px;
+}
+
+:where(.site-header.is-narrow) .site-header__name .shrink__out,
+.site-header:where(.is-narrow).is-scrolled .site-header__name .shrink__out {
+  max-width: var(--w);
+  opacity: 1;
+}
+
+:where(.site-header.is-narrow) .site-header__name .shrink__in,
+.site-header:where(.is-narrow).is-scrolled .site-header__name .shrink__in {
+  max-width: 0;
+  opacity: 0;
+}
+
+.site-header:where(.is-narrow).has-section .site-header__name .shrink__out {
+  max-width: 0;
+  opacity: 0;
+}
+
+.site-header:where(.is-narrow).has-section .site-header__name .shrink__in {
+  max-width: var(--w);
+  opacity: 1;
+}
+
+/* Hamburger on the left; when the menu is open, the mail icon appears on
+   the right of the same line. */
+:where(.site-header.is-narrow) .site-header__toggle {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+:where(.site-header.is-narrow) .site-header__brand {
+  grid-row: 1;
+}
+
+:where(.site-header.is-narrow) .site-header__toggle:not([hidden]) {
+  position: relative;
+  display: block;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+}
+
+:where(.site-header.is-narrow) .site-header__toggle:focus-visible {
+  outline: 2px solid var(--color-gold-deep);
+  outline-offset: 2px;
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__toggle {
+  color: #FFFFFF;
+}
+
+/* Two lines 8px apart. Opening slides them together and turns them into
+   an X on the spring, so the X settles with a slight overshoot. */
+:where(.site-header.is-narrow) .site-header__toggle-line {
+  position: absolute;
+  left: 13px;
+  top: 21px;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+  transition: translate var(--dur-nav) var(--ease-out), rotate var(--dur-spring) var(--ease-spring);
+}
+
+:where(.site-header.is-narrow) .site-header__toggle-line:first-child { translate: 0 -4px; }
+:where(.site-header.is-narrow) .site-header__toggle-line:last-child { translate: 0 4px; }
+
+.site-header:where(.is-narrow).is-open .site-header__toggle-line { translate: 0 0; }
+.site-header:where(.is-narrow).is-open .site-header__toggle-line:first-child { rotate: 45deg; }
+.site-header:where(.is-narrow).is-open .site-header__toggle-line:last-child { rotate: -45deg; }
+
+/* The current section follows the name after a thin bar. It folds away
+   while the menu is open, since the menu then marks the page. */
+:where(.site-header.is-narrow) .site-header__section {
+  display: block;
+  overflow: hidden;
+  max-width: 120px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    max-width var(--dur-nav) var(--ease-out),
+    opacity var(--dur-nav) ease,
+    color 160ms ease 140ms;
+}
+
+:where(.site-header.is-narrow) .site-header__section > span::before {
+  content: "|";
+  margin: 0 0.5em 0 0.3em;
+  opacity: 0.6;
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__section {
+  color: #FFFFFF;
+}
+
+.site-header:where(.is-narrow).is-open .site-header__section {
+  max-width: 0;
+  opacity: 0;
+}
+
+/* The narrowest phones (under 360px) can't fit the name and the section
+   between the two icons, so the section label stays folded away; the
+   menu still marks the current page. */
+@media (max-width: 359px) {
+  :where(.site-header.is-narrow) .site-header__section {
+    max-width: 0;
+    opacity: 0;
+  }
+}
+
+/* The second line folds open from 0 to its own height. */
+:where(.site-header.is-narrow) .site-header__menu {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows var(--dur-nav) var(--ease-out),
+    opacity var(--dur-nav) ease,
+    visibility 0s linear 0s;
+}
+
+:where(.site-header.is-narrow) .site-header__menu-inner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+:where(.site-header.is-narrow) .site-header__menu-inner > * {
+  margin-top: 4px;
+}
+
+.site-header:where(.is-narrow).has-toggle:not(.is-open) .site-header__menu {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--dur-nav) var(--ease-out),
+    opacity calc(var(--dur-nav) * 0.6) ease,
+    visibility 0s linear var(--dur-nav);
+}
+
+/* The menu line sits as far in from the pill's ends as the X and the
+   mail icon (16px), and every item is at least 72px wide, so a short
+   word like Work gets a current-page pill like the others'. */
+:where(.site-header.is-narrow) .site-nav {
+  flex: 1;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+/* The X lines up with the P of Photos and the mail icon with the end of
+   Work's K, so the icons and the menu line share one left and one right
+   edge. */
+:where(.site-header.is-narrow) .site-header__toggle {
+  translate: 5px 0;
+}
+
+:where(.site-header.is-narrow) .site-header__contact {
+  translate: -16px 0;
+}
+
+:where(.site-header.is-narrow) .site-nav__link {
+  display: inline-block;
+  min-width: 72px;
+  padding: 10px 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
+/* The open menu always uses the short labels (Photos). */
+:where(.site-header.is-narrow) .site-nav .shrink__out {
+  max-width: 0;
+  opacity: 0;
+}
+
+:where(.site-header.is-narrow) .site-nav .shrink__in {
+  max-width: var(--w);
+  opacity: 1;
+}
+
+/* Contact: the fifth item, just the mail icon with no button around it.
+   It takes the menu's colors: petrol at the top, white in the scrolled
+   pill, and the same soft hover fill as the links. */
+:where(.site-header.is-narrow) .site-header__contact,
+:where(.site-header.is-narrow) .site-header__contact:hover,
+:where(.site-header.is-narrow) .site-header__contact:focus-visible,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:hover,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:focus-visible {
+  display: grid;
+  grid-column: 3;
+  grid-row: 1;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--color-text);
+  transition:
+    color 160ms ease 140ms,
+    box-shadow var(--dur-nav) ease,
+    opacity var(--dur-nav) ease,
+    visibility 0s linear 0s;
+}
+
+.site-header:where(.is-narrow).has-toggle:not(.is-open) .site-header__contact {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    color 160ms ease 140ms,
+    box-shadow var(--dur-nav) ease,
+    opacity calc(var(--dur-nav) * 0.6) ease,
+    visibility 0s linear var(--dur-nav);
+}
+
+:where(.site-header.is-narrow) .site-header__contact:hover,
+:where(.site-header.is-narrow) .site-header__contact:focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__contact,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:hover,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:focus-visible {
+  color: #FFFFFF;
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:hover,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact:focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+:where(.site-header.is-narrow) .site-header__contact-icon {
+  display: block;
+}
+
+:where(.site-header.is-narrow) .site-header__contact-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__bar {
+  padding: 4px;
+}
+
+/* The page-color band above the pill reaches down behind its rounded top
+   corners too (the 24px radius), so nothing scrolling under the pill shows
+   in them. The pill covers the band everywhere else. */
+.site-header:where(.is-narrow)::before {
+  height: calc(var(--header-top) + 24px);
+}
+
+.site-header:where(.is-narrow).is-scrolled .site-header__name {
+  padding-left: 0;
+}
+
 @media (max-width: 700px) {
   .site {
     padding: 24px 16px 40px;
@@ -960,310 +1295,6 @@ a.card:hover {
     padding-inline: 8px;
   }
 
-  /* Phones: a hamburger and the name on the first line. The hamburger turns
-     into an X, the mail icon appears on the right, and a second line opens
-     below: Photos, Journal, Life, Work. Without JavaScript both just stay
-     visible. */
-  .site-header {
-    --header-top: 8px;
-  }
-
-  .site-header__bar {
-    /* Equal outer columns keep the name centered: the hamburger on the
-       left, the mail icon on the right. */
-    grid-template-columns: 44px 1fr 44px;
-    gap: 0 8px;
-    padding: 4px;
-    border-radius: 24px;
-  }
-
-  /* Phones: the name, centered, scrolled or not. Inside a section it reads
-     "Cris Valencia | Photos", so both fit on one line. */
-  .site-header__brand {
-    display: flex;
-    grid-column: 2;
-    justify-self: center;
-    align-items: baseline;
-    min-width: 0;
-  }
-
-  .site-header__name {
-    padding-block: 10px;
-  }
-
-  .site-header__name .shrink__out,
-  .site-header.is-scrolled .site-header__name .shrink__out {
-    max-width: var(--w);
-    opacity: 1;
-  }
-
-  .site-header__name .shrink__in,
-  .site-header.is-scrolled .site-header__name .shrink__in {
-    max-width: 0;
-    opacity: 0;
-  }
-
-  .site-header.has-section .site-header__name .shrink__out {
-    max-width: 0;
-    opacity: 0;
-  }
-
-  .site-header.has-section .site-header__name .shrink__in {
-    max-width: var(--w);
-    opacity: 1;
-  }
-
-  /* Hamburger on the left; when the menu is open, the mail icon appears on
-     the right of the same line. */
-  .site-header__toggle {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .site-header__brand {
-    grid-row: 1;
-  }
-
-  .site-header__toggle:not([hidden]) {
-    position: relative;
-    display: block;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: none;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
-  }
-
-  .site-header__toggle:focus-visible {
-    outline: 2px solid var(--color-gold-deep);
-    outline-offset: 2px;
-  }
-
-  .site-header.is-scrolled .site-header__toggle {
-    color: #FFFFFF;
-  }
-
-  /* Two lines 8px apart. Opening slides them together and turns them into
-     an X on the spring, so the X settles with a slight overshoot. */
-  .site-header__toggle-line {
-    position: absolute;
-    left: 13px;
-    top: 21px;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background-color: currentColor;
-    transition: translate var(--dur-nav) var(--ease-out), rotate var(--dur-spring) var(--ease-spring);
-  }
-
-  .site-header__toggle-line:first-child { translate: 0 -4px; }
-  .site-header__toggle-line:last-child { translate: 0 4px; }
-
-  .site-header.is-open .site-header__toggle-line { translate: 0 0; }
-  .site-header.is-open .site-header__toggle-line:first-child { rotate: 45deg; }
-  .site-header.is-open .site-header__toggle-line:last-child { rotate: -45deg; }
-
-  /* The current section follows the name after a thin bar. It folds away
-     while the menu is open, since the menu then marks the page. */
-  .site-header__section {
-    display: block;
-    overflow: hidden;
-    max-width: 120px;
-    color: var(--color-muted);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition:
-      max-width var(--dur-nav) var(--ease-out),
-      opacity var(--dur-nav) ease,
-      color 160ms ease 140ms;
-  }
-
-  .site-header__section > span::before {
-    content: "|";
-    margin: 0 0.5em 0 0.3em;
-    opacity: 0.6;
-  }
-
-  .site-header.is-scrolled .site-header__section {
-    color: #FFFFFF;
-  }
-
-  .site-header.is-open .site-header__section {
-    max-width: 0;
-    opacity: 0;
-  }
-
-  /* The narrowest phones (under 360px) can't fit the name and the section
-     between the two icons, so the section label stays folded away; the
-     menu still marks the current page. */
-  @media (max-width: 359px) {
-    .site-header__section {
-      max-width: 0;
-      opacity: 0;
-    }
-  }
-
-  /* The second line folds open from 0 to its own height. */
-  .site-header__menu {
-    display: grid;
-    grid-column: 1 / -1;
-    grid-row: 2;
-    grid-template-rows: 1fr;
-    transition:
-      grid-template-rows var(--dur-nav) var(--ease-out),
-      opacity var(--dur-nav) ease,
-      visibility 0s linear 0s;
-  }
-
-  .site-header__menu-inner {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .site-header__menu-inner > * {
-    margin-top: 4px;
-  }
-
-  .site-header.has-toggle:not(.is-open) .site-header__menu {
-    grid-template-rows: 0fr;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      grid-template-rows var(--dur-nav) var(--ease-out),
-      opacity calc(var(--dur-nav) * 0.6) ease,
-      visibility 0s linear var(--dur-nav);
-  }
-
-  /* The menu line sits as far in from the pill's ends as the X and the
-     mail icon (16px), and every item is at least 72px wide, so a short
-     word like Work gets a current-page pill like the others'. */
-  .site-nav {
-    flex: 1;
-    justify-content: space-between;
-    padding: 0 12px;
-  }
-
-  /* The X lines up with the P of Photos and the mail icon with the end of
-     Work's K, so the icons and the menu line share one left and one right
-     edge. */
-  .site-header__toggle {
-    translate: 5px 0;
-  }
-
-  .site-header__contact {
-    translate: -16px 0;
-  }
-
-  .site-nav__link {
-    display: inline-block;
-    min-width: 72px;
-    padding: 10px 8px;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-align: center;
-  }
-
-  /* The open menu always uses the short labels (Photos). */
-  .site-nav .shrink__out {
-    max-width: 0;
-    opacity: 0;
-  }
-
-  .site-nav .shrink__in {
-    max-width: var(--w);
-    opacity: 1;
-  }
-
-  /* Contact: the fifth item, just the mail icon with no button around it.
-     It takes the menu's colors: petrol at the top, white in the scrolled
-     pill, and the same soft hover fill as the links. */
-  .site-header__contact,
-  .site-header__contact:hover,
-  .site-header__contact:focus-visible,
-  .site-header.is-scrolled .site-header__contact,
-  .site-header.is-scrolled .site-header__contact:hover,
-  .site-header.is-scrolled .site-header__contact:focus-visible {
-    display: grid;
-    grid-column: 3;
-    grid-row: 1;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border-color: transparent;
-    background-color: transparent;
-    color: var(--color-text);
-    transition:
-      color 160ms ease 140ms,
-      box-shadow var(--dur-nav) ease,
-      opacity var(--dur-nav) ease,
-      visibility 0s linear 0s;
-  }
-
-  .site-header.has-toggle:not(.is-open) .site-header__contact {
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      color 160ms ease 140ms,
-      box-shadow var(--dur-nav) ease,
-      opacity calc(var(--dur-nav) * 0.6) ease,
-      visibility 0s linear var(--dur-nav);
-  }
-
-  .site-header__contact:hover,
-  .site-header__contact:focus-visible {
-    box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
-  }
-
-  .site-header.is-scrolled .site-header__contact,
-  .site-header.is-scrolled .site-header__contact:hover,
-  .site-header.is-scrolled .site-header__contact:focus-visible {
-    color: #FFFFFF;
-  }
-
-  .site-header.is-scrolled .site-header__contact:hover,
-  .site-header.is-scrolled .site-header__contact:focus-visible {
-    box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
-  }
-
-  .site-header__contact-icon {
-    display: block;
-  }
-
-  .site-header__contact-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .site-header.is-scrolled .site-header__bar {
-    padding: 4px;
-  }
-
-  /* The page-color band above the pill reaches down behind its rounded top
-     corners too (the 24px radius), so nothing scrolling under the pill shows
-     in them. The pill covers the band everywhere else. */
-  .site-header::before {
-    height: calc(var(--header-top) + 24px);
-  }
-
-  .site-header.is-scrolled .site-header__name {
-    padding-left: 0;
-  }
-
   /* Phones: the compact footer on every page: a shorter band with two
      240px pills stacked in the centre (the icons, then the cycling line),
      and the gold bar below, as on desktop.
@@ -1271,14 +1302,15 @@ a.card:hover {
      203.647px square) from the band's top edge, centered across it, instead
      of from its corners. Its white diamonds then meet in rows every
      24px × √2 = 33.941px down from the top, whatever the phone's width, so a
-     band of exactly four rows (plus its two 5px strips) starts and ends on
-     the diamonds' tips: nothing gets cut at either edge. The reveal and the
+     band of exactly six rows (plus its two 5px strips) starts and ends on
+     the diamonds' tips: nothing gets cut at either edge. Six rows show
+     three white stripes top to bottom. The reveal and the
      grain use the same tile, so they stay on the bands. */
   .site-footer {
     --tile: 203.647px;
     flex-direction: column;
     gap: 8px;
-    min-height: calc(4 * 33.941px + 10px);
+    min-height: calc(6 * 33.941px + 10px);
     padding: 0 16px;
     background-size: var(--tile) var(--tile), var(--tile) var(--tile), auto;
     background-position: center top, center top, 0 0;
@@ -2254,6 +2286,7 @@ a.card:hover {
 
 @media (max-width: 700px) {
   .post__title { font-size: 42px; }
+  .post__title.post__title--sans { font-size: 26px; }
   .post__subtitle { font-size: 23px; }
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
@@ -2903,31 +2936,36 @@ a.card:hover {
 }
 
 @media (max-width: 700px) {
-  .site-header .site-header__toggle:not([hidden]),
-  .site-header .site-header__contact,
-  .site-header .site-header__contact:hover,
-  .site-header .site-header__contact:focus-visible {
-    color: #FFFFFF;
-    background-color: transparent;
-    border-color: transparent;
-  }
-
-  .site-header .site-header__contact:hover,
-  .site-header .site-header__contact:focus-visible {
-    box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
-  }
-
-  .site-header .site-header__name {
-    padding-left: 0;
-  }
-
-  .site-header .site-header__section {
-    color: #FFFFFF;
-  }
 
   .site {
     padding-top: 8px;
   }
+}
+
+.site-header:where(.is-narrow) .site-header__toggle:not([hidden]),
+.site-header:where(.is-narrow) .site-header__contact,
+.site-header:where(.is-narrow) .site-header__contact:hover,
+.site-header:where(.is-narrow) .site-header__contact:focus-visible {
+  color: #FFFFFF;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.site-header:where(.is-narrow) .site-header__contact:hover,
+.site-header:where(.is-narrow) .site-header__contact:focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+.site-header:where(.is-narrow) .site-header__name {
+  padding-left: 0;
+}
+
+.site-header:where(.is-narrow) .site-header__section {
+  color: #FFFFFF;
+}
+
+.site:has(> .site-header.is-narrow) {
+  padding-top: 8px;
 }
 
 /* On the contact page, Contact is the current page: gold deep with white
@@ -2946,15 +2984,13 @@ a.card:hover {
   cursor: default;
 }
 
-@media (max-width: 700px) {
-  .site-header .site-header__contact[aria-current="page"],
-  .site-header .site-header__contact[aria-current="page"]:hover,
-  .site-header .site-header__contact[aria-current="page"]:focus-visible,
-  .site-header.is-scrolled .site-header__contact[aria-current="page"],
-  .site-header.is-scrolled .site-header__contact[aria-current="page"]:hover {
-    border-color: transparent;
-    background-color: transparent;
-    box-shadow: inset 0 0 0 999px var(--color-gold-deep);
-    color: #FFFFFF;
-  }
+.site-header:where(.is-narrow) .site-header__contact[aria-current="page"],
+.site-header:where(.is-narrow) .site-header__contact[aria-current="page"]:hover,
+.site-header:where(.is-narrow) .site-header__contact[aria-current="page"]:focus-visible,
+.site-header:where(.is-narrow).is-scrolled .site-header__contact[aria-current="page"],
+.site-header:where(.is-narrow).is-scrolled .site-header__contact[aria-current="page"]:hover {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 999px var(--color-gold-deep);
+  color: #FFFFFF;
 }
