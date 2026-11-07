@@ -1486,6 +1486,72 @@ a.card:hover {
   }
 }
 
+/* Photography: every photo at once, in a cascade (VSCO-style). Each photo
+   keeps its proportions, uncropped, at the column's width; two columns on
+   phones, three on wider screens, with the card grid's gap between them.
+   cascade.js sorts the photos into the columns (.is-laid-out); without it,
+   CSS columns show them read top to bottom. */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px 0;
+}
+
+/* The Journal's sans heading. */
+.gallery__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.cascade {
+  --cols: 3;
+  columns: var(--cols);
+  column-gap: var(--gap);
+}
+
+.cascade__item {
+  margin: 0 0 var(--gap);
+  break-inside: avoid;
+}
+
+.cascade__item img {
+  width: 100%;
+  height: auto;
+  background: var(--color-card); /* holds the photo's place while it loads */
+}
+
+.cascade.is-laid-out {
+  columns: auto;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+
+.cascade__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.cascade__col .cascade__item {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .cascade {
+    --cols: 2;
+  }
+
+  .gallery__title {
+    font-size: 26px;
+  }
+}
+
 /* Journal list ("Latest thoughts"): laid out like the posts' numbered
    steps, with the date in the steps' small gold deep type where the
    number would be, then the title in bold and a short excerpt below it.

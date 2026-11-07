@@ -1,0 +1,23 @@
+---
+layout: default
+title: Photography
+---
+{%- comment -%}
+  Photography: every photo at once, in a cascade (VSCO-style). Each photo
+  keeps its own proportions, nothing is cropped, and the columns fill
+  side by side: two on phones, three on wider screens. The photos come from
+  _data/photos.yml. cascade.js places each photo in the shortest column, so
+  the order runs across the page; without it, the photos still show, in
+  columns read top to bottom.
+{%- endcomment -%}
+<section class="gallery" aria-labelledby="gallery-title">
+  <h1 class="gallery__title" id="gallery-title">Photography</h1>
+  <div class="cascade" data-cascade>
+    {%- for photo in site.data.photos %}
+    <figure class="cascade__item">
+      <img src="{{ photo.src | relative_url }}" alt="{{ photo.alt }}" width="{{ photo.width }}" height="{{ photo.height }}" decoding="async"{% if forloop.index > 4 %} loading="lazy"{% endif %}>
+    </figure>
+    {%- endfor %}
+  </div>
+</section>
+<script src="{{ '/assets/js/cascade.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
