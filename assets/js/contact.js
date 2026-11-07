@@ -34,7 +34,9 @@
   // The stamp grows with the room the card gives it on wider screens: as
   // tall as its area allows (less a little air), from 154px up to 308px,
   // keeping its proportions. Both sides snap to multiples of 14, so the
-  // perforations stay even on every edge. Phones keep the CSS size.
+  // perforations stay even on every edge. It sits at the top of its area,
+  // its highest corner (it's tilted 3deg) level with the top of "Reason for
+  // contact" across the card. Phones keep the CSS size.
   const area = form && form.querySelector('.postcard__stamp-area');
   const stamp = area && area.querySelector('.postcard__stamp');
   if (stamp && 'ResizeObserver' in window) {
@@ -50,7 +52,9 @@
       stamp.style.width = `${width}px`;
       stamp.style.height = `${height}px`;
       stamp.style.left = `calc(50% - ${width / 2}px)`;
-      stamp.style.top = `calc(50% - ${height / 2}px)`;
+      const tilt = (3 * Math.PI) / 180;
+      const rise = (width / 2) * Math.sin(tilt) + (height / 2) * (1 - Math.cos(tilt));
+      stamp.style.top = `${rise.toFixed(1)}px`;
     };
     new ResizeObserver(fit).observe(area);
     wide.addEventListener('change', fit);
