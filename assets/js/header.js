@@ -170,6 +170,11 @@ if (header) {
   }
 }
 
+// Safari on iPhone only shows :active (pressed) styles on pages that listen
+// for touches; an empty passive listener is enough, and costs nothing. The
+// pickers on Photography and the reason chips on Contact use it.
+document.addEventListener('touchstart', () => {}, { passive: true });
+
 // Turn transitions on only after the first styled frame (see .is-loading).
 // A timer backs it up for tabs that don't paint (frames pause in the background).
 window.addEventListener('load', () => {

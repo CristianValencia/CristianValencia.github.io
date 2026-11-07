@@ -1620,6 +1620,26 @@ a.card:hover {
   }
 }
 
+/* Pressed (a finger or click held down): the hover look, on every device,
+   so a touch shows it while it lasts and lets go when it ends. iOS's own
+   gray tap flash is off; this is the feedback instead. header.js turns on
+   pressed states in Safari on iPhone. */
+.gallery__picker,
+.gallery__filter {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gallery__picker:active,
+.gallery__control.is-set .gallery__picker:active {
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+.gallery__control:not(.is-set) .gallery__picker:active {
+  border-color: var(--color-gold-deep);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+}
+
 /* Every option's name, from both controls, sits in the same spot with
    only the current one shown, so both pickers are as wide as the longest
    option (Monochrome) and never change size (cascade.js fills them). */
@@ -1688,6 +1708,10 @@ a.card:hover {
   .gallery__filter:hover {
     box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
   }
+}
+
+.gallery__filter:active {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
 }
 
 /* The current option sits on gold deep, the picker outline's color, in
@@ -2910,6 +2934,18 @@ a.card:hover {
     color: var(--color-text);
     box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
   }
+}
+
+/* Pressed: the hover look on every device (see the Photography pickers),
+   without iOS's gray tap flash. */
+.postcard__chip {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.postcard__chip:active {
+  border-color: var(--color-gold-deep);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
 }
 
 .postcard__chip:has(input:checked) {
