@@ -1495,26 +1495,62 @@ a.card:hover {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 24px 0;
+  /* No room of its own on top: the buttons sit the page's usual gap below
+     the header (40px, 28px on phones), as the home cards do. */
+  padding: 0 0 24px;
 }
 
-/* Which photos show: a row of buttons in the header menu's type. The
-   current one is gold deep with white text, like the current page in the
-   menu; the others take the menu's soft gold hover fill. */
-.gallery__filters {
+/* Which photos show: Category, the subject (Curated, Street, People,
+   Nature, Travel, All), then Color, the tone (Both, Chrome, Monochrome),
+   on one line (side by side on phones), so the photos stay the star. Each
+   control is a label and a picker: the current choice in a white pill
+   with a thin gold outline and a chevron ("Curated ⌄"). Tapping it
+   opens the options in a floating menu below it, a white rectangle with
+   the contact stamp's shadow; picking one, tapping outside or
+   Escape closes it (cascade.js, .is-open). */
+.gallery__bar {
   display: flex;
-  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
 }
 
-.gallery__filters[hidden] {
+.gallery__bar[hidden] {
   display: none;
 }
 
-.gallery__filter {
-  padding: 10px 16px;
-  border: 0;
+/* A label and its picker. */
+.gallery__group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* The words are in the secondary text color, so they read as labels rather
+   than buttons. */
+.gallery__label {
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.gallery__control {
+  position: relative;
+}
+
+.gallery__picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px; /* with the 1px outline, as tall as the menu's current page (39px) */
+  /* White with a thin gold outline and dark text, like Contact's
+     secondary button. */
+  border: 1px solid var(--color-gold);
   border-radius: 999px;
-  background: none;
+  background: var(--color-card);
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: 13px;
@@ -1523,17 +1559,92 @@ a.card:hover {
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+  transition: box-shadow var(--dur-nav) ease;
+}
+
+.gallery__picker:hover,
+.gallery__picker:focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+/* Every option's name, from both controls, sits in the same spot with
+   only the current one shown, so both pickers are as wide as the longest
+   option (Monochrome) and never change size (cascade.js fills them). */
+.gallery__picker-value {
+  display: grid;
+  text-align: left;
+}
+
+.gallery__picker-value > span {
+  grid-area: 1 / 1;
+}
+
+.gallery__picker-value > span:not(.is-current) {
+  visibility: hidden;
+}
+
+.gallery__picker-icon {
+  transition: rotate var(--dur-nav) var(--ease-out);
+}
+
+.gallery__control.is-open .gallery__picker-icon {
+  rotate: 180deg;
+}
+
+/* The menu: options as full-width rows, with room on both sides and none
+   above the first or below the last. */
+.gallery__filters {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  flex-direction: column;
+  min-width: 100%;
+  overflow: hidden;
+  border-radius: 4px; /* a rectangle, with the inline-code chip's soft corners */
+  background: var(--color-card);
+  box-shadow: 0 3px 6px rgba(9, 25, 30, 0.29); /* the contact stamp's shadow */
+}
+
+.gallery__control.is-open .gallery__filters {
+  display: flex;
+}
+
+.gallery__filter {
+  padding: 12px 24px;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: box-shadow var(--dur-nav) ease, opacity var(--dur-nav) ease;
 }
 
 .gallery__filter:hover,
 .gallery__filter:focus-visible {
-  box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
+  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
 }
 
+/* The current option sits on Contact's gold, the picker outline's color,
+   in white like Contact. (White on this gold is about 3:1, under AA for
+   text this size, as on Contact itself; kept for consistency.) */
 .gallery__filter[aria-pressed="true"] {
   color: #FFFFFF;
-  box-shadow: inset 0 0 0 999px var(--color-gold-deep);
+  box-shadow: inset 0 0 0 999px var(--color-gold);
+  cursor: default;
+}
+
+/* An option that would show no photos is greyed out. */
+.gallery__filter:disabled {
+  opacity: 0.4;
+  box-shadow: none;
   cursor: default;
 }
 
@@ -1582,24 +1693,71 @@ a.card:hover {
     --cols: 2;
   }
 
-  /* Phones: the four buttons share the row, in the phone menu's type. */
-  .gallery__filters {
-    justify-content: space-between;
+  /* Phones: the two controls side by side, as two equal columns, each
+     label above its picker (in line with the picker's text), all in the
+     phone menu's type. The pickers fill their column; if a name is ever
+     too long for it, it ends in an ellipsis. */
+  .gallery__bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 
-  .gallery__filter {
-    padding: 10px 8px;
-    font-size: 12px;
-    letter-spacing: 0.14em;
+  .gallery__group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    min-width: 0;
   }
 
-  /* The narrowest phones (under 360px): a little less padding and spacing,
-     so all four still fit on one line. */
+  .gallery__label {
+    padding-left: 16px;
+  }
+
+  .gallery__picker {
+    width: 100%;
+  }
+
+  .gallery__picker-value {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .gallery__picker-value > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Color's menu opens toward the left, so it stays on screen in the right
+     column. */
+  .gallery__group:last-child .gallery__filters {
+    left: auto;
+    right: 0;
+  }
+
+  /* The narrowest phones (under 360px): the pickers' letters and padding
+     close up a little, so Monochrome still fits. */
   @media (max-width: 359px) {
-    .gallery__filter {
-      padding-inline: 6px;
+    .gallery__bar {
+      column-gap: 8px;
+    }
+
+    .gallery__bar .gallery__picker {
+      gap: 4px;
+      padding-inline: 7px 11px;
       letter-spacing: 0.08em;
     }
+
+    .gallery__label {
+      padding-left: 8px;
+    }
+  }
+
+  .gallery__label,
+  .gallery__picker,
+  .gallery__filter {
+    font-size: 12px;
+    letter-spacing: 0.14em;
   }
 }
 
