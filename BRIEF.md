@@ -80,7 +80,7 @@ From `inspiration/color-palette.png`:
 | Page | URL | Job |
 |---|---|---|
 | Home | `/` | Bento grid: every section at a glance |
-| Photography | `/photography/` | Every photo at once in a VSCO-style cascade: each photo uncropped in its own proportions, two columns on phones and three on wider screens, filling across the page in order (`_data/photos.yml`). The Journal's sans heading on top |
+| Photography | `/photography/` | The photos in a VSCO-style cascade: each photo uncropped in its own proportions, two columns on phones and three on wider screens, filling across the page in order (`_data/photos.yml`). The header stays at the top (`header: static`, as on Contact). No visible title; in its place a row of buttons in the menu's type picks which photos show: **Curated** (the default, photos marked `curated: true`), **All**, **Black & White**, **Color**. The current one is gold deep with white text, like the current page in the menu |
 | Color | `/photography/color/` | Color portfolio |
 | Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
 | Journal | `/blog/` | "Latest thoughts" (a smaller Jost heading, 30px, 26px on phones): posts newest first, laid out like the posts' numbered steps (date in small gold deep caps where the number goes, bold turquoise title at the size of a post's section titles, then the subtitle or the first lines as an excerpt; on phones the date sits above the title) |

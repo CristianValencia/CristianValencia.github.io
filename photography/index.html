@@ -1,20 +1,30 @@
 ---
 layout: default
 title: Photography
+header: static
 ---
 {%- comment -%}
-  Photography: every photo at once, in a cascade (VSCO-style). Each photo
-  keeps its own proportions, nothing is cropped, and the columns fill
-  side by side: two on phones, three on wider screens. The photos come from
-  _data/photos.yml. cascade.js places each photo in the shortest column, so
-  the order runs across the page; without it, the photos still show, in
-  columns read top to bottom.
+  Photography: the photos in a cascade (VSCO-style). Each photo keeps its
+  own proportions, nothing is cropped, and the columns fill side by side:
+  two on phones, three on wider screens. The header stays at the top
+  (header: static, as on Contact), and a row of buttons picks which photos
+  show: Curated (the default), All, Black & White, Color. The photos come
+  from _data/photos.yml. cascade.js does the filtering and places each
+  photo in the shortest column, so the order runs across the page; without
+  it, the buttons stay hidden and every photo shows, in columns read top
+  to bottom.
 {%- endcomment -%}
 <section class="gallery" aria-labelledby="gallery-title">
-  <h1 class="gallery__title" id="gallery-title">Photography</h1>
+  <h1 class="visually-hidden" id="gallery-title">Photography</h1>
+  <div class="gallery__filters" role="group" aria-label="Show" data-cascade-filters hidden>
+    <button type="button" class="gallery__filter" data-filter="curated" aria-pressed="true">Curated</button>
+    <button type="button" class="gallery__filter" data-filter="all" aria-pressed="false">All</button>
+    <button type="button" class="gallery__filter" data-filter="bw" aria-pressed="false">Black &amp; White</button>
+    <button type="button" class="gallery__filter" data-filter="color" aria-pressed="false">Color</button>
+  </div>
   <div class="cascade" data-cascade>
     {%- for photo in site.data.photos %}
-    <figure class="cascade__item">
+    <figure class="cascade__item" data-category="{{ photo.category }}"{% if photo.curated %} data-curated{% endif %}>
       <img src="{{ photo.src | relative_url }}" alt="{{ photo.alt }}" width="{{ photo.width }}" height="{{ photo.height }}" decoding="async"{% if forloop.index > 4 %} loading="lazy"{% endif %}>
     </figure>
     {%- endfor %}
