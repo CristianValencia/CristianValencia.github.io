@@ -80,9 +80,9 @@ From `inspiration/color-palette.png`:
 | Page | URL | Job |
 |---|---|---|
 | Home | `/` | Bento grid: every section at a glance |
-| Photography | `/photography/` | The photos in a VSCO-style cascade: each photo uncropped in its own proportions, two columns on phones and three on wider screens, filling across the page in order (`_data/photos.yml`). The header stays at the top (`header: static`, as on Contact). No visible title; in its place a row of buttons in the menu's type picks which photos show: **Curated** (the default, photos marked `curated: true`), **All**, **Black & White**, **Color**. The current one is gold deep with white text, like the current page in the menu |
-| Color | `/photography/color/` | Color portfolio |
-| Black & White | `/photography/black-and-white/` | Black-and-white portfolio |
+| Photography | `/photography/` | The photos in a VSCO-style cascade: each photo uncropped in its own proportions, two columns on phones and three on wider screens, filling across the page in order (`_data/photos.yml`). The header stays at the top (`header: static`, as on Contact). No visible title; in its place two small controls, so the photos stay the star: **Category**, the subject (Curated, the default; Street, People, Nature, Travel; All), one at a time; and **Color**, the tone (Both, the default; **Chrome** for color photos; **Monochrome** for black and white, like the cris.chrome and cris.monochrome accounts), on top of any subject. Each is a muted label in the menu's type and a picker: the current choice in a white pill with a thin gold outline (like Contact's secondary style) and a chevron ("Curated ⌄"). Both pickers are the same width, that of the longest option (Monochrome). Tapping one opens the options in a floating white rectangle (4px corners, the contact stamp's shadow) below it, as full-width rows with 24px of room on each side, the current one on Contact's gold (the picker outline's color) with white text, like Contact; picking one, tapping outside or Escape closes it. On one line on wider screens; on phones side by side as two equal columns, each label above its picker. Photos carry `tone`, `subjects` (several allowed) and `curated` in `_data/photos.yml`. The choice is kept in the link (`?subject=street&tone=bw`) so a view can be shared; options that would show no photos are greyed out |
+| Color | `/photography/color/` | Forwards to Photography, All + Color |
+| Black & White | `/photography/black-and-white/` | Forwards to Photography, All + B&W |
 | Journal | `/blog/` | "Latest thoughts" (a smaller Jost heading, 30px, 26px on phones): posts newest first, laid out like the posts' numbered steps (date in small gold deep caps where the number goes, bold turquoise title at the size of a post's section titles, then the subtitle or the first lines as an excerpt; on phones the date sits above the title) |
 | My life | `/life/` | Called "My life" in the full menu and "Life" in the narrow pill and on phones, like Photography/Photos. The story so far (replaces About; `/about/` now forwards to Work) |
 | Work | `/work/` | The professional bio (moved from About), in a journal post's type only (post layout with `plain: true`: title, subtitle and text, no byline, turquoise strips or journey), then developer projects and shipped apps |
@@ -95,7 +95,7 @@ Size: **L** large, **M** medium (wide). Every card is white with a bold petrol l
 | Card | Size | Content | Links to |
 |---|---|---|---|
 | Intro | L | "Hi, I'm **Cristian Valencia**." (name in turquoise) · "A simple human finding its way on the web." · ENGINEER · PHOTOGRAPHER · WRITER | — |
-| Photography | L | Photo mosaic: 5 color photos left, 5 B&W right, with "Color →" / "Black & White →" under each | `/photography/color/`, `/photography/black-and-white/` |
+| Photography | L | Photo mosaic: 5 color photos left, 5 B&W right, with "Color →" / "Black & White →" under each | `/photography/?subject=all&tone=color`, `/photography/?subject=all&tone=bw` |
 | Journal | M | Latest post title + date ("First posts coming soon" until there is one) | latest post or `/blog/` |
 | Work | M | "Engineering" · "Apps and products I've built" | `/work/` |
 
@@ -110,7 +110,7 @@ Size: **L** large, **M** medium (wide). Every card is white with a bold petrol l
 - Each photo: image, optional title, place, date **[CONFIRM]**
 - Show camera/lens details? **[TODO]**
 - **Linen everywhere**: every page's background is linen woven in code (`assets/js/linen.js`, matched to the Rule of Three site's linen), the **neutral linen** on the page gray #F7F7F7 at 20% of the reference's contrast. A page can set `linen: charcoal` for the **charcoal linen** (#161616 at 40%, with the header and text turned light); the Black & White page does. The footer keeps its plaid. The tile is woven once per visit and kept in sessionStorage.
-- **Photo pages** (designed on the canvas's Photography page): `layout: print` with a `print:` block in front matter. The photo sits straight on the linen, with no frame or mat, sized so it fits on screen, with the title and text below it like a gallery label. For now, one sample on each portfolio page: the flower on Color, the deer on Black & White.
+- **Photo pages** (designed on the canvas's Photography page): `layout: print` with a `print:` block in front matter. The photo sits straight on the linen, with no frame or mat, sized so it fits on screen, with the title and text below it like a gallery label. Not used for now (the Color and Black & White pages became views of Photography); kept for a single-photo page later.
 
 ### Journal
 
