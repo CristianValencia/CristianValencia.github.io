@@ -1500,13 +1500,14 @@ a.card:hover {
   padding: 0 0 24px;
 }
 
-/* Which photos show: Category, the subject (Curated, Street, People,
-   Nature, Travel, All), then Color, the tone (Both, Chrome, Monochrome),
+/* Which photos show: Category, the subject (Curated, All, Street,
+   People, Nature, Travel), then Color, the tone (All, Chrome, Monochrome),
    on one line (side by side on phones), so the photos stay the star. Each
    control is a label and a picker: the current choice in a white pill
-   with a thin gold outline and a chevron ("Curated ⌄"). Tapping it
+   with a chevron ("Curated ⌄"), neutral (gray outline, muted text) while
+   it's on the default and with a thin gold deep outline once chosen. Tapping it
    opens the options in a floating menu below it, a white rectangle with
-   the contact stamp's shadow; picking one, tapping outside or
+   the contact stamp's shadow, the current option on gold deep; picking one, tapping outside or
    Escape closes it (cascade.js, .is-open). */
 .gallery__bar {
   display: flex;
@@ -1546,9 +1547,9 @@ a.card:hover {
   align-items: center;
   gap: 8px;
   padding: 9px 15px; /* with the 1px outline, as tall as the menu's current page (39px) */
-  /* White with a thin gold outline and dark text, like Contact's
-     secondary button. */
-  border: 1px solid var(--color-gold);
+  /* White with a thin gold deep outline and dark text, like a picked
+     reason chip on Contact. */
+  border: 1px solid var(--color-gold-deep);
   border-radius: 999px;
   background: var(--color-card);
   color: var(--color-text);
@@ -1562,9 +1563,40 @@ a.card:hover {
   transition: box-shadow var(--dur-nav) ease;
 }
 
+/* On hover the outline thickens to 1.5px: the extra half pixel is drawn
+   just inside the 1px border, so nothing shifts. */
 .gallery__picker:hover,
 .gallery__picker:focus-visible {
-  box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+/* Once a choice is made, the outline stays at 1.5px (drawn the same way). */
+.gallery__control.is-set .gallery__picker {
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+}
+
+.gallery__control.is-set .gallery__picker:hover,
+.gallery__control.is-set .gallery__picker:focus-visible {
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep), inset 0 0 0 999px rgba(9, 25, 30, 0.08);
+}
+
+/* Until the visitor picks something other than what the page opened with
+   (Curated and All, or what a link asked for, like the homepage's Color →
+   opening on Chrome), a picker stays neutral, like the reason chips on Contact: a gray outline
+   and muted text, the outline turning gold deep on hover. The defaults are
+   our choice, so there's nothing to highlight yet. cascade.js adds .is-set
+   once the choice differs. */
+.gallery__control:not(.is-set) .gallery__picker {
+  border-color: rgba(9, 25, 30, 0.25);
+  color: var(--color-muted);
+  transition: border-color 300ms ease, color 160ms ease, box-shadow var(--dur-nav) ease;
+}
+
+.gallery__control:not(.is-set) .gallery__picker:hover,
+.gallery__control:not(.is-set) .gallery__picker:focus-visible {
+  border-color: var(--color-gold-deep);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
 }
 
 /* Every option's name, from both controls, sits in the same spot with
@@ -1632,12 +1664,11 @@ a.card:hover {
   box-shadow: inset 0 0 0 999px rgba(9, 25, 30, 0.08);
 }
 
-/* The current option sits on Contact's gold, the picker outline's color,
-   in white like Contact. (White on this gold is about 3:1, under AA for
-   text this size, as on Contact itself; kept for consistency.) */
+/* The current option sits on gold deep, the picker outline's color, in
+   white, like a picked reason chip on Contact (about 4.4:1). */
 .gallery__filter[aria-pressed="true"] {
   color: #FFFFFF;
-  box-shadow: inset 0 0 0 999px var(--color-gold);
+  box-shadow: inset 0 0 0 999px var(--color-gold-deep);
   cursor: default;
 }
 
@@ -2835,12 +2866,15 @@ a.card:hover {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 300ms ease, border-color 300ms ease, color 160ms ease;
+  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, color 160ms ease;
 }
 
+/* On hover the outline thickens to 1.5px, as on the Photography pickers:
+   the extra half pixel is drawn just inside the border, so nothing shifts. */
 .postcard__chip:hover {
   border-color: var(--color-gold-deep);
   color: var(--color-text);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
 }
 
 .postcard__chip:has(input:checked) {
@@ -2995,9 +3029,9 @@ a.card:hover {
 .postcard__value {
   flex: 1;
   min-width: 0;
-  padding: 2px 0 6px;
+  padding: 2px 0 5.5px; /* with the 1.5px line, the same height as before */
   border: 0;
-  border-bottom: 1px solid rgba(9, 25, 30, 0.25);
+  border-bottom: 1.5px solid rgba(9, 25, 30, 0.25); /* as thick as the chips' hover outline */
   border-radius: 0;
   background: transparent;
   color: var(--color-text);

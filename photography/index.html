@@ -2,7 +2,7 @@
 layout: default
 title: Photography
 header: static
-# The subject buttons, in order, between Curated and All. Each key matches
+# The subject buttons, in order, after Curated and All. Each key matches
 # the subjects on the photos in _data/photos.yml.
 subjects:
   - key: street
@@ -23,9 +23,9 @@ subjects:
   Two controls pick which photos show, side by side (one per line on
   phones), each a picker (the current choice with a chevron) that opens a
   floating menu with all the options:
-  - Category, the subject: Curated (the default), Street, People, Nature,
-    Travel or All, one at a time;
-  - Color, the tone: Both (the default), Chrome (color photos) or
+  - Category, the subject: Curated (the default), All, Street, People,
+    Nature or Travel, one at a time;
+  - Color, the tone: All (the default; both tones), Chrome (color photos) or
     Monochrome (black and white), on top of any subject.
   Chrome and Monochrome match the Instagram accounts (cris.chrome,
   cris.monochrome); in the data and the link they stay color and bw.
@@ -49,10 +49,10 @@ subjects:
         </button>
         <div class="gallery__filters gallery__filters--subject" id="gallery-subjects" role="group" aria-labelledby="gallery-category">
           <button type="button" class="gallery__filter" data-subject="curated" aria-pressed="true">Curated</button>
+          <button type="button" class="gallery__filter" data-subject="all" aria-pressed="false">All</button>
           {%- for subject in page.subjects %}
           <button type="button" class="gallery__filter" data-subject="{{ subject.key }}" aria-pressed="false">{{ subject.label }}</button>
           {%- endfor %}
-          <button type="button" class="gallery__filter" data-subject="all" aria-pressed="false">All</button>
         </div>
       </div>
     </div>
@@ -60,11 +60,11 @@ subjects:
       <span class="gallery__label" id="gallery-color">Color</span>
       <div class="gallery__control">
         <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-tones" aria-labelledby="gallery-color gallery-tone-value">
-          <span class="gallery__picker-value" id="gallery-tone-value">Both</span>
+          <span class="gallery__picker-value" id="gallery-tone-value">All</span>
           <svg class="gallery__picker-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="gallery__filters gallery__filters--tone" id="gallery-tones" role="group" aria-labelledby="gallery-color">
-          <button type="button" class="gallery__filter" data-tone="both" aria-pressed="true">Both</button>
+          <button type="button" class="gallery__filter" data-tone="both" aria-pressed="true">All</button>
           <button type="button" class="gallery__filter" data-tone="color" aria-pressed="false">Chrome</button>
           <button type="button" class="gallery__filter" data-tone="bw" aria-pressed="false">Monochrome</button>
         </div>

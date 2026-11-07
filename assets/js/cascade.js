@@ -6,7 +6,7 @@
 // the photos out again.
 //
 // Two controls pick which photos show: the subject (Curated, the default;
-// one subject; or All) and the tone (Both, the default; Color; or B&W), on
+// one subject; or All) and the tone (All, the default; Chrome; or Monochrome), on
 // top of each other. The choice is kept in the link (?subject=…&tone=…),
 // so a view can be shared and Back returns to it. A choice that would show
 // no photos with the other control as it is gets greyed out. Picking one
@@ -39,6 +39,11 @@ if (cascade) {
   if (!bar) subject = 'all';
   if (!count(subject, tone)) tone = 'both';
   if (!count(subject, tone)) subject = 'all';
+  // What the page opens with is this visit's default: Curated and All, or
+  // what a link asked for (the homepage's Color → opens on Chrome). The
+  // pickers stay neutral until the visitor picks something else.
+  const startSubject = subject;
+  const startTone = tone;
 
   let cols = 0;
   const layout = (force) => {
@@ -133,6 +138,12 @@ if (cascade) {
     });
     names.forEach((name) => name.classList.toggle('is-current',
       name.dataset.for === (name.dataset.kind === 'subject' ? subject : tone)));
+    // A picker on this visit's default stays neutral; once the visitor picks
+    // something else it takes the gold deep outline (main.css).
+    controls.forEach((control) => {
+      const isSubject = control.contains(subjectButtons[0]);
+      control.classList.toggle('is-set', isSubject ? subject !== startSubject : tone !== startTone);
+    });
   };
 
   // The link shows only what differs from the defaults.
