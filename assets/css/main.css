@@ -2831,7 +2831,7 @@ a.card:hover {
    one. Picked looks like the header's current page: gold deep, white text. */
 .postcard__reason {
   min-width: 0;
-  margin: 0 0 16px;
+  margin: 0 0 28px; /* a little room before the message; the message takes less */
   padding: 0;
   border: 0;
 }
@@ -3029,9 +3029,9 @@ a.card:hover {
 .postcard__value {
   flex: 1;
   min-width: 0;
-  padding: 2px 0 5.5px; /* with the 1.5px line, the same height as before */
+  padding: 2px 0 6px;
   border: 0;
-  border-bottom: 1.5px solid rgba(9, 25, 30, 0.25); /* as thick as the chips' hover outline */
+  border-bottom: 1px solid rgba(9, 25, 30, 0.25);
   border-radius: 0;
   background: transparent;
   color: var(--color-text);
@@ -3051,9 +3051,13 @@ a.card:hover {
   opacity: 0.7;
 }
 
+/* While a field is being typed in, its line turns turquoise and thickens to
+   1.5px: the extra half pixel is drawn just under the 1px line, so nothing
+   shifts. At rest or filled in, it's 1px. */
 .postcard__value:focus-visible {
   outline: none;
   border-bottom-color: var(--color-link);
+  box-shadow: 0 0.5px 0 var(--color-link);
 }
 
 .postcard__actions {
@@ -3136,7 +3140,7 @@ a.card:hover {
   .postcard__reason {
     grid-area: reason;
     align-self: center;
-    margin: 0;
+    margin: 0 0 12px; /* a little room before the message */
   }
 
   .postcard__reason legend {
@@ -3152,7 +3156,7 @@ a.card:hover {
 
   .postcard__message {
     grid-area: message;
-    min-height: 144px;
+    min-height: 180px; /* five ruled lines (36px each) to write on */
     font-size: 21px;
     line-height: 36px;
     background: repeating-linear-gradient(transparent 0 35px, rgba(9, 25, 30, 0.09) 35px 36px) local;
