@@ -1494,7 +1494,9 @@ a.card:hover {
 .gallery {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  /* The same room below the filters as above them: the page's gap under
+     the header (40px, 28px on phones). */
+  gap: 40px;
   /* No room of its own on top: the buttons sit the page's usual gap below
      the header (40px, 28px on phones), as the home cards do. */
   padding: 0 0 24px;
@@ -1722,6 +1724,10 @@ a.card:hover {
 @media (max-width: 700px) {
   .cascade {
     --cols: 2;
+  }
+
+  .gallery {
+    gap: 28px;
   }
 
   /* Phones: the two controls side by side, as two equal columns, each
