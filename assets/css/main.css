@@ -512,6 +512,18 @@ body {
   opacity: var(--lit, 0);
 }
 
+/* Touch screens (tablets too, not just phones): there's no cursor to light
+   one icon at a time, so all three show their brand colors. */
+@media not ((hover: hover) and (pointer: fine)) {
+  .site-footer__soc-on {
+    opacity: 1;
+  }
+
+  .site-footer__soc-off {
+    opacity: 0;
+  }
+}
+
 /* The line's pill sits right below the icons' pill. */
 .site-footer__pill {
   display: grid;
