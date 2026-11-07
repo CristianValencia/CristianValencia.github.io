@@ -926,9 +926,11 @@ a.card:hover {
   line-height: 1.1;
 }
 
-/* A smaller sans heading (heading_sans in front matter), for pages where
-   the heading only introduces a list: "Latest thoughts" on the Journal. */
-.page__title--sans {
+/* A smaller sans heading (heading_sans in front matter): "Latest thoughts"
+   on the Journal, and the Life and Work titles. Work uses the post layout,
+   so its title takes the same style through .post__title--sans. */
+.page__title--sans,
+.post__title.post__title--sans {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 30px;
@@ -2284,6 +2286,7 @@ a.card:hover {
 
 @media (max-width: 700px) {
   .post__title { font-size: 42px; }
+  .post__title.post__title--sans { font-size: 26px; }
   .post__subtitle { font-size: 23px; }
   .post__body { font-size: 21px; }
   .prose blockquote { padding: 20px; }
