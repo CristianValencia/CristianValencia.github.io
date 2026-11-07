@@ -27,6 +27,11 @@ url: "https://cristianvalencia.mx" # the base hostname & protocol for your site,
 twitter_username: crisvalenciamx
 github_username:  CristianValencia
 
+# Posts live under the Journal at /blog/<name>/, the name taken from the
+# post's file name without the date (2026-11-04-lorem-ipsum.md ->
+# /blog/lorem-ipsum/). Set slug: in a post's front matter to choose another.
+permalink: /blog/:title/
+
 # Build settings
 theme: null # no theme; layouts and styles are our own
 plugins:
