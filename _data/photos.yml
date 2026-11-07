@@ -1,48 +1,67 @@
 # Photography page: every photo, shown in this order in the cascade.
+# category: bw or color (the Black & White and Color buttons).
+# curated: true puts it in Curated, the selection shown first.
 # Each photo needs its real pixel width and height (the cascade keeps every
 # photo's proportions and lays the columns out before the images load).
 # Photos go through `exiftool -all= --icc_profile:all` and get resized first.
 - src: /assets/images/photography/bw-torii.jpg
+  category: bw
+  curated: true
   alt: The torii gate of Itsukushima standing in shallow water on a gray, rainy day, framed by a dark wooden window, with a person under an umbrella crossing the wet sand.
   width: 1178
   height: 666
 - src: /assets/images/home/color-river.jpg
+  category: color
+  curated: true
   alt: Clear turquoise water rushing white over mossy rocks.
   width: 426
   height: 640
 - src: /assets/images/home/bw-doorway.jpg
+  category: bw
+  curated: true
   alt: Two people walking out through a bright doorway at the end of a dark hall with a polished stone floor.
   width: 479
   height: 640
 - src: /assets/images/photography/color-flower.jpg
+  category: color
+  curated: true
   alt: A yellow flower leaning to one side against a soft blur of warm yellow and brown, with an unopened bud beside it.
   width: 1024
   height: 768
 - src: /assets/images/photography/bw-deer.jpg
+  category: bw
+  curated: true
   alt: A deer's head and neck in profile, ears up, against a pale, almost white sky.
   width: 1086
   height: 724
 - src: /assets/images/home/color-postbox.jpg
+  category: color
   alt: A round red Japanese postbox marked 郵便 POST, beside a weathered wooden post.
   width: 640
   height: 426
 - src: /assets/images/home/bw-umbrella.jpg
+  category: bw
   alt: A woman in a long dark coat walking past a glass storefront under a white umbrella.
   width: 478
   height: 640
 - src: /assets/images/home/color-trees.jpg
+  category: color
+  curated: true
   alt: Tall trees leaning over a still river at sunset, their reflections in the water under a blue and amber sky.
   width: 640
   height: 509
 - src: /assets/images/home/bw-clouds.jpg
+  category: bw
   alt: Towering clouds over a dark, flat city skyline.
   width: 640
   height: 456
 - src: /assets/images/home/color-light.jpg
+  category: color
   alt: Glowing amber light trails curling through a dark room.
   width: 640
   height: 426
 - src: /assets/images/home/bw-reflection.jpg
+  category: bw
   alt: A temple gate and a person with a bicycle, seen through a window that reflects bare trees and flowers.
   width: 437
   height: 640

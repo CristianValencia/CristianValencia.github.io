@@ -1486,9 +1486,9 @@ a.card:hover {
   }
 }
 
-/* Photography: every photo at once, in a cascade (VSCO-style). Each photo
-   keeps its proportions, uncropped, at the column's width; two columns on
-   phones, three on wider screens, with the card grid's gap between them.
+/* Photography: the photos in a cascade (VSCO-style). Each photo keeps its
+   proportions, uncropped, at the column's width; two columns on phones,
+   three on wider screens, with the card grid's gap between them.
    cascade.js sorts the photos into the columns (.is-laid-out); without it,
    CSS columns show them read top to bottom. */
 .gallery {
@@ -1498,13 +1498,48 @@ a.card:hover {
   padding: 24px 0;
 }
 
-/* The Journal's sans heading. */
-.gallery__title {
-  margin: 0;
+/* Which photos show: a row of buttons in the header menu's type. The
+   current one is gold deep with white text, like the current page in the
+   menu; the others take the menu's soft gold hover fill. */
+.gallery__filters {
+  display: flex;
+  gap: 4px;
+}
+
+.gallery__filters[hidden] {
+  display: none;
+}
+
+.gallery__filter {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text);
   font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 500;
-  font-size: 30px;
-  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease 140ms, box-shadow var(--dur-nav) ease;
+}
+
+.gallery__filter:hover,
+.gallery__filter:focus-visible {
+  box-shadow: inset 0 0 0 999px rgba(199, 160, 96, 0.26);
+}
+
+.gallery__filter[aria-pressed="true"] {
+  color: #FFFFFF;
+  box-shadow: inset 0 0 0 999px var(--color-gold-deep);
+  cursor: default;
+}
+
+/* The photos a button picks fade up in place, like the footer's line. */
+.cascade.is-switching .cascade__item {
+  animation: line-in var(--dur-fill) var(--ease-out);
 }
 
 .cascade {
@@ -1547,8 +1582,24 @@ a.card:hover {
     --cols: 2;
   }
 
-  .gallery__title {
-    font-size: 26px;
+  /* Phones: the four buttons share the row, in the phone menu's type. */
+  .gallery__filters {
+    justify-content: space-between;
+  }
+
+  .gallery__filter {
+    padding: 10px 8px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
+
+  /* The narrowest phones (under 360px): a little less padding and spacing,
+     so all four still fit on one line. */
+  @media (max-width: 359px) {
+    .gallery__filter {
+      padding-inline: 6px;
+      letter-spacing: 0.08em;
+    }
   }
 }
 

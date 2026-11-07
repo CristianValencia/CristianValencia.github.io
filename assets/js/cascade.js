@@ -4,16 +4,28 @@
 // width and height attributes, so the layout is set before the images load.
 // The column count comes from CSS (--cols); a resize that changes it lays
 // the photos out again.
+//
+// The buttons above pick which photos show: Curated (the default), All,
+// Black & White or Color. Picking one lays out just those photos, and they
+// fade up in place.
 const cascade = document.querySelector('[data-cascade]');
+const filters = document.querySelector('[data-cascade-filters]');
 
 if (cascade) {
   const items = [...cascade.querySelectorAll('.cascade__item')];
+  const shows = {
+    curated: (item) => item.hasAttribute('data-curated'),
+    all: () => true,
+    bw: (item) => item.dataset.category === 'bw',
+    color: (item) => item.dataset.category === 'color',
+  };
+  let filter = filters ? 'curated' : 'all';
   let cols = 0;
 
-  const layout = () => {
+  const layout = (force) => {
     const style = getComputedStyle(cascade);
     const count = parseInt(style.getPropertyValue('--cols'), 10) || 1;
-    if (count === cols) return;
+    if (count === cols && !force) return;
     cols = count;
 
     const gap = parseFloat(style.getPropertyValue('--gap')) || 0;
@@ -25,7 +37,7 @@ if (cascade) {
     });
     const heights = new Array(count).fill(0);
 
-    items.forEach((item) => {
+    items.filter(shows[filter]).forEach((item) => {
       const img = item.querySelector('img');
       const ratio = img.getAttribute('height') / img.getAttribute('width');
       const shortest = heights.indexOf(Math.min(...heights));
@@ -37,6 +49,22 @@ if (cascade) {
     cascade.classList.add('is-laid-out');
   };
 
-  layout();
-  window.addEventListener('resize', layout);
+  if (filters) {
+    const buttons = [...filters.querySelectorAll('[data-filter]')];
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.dataset.filter === filter) return;
+        filter = button.dataset.filter;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        cascade.classList.remove('is-switching');
+        void cascade.offsetWidth; // restart the fade
+        cascade.classList.add('is-switching');
+        layout(true);
+      });
+    });
+    filters.hidden = false;
+  }
+
+  layout(true);
+  window.addEventListener('resize', () => layout());
 }
