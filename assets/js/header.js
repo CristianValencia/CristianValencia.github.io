@@ -65,12 +65,71 @@ if (header) {
     update();
   }
 
-  // Phones: the hamburger opens and closes the menu line. Escape, a tap
-  // outside the header, scrolling down, or a wider screen closes it (it
-  // folds away with its usual transition).
+  // Fit: the bar takes the roomiest version that fits on one line. First the
+  // full labels; if Contact would run off the end, the short ones (Cris,
+  // Photos, Life), as in the scrolled pill; if even those don't fit, the
+  // phone layout (.is-narrow). Phones always get the phone layout. A hidden
+  // copy of the header (the probe) is laid out at its natural width in each
+  // version, so the check never depends on what the bar shows right now.
+  const phone = window.matchMedia('(max-width: 700px)');
+  const keep = ['site-header', 'has-section', 'site-header--home', 'site-header--static'];
+  const setProbe = (probe, extra) => {
+    probe.className = [...keep.filter((c) => header.classList.contains(c)), 'site-header--probe', ...extra].join(' ');
+  };
+  // The width a version of the bar needs, without the max-width that caps it.
+  const needs = (probe, extra) => {
+    setProbe(probe, extra);
+    return Math.ceil(probe.querySelector('.site-header__bar').getBoundingClientRect().width);
+  };
+  const fit = () => {
+    let narrow = phone.matches;
+    let compact = false;
+    if (!narrow) {
+      const probe = header.cloneNode(true);
+      const bar = probe.querySelector('.site-header__bar');
+      probe.removeAttribute('data-site-header');
+      probe.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+      probe.setAttribute('aria-hidden', 'true');
+      probe.inert = true;
+      probe.style.cssText = 'position:absolute;top:0;left:0;visibility:hidden;pointer-events:none;view-transition-name:none;';
+      header.after(probe);
+      const room = header.clientWidth;
+      // Room in the scrolled pill: its own max-width, or less on a small window.
+      setProbe(probe, ['is-scrolled']);
+      const pillRoom = Math.min(room, parseFloat(getComputedStyle(bar).maxWidth) || room);
+      bar.style.cssText = 'width:max-content;max-width:none;';
+      const full = needs(probe, []);
+      const short = needs(probe, ['is-compact']);
+      const pill = needs(probe, ['is-scrolled']);
+      probe.remove();
+      // The phone layout holds at the top and in the pill alike, so the bar
+      // doesn't change shape as the page scrolls.
+      narrow = short > room || pill > pillRoom;
+      compact = !narrow && full > room;
+    }
+    header.classList.toggle('is-compact', compact);
+    if (header.classList.contains('is-narrow') !== narrow) {
+      header.classList.toggle('is-narrow', narrow);
+      header.dispatchEvent(new CustomEvent('header:narrow'));
+    }
+  };
+
+  let fitting = false;
+  window.addEventListener('resize', () => {
+    if (!fitting) {
+      fitting = true;
+      requestAnimationFrame(() => { fit(); fitting = false; });
+    }
+  });
+  phone.addEventListener('change', fit);
+  fit();
+  if (document.fonts) document.fonts.ready.then(fit);
+
+  // Narrow header: the hamburger opens and closes the menu line. Escape, a
+  // tap outside the header, scrolling down, or the bar going back to one
+  // line closes it (it folds away with its usual transition).
   const toggle = header.querySelector('.site-header__toggle');
   if (toggle) {
-    const phone = window.matchMedia('(max-width: 700px)');
     let openedAt = 0; // scroll position when the menu opened
     let closedHeight = 0; // the header's height before it opened
     const setOpen = (open) => {
@@ -107,7 +166,7 @@ if (header) {
       if (window.scrollY > openedAt + grown + 24) setOpen(false);
     }, { passive: true });
 
-    phone.addEventListener('change', () => setOpen(false));
+    header.addEventListener('header:narrow', () => setOpen(false));
   }
 }
 
