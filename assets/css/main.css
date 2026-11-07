@@ -1300,14 +1300,15 @@ a.card:hover {
      203.647px square) from the band's top edge, centered across it, instead
      of from its corners. Its white diamonds then meet in rows every
      24px × √2 = 33.941px down from the top, whatever the phone's width, so a
-     band of exactly four rows (plus its two 5px strips) starts and ends on
-     the diamonds' tips: nothing gets cut at either edge. The reveal and the
+     band of exactly six rows (plus its two 5px strips) starts and ends on
+     the diamonds' tips: nothing gets cut at either edge. Six rows show
+     three white stripes top to bottom. The reveal and the
      grain use the same tile, so they stay on the bands. */
   .site-footer {
     --tile: 203.647px;
     flex-direction: column;
     gap: 8px;
-    min-height: calc(4 * 33.941px + 10px);
+    min-height: calc(6 * 33.941px + 10px);
     padding: 0 16px;
     background-size: var(--tile) var(--tile), var(--tile) var(--tile), auto;
     background-position: center top, center top, 0 0;
