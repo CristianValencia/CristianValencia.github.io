@@ -1640,6 +1640,15 @@ a.card:hover {
   box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
 }
 
+/* Open: while its menu is showing, a picker keeps the hover look on every
+   device (phones included), so it's clear which control is active. It
+   goes back to neutral when the menu closes, unless a choice was made. */
+.gallery__control.is-open .gallery__picker {
+  border-color: var(--color-gold-deep);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+}
+
 /* Every option's name, from both controls, sits in the same spot with
    only the current one shown, so both pickers are as wide as the longest
    option (Monochrome) and never change size (cascade.js fills them). */
