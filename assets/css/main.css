@@ -2748,14 +2748,15 @@ a.card:hover {
     max-height: 720px;
   }
 
-  /* The stamp takes the room the taller card frees on the right and sits
-     centred in it, instead of leaving a gap above the address lines. */
+  /* The stamp takes the room the taller card frees on the right and sits at
+     its top, its highest corner (it's tilted 3deg) level with the top of
+     "Reason for contact". contact.js sizes it and sets the exact offset. */
   .postcard .postcard__stamp-area {
     flex: 1 0 168px;
   }
 
   .postcard .postcard__stamp {
-    top: calc(50% - 77px);
+    top: 3.5px;
   }
 }
 
@@ -2930,11 +2931,15 @@ a.card:hover {
    dashes at the reveal's strength (55%), shown through a soft circle that
    follows the cursor over the card (contact.js sets --lx, --ly, --lr on the
    divider, and .is-lit). */
+/* Only whole dashes: "space" fits as many 14px dashes as the length allows
+   and spreads the leftover room evenly across the gaps, so the line never
+   ends in half a dash. Each dash sits centred in its 26px tile, so both
+   ends get the same small gap. */
 .postcard__divider {
   position: relative;
   background: rgba(199, 160, 96, 0.13);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px repeat-y;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px repeat-y;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect y='6' width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px no-repeat space;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect y='6' width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px no-repeat space;
 }
 
 .postcard__divider::before,
@@ -3167,8 +3172,8 @@ a.card:hover {
   .postcard__divider {
     grid-area: divider;
     height: 5px;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px repeat-x;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px repeat-x;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect x='6' width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px space no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect x='6' width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px space no-repeat;
   }
 
   /* The stamp, beside the reason: 112 × 140px (multiples of 14, so the
