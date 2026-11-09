@@ -2009,9 +2009,9 @@ a.card:hover {
   gap: 10px;
 }
 
-/* On phones the four details sit in two rows: Sections and Share, then
-   the date and reading time. (The order in the page stays Sections, date,
-   reading time, Share.) */
+/* On phones the four details sit in two rows: the date and reading time,
+   then Sections and Share. (The order in the page stays Sections, date,
+   reading time, Share, as on wider screens.) */
 @media (max-width: 700px) {
   .post-meta {
     padding-inline: 20px;
@@ -2022,20 +2022,20 @@ a.card:hover {
     white-space: nowrap;
   }
 
-  .post-meta > :nth-child(1) { grid-area: 1 / 1; }
-  .post-meta > :nth-child(2) { grid-area: 2 / 1; }
-  .post-meta > :nth-child(3) { grid-area: 2 / 2; }
-  .post-meta > :nth-child(4) { grid-area: 1 / 2; }
+  .post-meta > :nth-child(2) { grid-area: 1 / 1; }
+  .post-meta > :nth-child(3) { grid-area: 1 / 2; }
+  .post-meta > :nth-child(1) { grid-area: 2 / 1; }
+  .post-meta > :nth-child(4) { grid-area: 2 / 2; }
 }
 
 /* The narrowest phones (under 360px, like a 320px iPhone SE) can't fit two
-   columns: one per line, Sections, Share, the date, reading time. */
+   columns: one per line, the date, reading time, Sections, Share. */
 @media (max-width: 359px) {
   .post-meta { grid-template-columns: auto; }
-  .post-meta > :nth-child(1) { grid-area: 1 / 1; }
-  .post-meta > :nth-child(4) { grid-area: 2 / 1; }
-  .post-meta > :nth-child(2) { grid-area: 3 / 1; }
-  .post-meta > :nth-child(3) { grid-area: 4 / 1; }
+  .post-meta > :nth-child(2) { grid-area: 1 / 1; }
+  .post-meta > :nth-child(3) { grid-area: 2 / 1; }
+  .post-meta > :nth-child(1) { grid-area: 3 / 1; }
+  .post-meta > :nth-child(4) { grid-area: 4 / 1; }
 }
 
 .post-meta__btn {
