@@ -1,0 +1,94 @@
+---
+layout: default
+title: All photos
+header: static
+# The subject buttons, in order, after Curated and All. Each key matches
+# the subjects on the photos in _data/photos.yml.
+subjects:
+  - key: street
+    label: Street
+  - key: people
+    label: People
+  - key: nature
+    label: Nature
+  - key: travel
+    label: Travel
+---
+{%- comment -%}
+  The gallery (/photography/gallery/), Photography's second page: the
+  photos in a cascade (VSCO-style). The landing (/photography/) links here,
+  to Curated by default or to a filtered view. Each photo keeps its
+  own proportions, nothing is cropped, and the columns fill side by side:
+  two on phones, three on wider screens. The header stays at the top
+  (header: static, as on Contact).
+
+  Two controls pick which photos show, side by side (one per line on
+  phones), each a picker (the current choice with a chevron) that opens a
+  floating menu with all the options:
+  - Category, the subject: Curated (the default), All, Street, People,
+    Nature or Travel, one at a time;
+  - Color, the tone: All (the default; both tones), Chrome (color photos) or
+    Monochrome (black and white), on top of any subject.
+  Chrome and Monochrome match the Instagram accounts (cris.chrome,
+  cris.monochrome); in the data and the link they stay color and bw.
+  Monochrome turns the page black and white: no gold anywhere, and the
+  header in the black-and-white glass.
+  The choice is kept in the link (?subject=street&tone=bw), so a view can
+  be shared and Back returns to it. Choices with no photos are greyed out.
+
+  The photos come from _data/photos.yml. cascade.js does the filtering and
+  places each photo in the shortest column, so the order runs across the
+  page; without it, the controls stay hidden and every photo shows, in
+  columns read top to bottom.
+{%- endcomment -%}
+{%- comment %} A Monochrome link opens black and white from the first paint: no gold
+  (cascade.js keeps it in step as the filters change). {% endcomment %}
+<script>
+  if (new URLSearchParams(location.search).get('tone') === 'bw') {
+    document.body.classList.add('tone-mono');
+    document.querySelector('[data-site-header]')?.classList.add('site-header--mono');
+  }
+</script>
+<section class="gallery" aria-labelledby="gallery-title">
+  <h1 class="visually-hidden" id="gallery-title">All photos</h1>
+  <div class="gallery__bar" data-cascade-filters hidden>
+    <div class="gallery__group">
+      <span class="gallery__label" id="gallery-category">Category</span>
+      <div class="gallery__control">
+        <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-subjects" aria-labelledby="gallery-category gallery-subject-value">
+          <span class="gallery__picker-value" id="gallery-subject-value">Curated</span>
+          <svg class="gallery__picker-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="gallery__filters gallery__filters--subject" id="gallery-subjects" role="group" aria-labelledby="gallery-category">
+          <button type="button" class="gallery__filter" data-subject="curated" aria-pressed="true">Curated</button>
+          <button type="button" class="gallery__filter" data-subject="all" aria-pressed="false">All</button>
+          {%- for subject in page.subjects %}
+          <button type="button" class="gallery__filter" data-subject="{{ subject.key }}" aria-pressed="false">{{ subject.label }}</button>
+          {%- endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="gallery__group">
+      <span class="gallery__label" id="gallery-color">Color</span>
+      <div class="gallery__control">
+        <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-tones" aria-labelledby="gallery-color gallery-tone-value">
+          <span class="gallery__picker-value" id="gallery-tone-value">All</span>
+          <svg class="gallery__picker-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="gallery__filters gallery__filters--tone" id="gallery-tones" role="group" aria-labelledby="gallery-color">
+          <button type="button" class="gallery__filter" data-tone="both" aria-pressed="true">All</button>
+          <button type="button" class="gallery__filter" data-tone="color" aria-pressed="false">Chrome</button>
+          <button type="button" class="gallery__filter" data-tone="bw" aria-pressed="false">Monochrome</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cascade" data-cascade>
+    {%- for photo in site.data.photos %}
+    <figure class="cascade__item" data-tone="{{ photo.tone }}" data-subjects="{{ photo.subjects | join: ' ' }}"{% if photo.curated %} data-curated{% endif %}>
+      <img src="{{ photo.src | relative_url }}" alt="{{ photo.alt }}" width="{{ photo.width }}" height="{{ photo.height }}" decoding="async"{% if forloop.index > 4 %} loading="lazy"{% endif %}>
+    </figure>
+    {%- endfor %}
+  </div>
+</section>
+<script src="{{ '/assets/js/cascade.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

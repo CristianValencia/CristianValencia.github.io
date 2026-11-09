@@ -155,11 +155,23 @@ if (cascade) {
     window.history.replaceState(null, '', query ? `?${query}` : window.location.pathname);
   };
 
+  // Monochrome turns the page black and white: every gold becomes gray and
+  // the header turns to the black-and-white glass (main.css, .tone-mono and
+  // site-header--mono). The page's inline script does the same before the
+  // first paint for a Monochrome link.
+  const header = document.querySelector('[data-site-header]');
+  const look = () => {
+    const mono = tone === 'bw';
+    document.body.classList.toggle('tone-mono', mono);
+    if (header) header.classList.toggle('site-header--mono', mono);
+  };
+
   const pick = () => {
     const open = controls.find((control) => control.classList.contains('is-open'));
     close();
     if (open) open.querySelector('.gallery__picker').focus();
     mark();
+    look();
     remember();
     cascade.classList.remove('is-switching');
     void cascade.offsetWidth; // restart the fade
@@ -180,6 +192,7 @@ if (cascade) {
 
   if (bar) {
     mark();
+    look();
     bar.hidden = false;
   }
   layout(true);

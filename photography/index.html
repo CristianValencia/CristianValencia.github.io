@@ -1,82 +1,107 @@
 ---
 layout: default
 title: Photography
-header: static
-# The subject buttons, in order, after Curated and All. Each key matches
-# the subjects on the photos in _data/photos.yml.
-subjects:
+header: static # stays at the top of the page and scrolls away, as on Contact
+# The landing's photos. Each src must be listed in _data/photos.yml, which
+# gives its alt text and size.
+hero: /assets/images/photography/bw-torii.jpg
+# Sets, in order: for now, the gallery's subjects. Each opens the gallery
+# filtered to it; the count is worked out from _data/photos.yml.
+sets:
   - key: street
     label: Street
+    cover: /assets/images/home/bw-umbrella.jpg
   - key: people
     label: People
+    cover: /assets/images/home/bw-doorway.jpg
   - key: nature
     label: Nature
+    cover: /assets/images/home/color-river.jpg
   - key: travel
     label: Travel
+    cover: /assets/images/home/color-postbox.jpg
+tones:
+  - key: color
+    link: See my color work
+    cover: /assets/images/photography/color-flower.jpg
+  - key: bw
+    link: See my black &amp; white work
+    cover: /assets/images/photography/bw-deer.jpg
 ---
 {%- comment -%}
-  Photography: the photos in a cascade (VSCO-style). Each photo keeps its
-  own proportions, nothing is cropped, and the columns fill side by side:
-  two on phones, three on wider screens. The header stays at the top
-  (header: static, as on Contact).
+  Photography's landing (/photography/): a black-and-white photo first and
+  large, then the sets in a row, then color and black & white, then a way
+  into every photo. Everything leads to the gallery (/photography/gallery/),
+  filtered: a set by subject, color or black & white by tone, See all to
+  Curated (the gallery's default).
 
-  Two controls pick which photos show, side by side (one per line on
-  phones), each a picker (the current choice with a chevron) that opens a
-  floating menu with all the options:
-  - Category, the subject: Curated (the default), All, Street, People,
-    Nature or Travel, one at a time;
-  - Color, the tone: All (the default; both tones), Chrome (color photos) or
-    Monochrome (black and white), on top of any subject.
-  Chrome and Monochrome match the Instagram accounts (cris.chrome,
-  cris.monochrome); in the data and the link they stay color and bw.
-  The choice is kept in the link (?subject=street&tone=bw), so a view can
-  be shared and Back returns to it. Choices with no photos are greyed out.
-
-  The photos come from _data/photos.yml. cascade.js does the filtering and
-  places each photo in the shortest column, so the order runs across the
-  page; without it, the controls stay hidden and every photo shows, in
-  columns read top to bottom.
+  Links made before the gallery moved (/photography/?subject=…&tone=…) are
+  sent on to the gallery with the same filters.
 {%- endcomment -%}
-<section class="gallery" aria-labelledby="gallery-title">
-  <h1 class="visually-hidden" id="gallery-title">Photography</h1>
-  <div class="gallery__bar" data-cascade-filters hidden>
-    <div class="gallery__group">
-      <span class="gallery__label" id="gallery-category">Category</span>
-      <div class="gallery__control">
-        <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-subjects" aria-labelledby="gallery-category gallery-subject-value">
-          <span class="gallery__picker-value" id="gallery-subject-value">Curated</span>
-          <svg class="gallery__picker-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="gallery__filters gallery__filters--subject" id="gallery-subjects" role="group" aria-labelledby="gallery-category">
-          <button type="button" class="gallery__filter" data-subject="curated" aria-pressed="true">Curated</button>
-          <button type="button" class="gallery__filter" data-subject="all" aria-pressed="false">All</button>
-          {%- for subject in page.subjects %}
-          <button type="button" class="gallery__filter" data-subject="{{ subject.key }}" aria-pressed="false">{{ subject.label }}</button>
-          {%- endfor %}
-        </div>
-      </div>
+<script>
+  if (/[?&](subject|tone)=/.test(location.search)) {
+    location.replace('{{ "/photography/gallery/" | relative_url }}' + location.search);
+  }
+</script>
+{%- assign hero = site.data.photos | where: "src", page.hero | first %}
+<article class="landing" aria-labelledby="landing-title">
+  <h1 class="visually-hidden" id="landing-title">Photography</h1>
+
+  <figure class="landing__hero">
+    <img src="{{ hero.src | relative_url }}" alt="{{ hero.alt }}" width="{{ hero.width }}" height="{{ hero.height }}" decoding="async" fetchpriority="high">
+  </figure>
+
+  <section class="landing__section" aria-labelledby="landing-sets">
+    <h2 class="tag" id="landing-sets">Sets</h2>
+    <ul class="landing__sets">
+      {%- for set in page.sets %}
+      {%- assign cover = site.data.photos | where: "src", set.cover | first %}
+      {%- assign count = 0 %}
+      {%- for photo in site.data.photos %}{% if photo.subjects contains set.key %}{% assign count = count | plus: 1 %}{% endif %}{% endfor %}
+      <li>
+        <a class="landing__set" href="{{ '/photography/gallery/' | relative_url }}?subject={{ set.key }}">
+          <img src="{{ cover.src | relative_url }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async" loading="lazy">
+          <span class="landing__set-name">{{ set.label }}</span>
+          <span class="landing__set-count">{{ count }} {% if count == 1 %}photo{% else %}photos{% endif %}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+
+  <section class="landing__section" aria-labelledby="landing-tones">
+    <h2 class="tag" id="landing-tones">Color and black &amp; white</h2>
+    <div class="landing__tones">
+      {%- for tone in page.tones %}
+      {%- assign cover = site.data.photos | where: "src", tone.cover | first %}
+      <a class="landing__tone" href="{{ '/photography/gallery/' | relative_url }}?tone={{ tone.key }}">
+        <img src="{{ cover.src | relative_url }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async" loading="lazy">
+        <span class="landing__tone-link">{{ tone.link }} →</span>
+      </a>
+      {%- endfor %}
     </div>
-    <div class="gallery__group">
-      <span class="gallery__label" id="gallery-color">Color</span>
-      <div class="gallery__control">
-        <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-tones" aria-labelledby="gallery-color gallery-tone-value">
-          <span class="gallery__picker-value" id="gallery-tone-value">All</span>
-          <svg class="gallery__picker-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="gallery__filters gallery__filters--tone" id="gallery-tones" role="group" aria-labelledby="gallery-color">
-          <button type="button" class="gallery__filter" data-tone="both" aria-pressed="true">All</button>
-          <button type="button" class="gallery__filter" data-tone="color" aria-pressed="false">Chrome</button>
-          <button type="button" class="gallery__filter" data-tone="bw" aria-pressed="false">Monochrome</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="cascade" data-cascade>
-    {%- for photo in site.data.photos %}
-    <figure class="cascade__item" data-tone="{{ photo.tone }}" data-subjects="{{ photo.subjects | join: ' ' }}"{% if photo.curated %} data-curated{% endif %}>
-      <img src="{{ photo.src | relative_url }}" alt="{{ photo.alt }}" width="{{ photo.width }}" height="{{ photo.height }}" decoding="async"{% if forloop.index > 4 %} loading="lazy"{% endif %}>
-    </figure>
-    {%- endfor %}
-  </div>
-</section>
-<script src="{{ '/assets/js/cascade.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+  </section>
+
+  <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all photos</a>
+</article>
+{%- comment %} The hero starts at the very top of the window, the header pill
+  floating over it: pull it up by exactly the room above it (the page's top
+  padding, the header and the gap below it), which changes with the header's
+  layout, so it's measured, and measured again when the window or the
+  header changes. Without the script it simply sits below the header. {% endcomment %}
+<script>
+  (() => {
+    const hero = document.querySelector('.landing__hero');
+    const header = document.querySelector('[data-site-header]');
+    if (!hero || !header) return;
+    const pull = () => {
+      hero.style.marginTop = '0px';
+      const above = hero.getBoundingClientRect().top + window.scrollY;
+      hero.style.marginTop = `${-above}px`;
+    };
+    pull();
+    window.addEventListener('resize', pull);
+    if ('ResizeObserver' in window) new ResizeObserver(pull).observe(header);
+    if (document.fonts) document.fonts.ready.then(pull);
+  })();
+</script>
