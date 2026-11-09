@@ -3152,15 +3152,17 @@ a.card:hover {
   margin-top: 16px;
 }
 
-/* Primary button: filled gold with white text, like the header's filled
-   Contact pill; hover deepens to gold deep. */
+/* Primary button: filled turquoise with white text. Turquoise is the site's
+   color for where things go (links, the To line, the field being typed
+   in), so Send reads apart from the gold of the menu and the reasons.
+   Hover deepens it a fifth of the way toward the text color. */
 .postcard__send {
   width: 100%;
   max-width: 280px;
   padding: 14px 32px;
-  border: 1px solid var(--color-gold);
+  border: 1px solid var(--color-link);
   border-radius: 999px;
-  background-color: var(--color-gold);
+  background-color: var(--color-link);
   color: #FFFFFF;
   font-family: var(--font-sans);
   font-size: 14px;
@@ -3168,14 +3170,14 @@ a.card:hover {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(159, 110, 50, 0.28);
+  box-shadow: 0 6px 16px rgba(42, 140, 153, 0.28);
   transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease, box-shadow 300ms ease;
 }
 
 .postcard__send:hover:enabled,
 .postcard__send:focus-visible {
-  background-color: var(--color-gold-deep);
-  border-color: var(--color-gold-deep);
+  background-color: color-mix(in srgb, var(--color-link) 80%, var(--color-text));
+  border-color: color-mix(in srgb, var(--color-link) 80%, var(--color-text));
 }
 
 .postcard__send:active:enabled {
