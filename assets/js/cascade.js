@@ -6,7 +6,7 @@
 // the photos out again.
 //
 // Two controls pick which photos show: the subject (Curated, the default;
-// one subject; or All) and the tone (All, the default; Chrome; or Monochrome), on
+// one subject; or All) and the tone (All, the default; Color; or Monochrome), on
 // top of each other. The choice is kept in the link (?subject=…&tone=…),
 // so a view can be shared and Back returns to it. A choice that would show
 // no photos with the other control as it is gets greyed out. Picking one
@@ -40,7 +40,7 @@ if (cascade) {
   if (!count(subject, tone)) tone = 'both';
   if (!count(subject, tone)) subject = 'all';
   // What the page opens with is this visit's default: Curated and All, or
-  // what a link asked for (the homepage's Color → opens on Chrome). The
+  // what a link asked for (the homepage's Color → opens on Color). The
   // pickers stay neutral until the visitor picks something else.
   const startSubject = subject;
   const startTone = tone;

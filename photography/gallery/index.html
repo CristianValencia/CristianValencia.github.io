@@ -27,10 +27,9 @@ subjects:
   floating menu with all the options:
   - Category, the subject: Curated (the default), All, Street, People,
     Nature or Travel, one at a time;
-  - Color, the tone: All (the default; both tones), Chrome (color photos) or
-    Monochrome (black and white), on top of any subject.
-  Chrome and Monochrome match the Instagram accounts (cris.chrome,
-  cris.monochrome); in the data and the link they stay color and bw.
+  - Tone: All (the default; both tones), Color or Monochrome (black and
+    white), on top of any subject. In the data and the link they're
+    color and bw.
   Monochrome turns the page black and white: no gold anywhere, and the
   header in the black-and-white glass.
   The choice is kept in the link (?subject=street&tone=bw), so a view can
@@ -69,7 +68,7 @@ subjects:
       </div>
     </div>
     <div class="gallery__group">
-      <span class="gallery__label" id="gallery-color">Color</span>
+      <span class="gallery__label" id="gallery-color">Tone</span>
       <div class="gallery__control">
         <button type="button" class="gallery__picker" aria-expanded="false" aria-controls="gallery-tones" aria-labelledby="gallery-color gallery-tone-value">
           <span class="gallery__picker-value" id="gallery-tone-value">All</span>
@@ -77,7 +76,7 @@ subjects:
         </button>
         <div class="gallery__filters gallery__filters--tone" id="gallery-tones" role="group" aria-labelledby="gallery-color">
           <button type="button" class="gallery__filter" data-tone="both" aria-pressed="true">All</button>
-          <button type="button" class="gallery__filter" data-tone="color" aria-pressed="false">Chrome</button>
+          <button type="button" class="gallery__filter" data-tone="color" aria-pressed="false">Color</button>
           <button type="button" class="gallery__filter" data-tone="bw" aria-pressed="false">Monochrome</button>
         </div>
       </div>
