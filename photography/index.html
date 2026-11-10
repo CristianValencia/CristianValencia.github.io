@@ -107,7 +107,7 @@ reads:
   </section>
 
   <section class="landing__section" aria-labelledby="landing-sets">
-    <h2 class="page__title page__title--sans" id="landing-sets">Sets</h2>
+    <h2 class="page__title page__title--sans" id="landing-sets">Categories</h2>
     <ul class="landing__sets">
       {%- for set in page.sets %}
       {%- assign cover = site.data.photos | where: "src", set.cover | first %}
@@ -124,7 +124,7 @@ reads:
     </ul>
   </section>
 
-  <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all work</a>
+  <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all my work</a>
 
   <div class="split lit-card">
     <section class="landing__section landing__story" aria-labelledby="landing-stories">
