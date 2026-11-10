@@ -1,10 +1,23 @@
 ---
 layout: default
 title: Photography
-header: static # stays at the top of the page and scrolls away, as on Contact
+header: hide # a main section: the full bar, hiding while scrolling down and back on a scroll up (static on phones)
+cards: true # loads card.js, the light on the .lit-card edges
 # The landing's photos. Each src must be listed in _data/photos.yml, which
 # gives its alt text and size.
-hero: /assets/images/photography/bw-torii.jpg
+# The hero: the first photo shows on load; the arrows beside it step
+# through the rest. Captions are placeholders for now.
+hero:
+  - src: /assets/images/photography/bw-torii.jpg
+    caption: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - src: /assets/images/photography/bw-deer.jpg
+    caption: Sed do eiusmod tempor incididunt ut labore et dolore.
+  - src: /assets/images/home/bw-clouds.jpg
+    caption: Ut enim ad minim veniam, quis nostrud exercitation.
+  - src: /assets/images/home/color-trees.jpg
+    caption: Duis aute irure dolor in reprehenderit in voluptate.
+  - src: /assets/images/photography/color-flower.jpg
+    caption: Excepteur sint occaecat cupidatat non proident.
 # Sets, in order: for now, the gallery's subjects. Each opens the gallery
 # filtered to it; the count is worked out from _data/photos.yml.
 sets:
@@ -22,16 +35,33 @@ sets:
     cover: /assets/images/home/color-postbox.jpg
 tones:
   - key: color
-    link: See my color work
+    link: Color
     cover: /assets/images/photography/color-flower.jpg
   - key: bw
-    link: See my black &amp; white work
+    link: Monochrome
     cover: /assets/images/photography/bw-deer.jpg
+# Latest photo journals: the two newest Journal posts. Until there are
+# two, these samples fill in (they open the Journal).
+sample_journals:
+  - title: Lorem ipsum sit amet
+    date: 2026-10-20
+    note: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+# Learn more: posts worth reading, beside Latest photo journals. Placeholders
+# until the posts exist (they open the Journal for now).
+reads:
+  - title: My vision of photography
+    date: 2026-10-12 # placeholder
+    note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    url: /blog/
+  - title: My gear
+    date: 2026-09-28 # placeholder
+    note: Sed do eiusmod tempor incididunt ut labore et dolore.
+    url: /blog/
 ---
 {%- comment -%}
   Photography's landing (/photography/): a black-and-white photo first and
-  large, then the sets in a row, then color and black & white, then a way
-  into every photo. Everything leads to the gallery (/photography/gallery/),
+  large, then Selected work (color and monochrome), then the sets in a
+  row, then a way into every photo. Everything leads to the gallery (/photography/gallery/),
   filtered: a set by subject, color or black & white by tone, See all to
   Curated (the gallery's default).
 
@@ -43,16 +73,41 @@ tones:
     location.replace('{{ "/photography/gallery/" | relative_url }}' + location.search);
   }
 </script>
-{%- assign hero = site.data.photos | where: "src", page.hero | first %}
+{%- assign first = page.hero | first %}
+{%- assign hero = site.data.photos | where: "src", first.src | first %}
 <article class="landing" aria-labelledby="landing-title">
   <h1 class="visually-hidden" id="landing-title">Photography</h1>
 
-  <figure class="landing__hero">
-    <img src="{{ hero.src | relative_url }}" alt="{{ hero.alt }}" width="{{ hero.width }}" height="{{ hero.height }}" decoding="async" fetchpriority="high">
+  <figure class="landing__hero frame" data-hero style="--ratio: {{ hero.width | times: 1.0 | divided_by: hero.height | round: 4 }}">
+    <button class="landing__arrow" type="button" data-step="-1" aria-label="Previous photo" hidden><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg><svg class="landing__arrow-glow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 5-7 7 7 7"/></svg></button>
+    <img src="{{ hero.src | relative_url }}" alt="{{ hero.alt }}" width="{{ hero.width }}" height="{{ hero.height }}" style="aspect-ratio: {{ hero.width }} / {{ hero.height }}" decoding="async" fetchpriority="high">
+    <button class="landing__arrow" type="button" data-step="1" aria-label="Next photo" hidden><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg><svg class="landing__arrow-glow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg></button>
+    {%- if first.caption %}
+    <figcaption class="landing__caption" aria-live="polite">{{ first.caption }}</figcaption>
+    {%- endif %}
   </figure>
+  <script type="application/json" data-hero-photos>[
+    {%- for item in page.hero -%}
+    {%- assign photo = site.data.photos | where: "src", item.src | first -%}
+    {"src": {{ photo.src | relative_url | jsonify }}, "alt": {{ photo.alt | jsonify }}, "caption": {{ item.caption | jsonify }}}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]</script>
+
+  <section class="landing__section" aria-labelledby="landing-tones">
+    <h2 class="page__title page__title--sans" id="landing-tones">Selected work</h2>
+    <div class="landing__tones">
+      {%- for tone in page.tones %}
+      {%- assign cover = site.data.photos | where: "src", tone.cover | first %}
+      <a class="landing__tone" href="{{ '/photography/gallery/' | relative_url }}?tone={{ tone.key }}">
+        <img src="{{ cover.src | relative_url }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async" loading="lazy">
+        <span class="landing__tone-link">{{ tone.link }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </section>
 
   <section class="landing__section" aria-labelledby="landing-sets">
-    <h2 class="tag" id="landing-sets">Sets</h2>
+    <h2 class="page__title page__title--sans" id="landing-sets">Sets</h2>
     <ul class="landing__sets">
       {%- for set in page.sets %}
       {%- assign cover = site.data.photos | where: "src", set.cover | first %}
@@ -61,26 +116,149 @@ tones:
       <li>
         <a class="landing__set" href="{{ '/photography/gallery/' | relative_url }}?subject={{ set.key }}">
           <img src="{{ cover.src | relative_url }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async" loading="lazy">
-          <span class="landing__set-name">{{ set.label }}</span>
           <span class="landing__set-count">{{ count }} {% if count == 1 %}photo{% else %}photos{% endif %}</span>
+          <span class="landing__set-name">{{ set.label }}</span>
         </a>
       </li>
       {%- endfor %}
     </ul>
   </section>
 
-  <section class="landing__section" aria-labelledby="landing-tones">
-    <h2 class="tag" id="landing-tones">Color and black &amp; white</h2>
-    <div class="landing__tones">
-      {%- for tone in page.tones %}
-      {%- assign cover = site.data.photos | where: "src", tone.cover | first %}
-      <a class="landing__tone" href="{{ '/photography/gallery/' | relative_url }}?tone={{ tone.key }}">
-        <img src="{{ cover.src | relative_url }}" alt="" width="{{ cover.width }}" height="{{ cover.height }}" decoding="async" loading="lazy">
-        <span class="landing__tone-link">{{ tone.link }} →</span>
-      </a>
-      {%- endfor %}
-    </div>
-  </section>
+  <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all work</a>
 
-  <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all photos</a>
+  <div class="split lit-card">
+    <section class="landing__section landing__story" aria-labelledby="landing-stories">
+      <h2 class="page__title page__title--sans" id="landing-stories">Latest photo journals</h2>
+      <ul class="entry-list">
+        {%- for story in site.posts limit: 2 %}
+        <li>
+          <time class="landing__set-count" datetime="{{ story.date | date_to_xmlschema }}">{{ story.date | date: '%b %-d, %Y' }}</time>
+          <h3 class="entry__title"><a href="{{ story.url | relative_url }}">{{ story.title }}</a></h3>
+          <p class="entry__note">{{ story.subtitle | default: story.excerpt | strip_html | strip_newlines | truncatewords: 30 }}</p>
+          <a class="entry__read" href="{{ story.url | relative_url }}" aria-label="Read the story: {{ story.title }}">Read the story</a>
+        </li>
+        {%- endfor %}
+        {%- assign missing = 2 | minus: site.posts.size %}
+        {%- if missing > 0 %}
+        {%- for story in page.sample_journals limit: missing %}
+        <li>
+          <time class="landing__set-count" datetime="{{ story.date | date: '%Y-%m-%d' }}">{{ story.date | date: '%b %-d, %Y' }}</time>
+          <h3 class="entry__title"><a href="{{ '/blog/' | relative_url }}">{{ story.title }}</a></h3>
+          <p class="entry__note">{{ story.note }}</p>
+          <a class="entry__read" href="{{ '/blog/' | relative_url }}" aria-label="Read the story: {{ story.title }}">Read the story</a>
+        </li>
+        {%- endfor %}
+        {%- endif %}
+      </ul>
+      <a class="landing__all split__more" href="{{ '/blog/' | relative_url }}">Read more stories</a>
+    </section>
+
+    <div class="split__divider" aria-hidden="true"></div>
+
+    <section class="landing__section landing__reads" aria-labelledby="landing-reads">
+      <h2 class="page__title page__title--sans" id="landing-reads">Learn more</h2>
+      <ul class="entry-list">
+        {%- for read in page.reads %}
+        <li>
+          {%- if read.date %}
+          <time class="landing__set-count" datetime="{{ read.date | date: '%Y-%m-%d' }}">{{ read.date | date: '%b %-d, %Y' }}</time>
+          {%- endif %}
+          <a class="entry__title" href="{{ read.url | relative_url }}">{{ read.title }}</a>
+          <p class="entry__note">{{ read.note }}</p>
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+  </div>
 </article>
+{%- comment %} The hero's arrows, and the frames' light. {% endcomment %}
+<script>
+  // The hero's arrows step through the photos in front matter (hero:),
+  // round and round; the photo fades out, changes and fades back in, its
+  // caption with it. The photo's box keeps the first photo's size and
+  // shape; the others fill it, cropped to fit. Phones swipe instead. Without
+  // the script the first photo simply stays.
+  const hero = document.querySelector('[data-hero]');
+  const heroData = document.querySelector('[data-hero-photos]');
+  if (hero && heroData) {
+    const photos = JSON.parse(heroData.textContent);
+    const img = hero.querySelector('img');
+    const caption = hero.querySelector('.landing__caption');
+    const arrows = hero.querySelectorAll('.landing__arrow');
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let at = 0;
+    const show = (dir) => {
+      at = (at + dir + photos.length) % photos.length;
+      const next = photos[at];
+      const swap = () => {
+        img.src = next.src;
+        img.alt = next.alt;
+        if (caption) caption.textContent = next.caption || '';
+        const reveal = () => hero.classList.remove('is-changing');
+        if (img.complete) reveal(); else img.addEventListener('load', reveal, { once: true });
+      };
+      if (still.matches) { swap(); return; }
+      hero.classList.add('is-changing');
+      setTimeout(swap, 250);
+    };
+    if (photos.length > 1) {
+      arrows.forEach((arrow) => {
+        arrow.hidden = false;
+        arrow.addEventListener('click', () => show(Number(arrow.dataset.step)));
+      });
+      let startX = null;
+      img.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'mouse') startX = event.clientX; });
+      img.addEventListener('pointerup', (event) => {
+        if (startX === null) return;
+        const dx = event.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) > 40) show(dx < 0 ? 1 : -1);
+      });
+      // Load the others once the page is idle, so a step shows at once.
+      window.addEventListener('load', () => photos.slice(1).forEach((p) => { new Image().src = p.src; }));
+    }
+  }
+
+  // The frames' light, as on the posts' photos (post.js): a soft circle,
+  // 35% of the frame's width, eases after the cursor while it's over the
+  // frame and fades out when it leaves. Off for reduced motion.
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll('.landing .frame').forEach((el) => {
+      const head = { x: 0, y: 0 };
+      let target = null;
+      let frame = 0;
+      // Arrows in the frame light up the same way: the nearer the light,
+      // the more of their gold shows (--glow).
+      const glows = [...el.querySelectorAll('.landing__arrow')];
+      const place = () => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--ex', `${(head.x - r.left).toFixed(1)}px`);
+        el.style.setProperty('--ey', `${(head.y - r.top).toFixed(1)}px`);
+        glows.forEach((arrow) => {
+          const a = arrow.getBoundingClientRect();
+          const d = Math.hypot(head.x - (a.left + a.width / 2), head.y - (a.top + a.height / 2));
+          arrow.style.setProperty('--glow', Math.max(0, 1 - d / (el.offsetWidth * 0.35)).toFixed(3));
+        });
+      };
+      const move = () => {
+        head.x += (target.x - head.x) * 0.2;
+        head.y += (target.y - head.y) * 0.2;
+        place();
+        frame = Math.hypot(target.x - head.x, target.y - head.y) > 0.5 ? requestAnimationFrame(move) : 0;
+      };
+      el.addEventListener('pointerenter', (event) => {
+        target = { x: event.clientX, y: event.clientY };
+        head.x = target.x;
+        head.y = target.y;
+        el.style.setProperty('--er', `${(el.offsetWidth * 0.35).toFixed(0)}px`);
+        el.classList.add('is-lit');
+        move();
+      });
+      el.addEventListener('pointermove', (event) => {
+        target = { x: event.clientX, y: event.clientY };
+        if (!frame) frame = requestAnimationFrame(move);
+      });
+      el.addEventListener('pointerleave', () => el.classList.remove('is-lit'));
+    });
+  }
+</script>

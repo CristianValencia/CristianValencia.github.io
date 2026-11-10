@@ -25,6 +25,9 @@
   --dur-fill: 600ms;
   --stagger: 60ms;
   --dur-nav: 500ms;
+  /* The main sections' header slides away slowly and softly. */
+  --dur-hide: 900ms;
+  --ease-glide: cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-lift: 0 14px 36px rgba(9, 25, 30, 0.08);
 }
 
@@ -117,6 +120,9 @@ body {
   z-index: 10;
   display: flex;
   justify-content: center;
+  /* After a page change the page scrolled through (Safari), header.js
+     slides the bar back down to the top from where it got to. */
+  transition: translate var(--dur-nav) var(--ease-out);
 }
 
 /* Once the pill forms, a band of the page color fills the gap above it,
@@ -149,6 +155,44 @@ body {
 .site-header--static {
   position: relative;
   top: auto;
+}
+
+/* Hiding header (header: hide, on the main sections): the full bar, never
+   the pill. It follows the page down from the top and slides up out of view
+   after a steady scroll down (header.js adds .is-hidden: a slow, soft glide),
+   then back on a scroll up (a quicker 500ms). Hidden, it clears the top of
+   the screen, shadow and all. Once the page has scrolled (.is-stuck) the
+   page-color band fills the gap above it, as it does above the pill. */
+.site-header--hide.is-hidden {
+  translate: 0 calc(-100% - var(--header-top) - 32px);
+  transition: translate var(--dur-hide) var(--ease-glide);
+}
+
+.site-header--hide.is-stuck::before {
+  opacity: 1;
+}
+
+/* A jump (Back/Forward, a link further down) lands without animating. */
+.site-header.is-instant,
+.site-header.is-instant::before {
+  transition: none;
+}
+
+/* The narrow bar (phones) stays static. */
+.site-header--hide.is-narrow {
+  position: relative;
+  top: auto;
+}
+
+/* Every bar, the pill included, lets go of the top while Safari plays a page
+   change (.is-revealing, default.html): a sticky bar scrolled then flickered.
+   The hiding bar scrolls away with the page and header.js picks it up from
+   where it is when the change ends; header.js holds the pill in view by
+   hand (translate, with no transition) and lets it stick again after. */
+.is-revealing .site-header {
+  position: relative;
+  top: auto;
+  transition: none;
 }
 
 /* The home page has no band: its cards run up past the pill. */
@@ -1442,6 +1486,8 @@ a.card:hover {
   view-transition-name: site-header;
 }
 
+
+
 @keyframes page-out {
   to {
     opacity: 0;
@@ -1468,6 +1514,8 @@ a.card:hover {
   animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
+
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1488,7 +1536,7 @@ a.card:hover {
 
 /* Photography's landing (/photography/): a black-and-white photo first and
    large, across the whole column; then the sets in a row; then color and
-   black & white; then See all photos. Section titles are the home cards'
+   black & white; then See all work. Section titles are the home cards'
    labels; set names are in the menu's type. Everything opens the gallery
    (/photography/gallery/), filtered. */
 .landing {
@@ -1511,17 +1559,170 @@ a.card:hover {
 }
 
 .landing__hero {
-  margin: 0 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* As wide as the first photo can be at the height allowed below
+     (--ratio is its width over its height), plus the frame's sides, and
+     never wider than the column. Every photo then fills the same box. */
+  /* 297px: the room above the frame (111px: the page top, the bar and the
+     40px gap), the frame's top (73px) and its caption band (73px), and
+     40px below it, so the frame ends as far from the window's bottom as
+     it starts from the bar. */
+  width: min(100%, calc(max(320px, 100svh - 297px) * var(--ratio, 1.5) + 208px));
+  margin: 0 auto 40px;
 }
 
-@media (max-width: 700px) {
-  .landing__hero {
-    width: 100vw;
-    margin: 0 calc(50% - 50vw) 40px;
+/* The hero sits in the posts' photo frame (.frame, below), its caption in
+   the frame's bottom 73px. The photo is never taller than the window less
+   the room above it and the frame's top and caption (the width above
+   works it out), so the caption shows on the first screen; on a short
+   window the photo narrows and the frame with it, centered. Never below
+   320px tall. */
+.landing__hero.frame:has(.landing__caption) {
+  padding-bottom: 0;
+}
+
+/* With arrows: the photo between two 44px arrows, each centered in a wider
+   white side (104px with the edge). The caption spans the frame below. */
+.landing__hero.frame {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  column-gap: 27px;
+  padding-inline: 28px;
+}
+
+.landing__hero > img,
+.landing__caption {
+  grid-column: 2;
+}
+
+.landing__caption {
+  grid-column: 1 / -1;
+}
+
+/* The arrows: chevrons with rounded ends, in the gray outline of the
+   neutral pills (Contact's unpicked reasons), that take the frame's
+   light, their gold deep showing as the light comes near (--glow, set by
+   the landing's script), fully on hover, focus or press. */
+.landing__arrow {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: rgba(9, 25, 30, 0.25);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.landing__arrow svg {
+  grid-area: 1 / 1;
+}
+
+.landing__arrow[data-step="-1"] {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.landing__arrow[data-step="1"] {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.landing__hero > img {
+  grid-row: 1;
+}
+
+/* Without the script (one photo, or no JavaScript) the arrows keep their
+   room but don't show. */
+.landing__arrow[hidden] {
+  display: grid;
+  visibility: hidden;
+}
+
+.landing__arrow-glow {
+  color: var(--color-gold-deep);
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.frame.is-lit .landing__arrow-glow {
+  opacity: var(--glow, 0);
+  transition: none;
+}
+
+.landing__arrow:focus-visible .landing__arrow-glow,
+.landing__arrow:active .landing__arrow-glow {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .landing__arrow:hover .landing__arrow-glow {
+    opacity: 1;
   }
 }
 
-.landing__hero img,
+.landing__hero > img,
+.landing__caption {
+  transition: opacity 250ms ease;
+}
+
+.landing__hero.is-changing > img,
+.landing__hero.is-changing .landing__caption {
+  opacity: 0;
+}
+
+.landing__hero img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* every photo fills the first one's box, cropped to its shape */
+  touch-action: pan-y; /* phones: a sideways swipe steps the photos */
+  background: var(--color-card); /* holds the photo's place while it loads */
+}
+
+/* The caption: as under a post's photos (gray Jost, 19px, centered),
+   filling the frame's bottom 73px. */
+.landing__caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68px; /* 73px with the frame's edge */
+  padding: 12px 0;
+  font-family: var(--font-sans);
+  font-size: 19px;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-muted);
+}
+
+@media (max-width: 700px) {
+  .landing__caption {
+    min-height: 0;
+    padding: 12px 0 24px;
+  }
+
+  /* Phones: no arrows; a sideways swipe on the photo steps instead. */
+  .landing__hero.frame {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 16px;
+  }
+
+  .landing__hero > img {
+    grid-column: 1;
+  }
+
+  .landing__arrow {
+    display: none;
+  }
+}
+
 .landing__set img,
 .landing__tone img {
   width: 100%;
@@ -1565,7 +1766,7 @@ a.card:hover {
 .landing__set {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   color: var(--color-text);
   text-decoration: none;
 }
@@ -1575,20 +1776,31 @@ a.card:hover {
   object-fit: cover;
 }
 
-.landing__set-name {
-  margin-top: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
+/* Type as on the Journal list: the section titles are the Journal's sans
+   heading ("Latest thoughts", .page__title--sans); a set's count is set
+   like a post's date (small gold deep capitals) above its name, and the
+   names and the Color and Monochrome links like post titles (bold serif,
+   turquoise, underlined on hover), but smaller: 26px (23px on phones). */
 .landing__set-count {
-  color: var(--color-muted);
-  font-size: 14px;
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gold-deep);
 }
 
-/* Color and black & white: two wide photos side by side, each with its
+.landing__set-name,
+.landing__tone-link {
+  font-family: var(--font-serif);
+  font-size: 26px; /* between the posts' text (23px) and the Journal's titles (30px) */
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-link);
+}
+
+/* Selected work: two wide photos side by side, each with its
    turquoise link below. */
 .landing__tones {
   display: grid;
@@ -1608,12 +1820,7 @@ a.card:hover {
   object-fit: cover;
 }
 
-.landing__tone-link {
-  color: var(--color-link);
-  font-size: 16px;
-}
-
-/* See all photos: a pill in the filters' neutral style; its outline turns
+/* See all work: a pill in the filters' neutral style; its outline turns
    gold deep and thickens to 1.5px on hover, keyboard focus or press. */
 .landing__all {
   align-self: center;
@@ -1640,18 +1847,269 @@ a.card:hover {
 
 @media (hover: hover) {
   .landing__set:hover .landing__set-name {
-    color: var(--color-gold-deep);
+    text-decoration: underline;
   }
 
   .landing__tone:hover .landing__tone-link {
     text-decoration: underline;
-    text-underline-offset: 4px;
   }
 
   .landing__all:hover {
     color: var(--color-text);
     border-color: var(--color-gold-deep);
     box-shadow: inset 0 0 0 0.5px var(--color-gold-deep);
+  }
+}
+
+/* Below See all work, one row in two halves: Latest photo journals on
+   the left, the two newest posts (date, title, line and a Read the story
+   link, as on the Journal list) and a Read more stories pill; Learn more on the right, a short list of posts worth
+   reading. On phones they stack. */
+/* A card like Contact's postcard (.postcard), for secondary sections
+   such as the Photography landing's journals row: white, a 5px edge of the
+   gold light band at 13%, 6px corners, and the footer's light on the
+   edge, a soft circle 60% of the card's width that follows the cursor
+   (card.js sets --ex, --ey, --er and .is-lit). */
+.lit-card {
+  position: relative;
+  border: 5px solid rgba(199, 160, 96, 0.13);
+  border-radius: 6px;
+  background: var(--color-card) padding-box;
+}
+
+.lit-card::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  padding: 5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgba(199, 160, 96, 0.55);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  -webkit-mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%),
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%) intersect,
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.lit-card.is-lit::before {
+  opacity: 1;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5px minmax(0, 1fr);
+  gap: 40px 48px;
+  align-items: start;
+  margin-top: 16px;
+  padding: 28px 48px;
+}
+
+/* Each half: its heading (the Journal's sans heading), then its list,
+   20px apart. */
+.split > section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.split > section > h2 {
+  margin: 0;
+}
+
+/* The Journal's card (Recommended reading and Categories) sits below the list, as wide
+   as the Photography landing's (24px inside the header bar), 56px down. */
+.journal-more {
+  margin: 56px 24px 0;
+}
+
+/* Categories: every tag on the posts, as the neutral pills (Contact's unpicked
+   reasons), with how many posts carry it. Not links yet. */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-list > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid rgba(9, 25, 30, 0.25);
+  border-radius: 999px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.tag-list__count {
+  color: var(--color-gold-deep);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Between them, Contact's dashed divider (.postcard__divider), as tall as
+   the row, with its light: an ellipse that eases after the cursor over the
+   row (card.js). On phones the two stack and it lies
+   horizontal between them, as on the postcard. */
+.split__divider {
+  align-self: stretch;
+}
+
+/* The posts' photo frame (.figure), for the landing's hero:
+   white, 49px beside the photo and 73px above and below, 6px corners, a
+   5px edge of the gold light band at 13%, and the soft light that eases
+   after the cursor along the edge (the landing's script sets --ex, --ey,
+   --er and .is-lit). On phones the frame runs edge to edge, 16px beside
+   and 24px above and below, with no gold edge or light, as in posts. */
+.frame {
+  position: relative;
+  isolation: isolate;
+  padding: 68px 44px;
+  border: 5px solid rgba(199, 160, 96, 0.13);
+  border-radius: 6px;
+  background: var(--color-card) padding-box;
+}
+
+.frame::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: -5px;
+  padding: 5px;
+  border-radius: 6px;
+  pointer-events: none;
+  background: rgba(199, 160, 96, 0.35);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  -webkit-mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%),
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    radial-gradient(circle var(--er, 0px) at var(--ex, 50%) var(--ey, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%) intersect,
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.frame.is-lit::after {
+  opacity: 1;
+}
+
+.entry__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.entry__title,
+.entry__title a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.entry__note {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.entry__read {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-list > li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Read more stories: the See all work pill, under the journals, centered
+   in their column. */
+.split__more {
+  align-self: center;
+  margin-top: 12px;
+}
+
+@media (hover: hover) {
+  .entry__title a:hover,
+  a.entry__title:hover,
+  .entry__read:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 700px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    margin-top: 0;
+    padding: 24px 20px;
+  }
+
+  .journal-more {
+    margin: 40px 0 0;
+  }
+
+  /* .split > …: the divider's own rule comes later in this file and would
+     put back its upright dashes. */
+  .split > .split__divider {
+    height: 5px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect x='6' width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px space no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='5'%3E%3Crect x='6' width='14' height='5' rx='2.5'/%3E%3C/svg%3E") 0 0 / 26px 5px space no-repeat;
+  }
+
+  .frame {
+    width: 100vw;
+    max-width: none;
+    margin-inline: calc(50% - 50vw);
+    padding: 24px 16px;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .frame::after {
+    display: none;
+  }
+
+  .entry__title {
+    font-size: 23px;
+  }
+
+  .entry__note {
+    font-size: 18px;
   }
 }
 
@@ -1667,12 +2125,22 @@ a.card:hover {
     gap: 16px;
   }
 
+  /* Selected work stacks, one photo per row, so its links keep the post
+     titles' size on one line. */
   .landing__tones {
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
 
+  /* Phones: names and links at 23px; the count as the Journal list's
+     dates (13.5px). */
+  .landing__set-name,
   .landing__tone-link {
-    font-size: 15px;
+    font-size: 23px;
+  }
+
+  .landing__set-count {
+    font-size: 13.5px;
   }
 }
 
@@ -3204,7 +3672,8 @@ a.card:hover {
    and spreads the leftover room evenly across the gaps, so the line never
    ends in half a dash. Each dash sits centred in its 26px tile, so both
    ends get the same small gap. */
-.postcard__divider {
+.postcard__divider,
+.split__divider {
   position: relative;
   background: rgba(199, 160, 96, 0.13);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='26'%3E%3Crect y='6' width='5' height='14' rx='2.5'/%3E%3C/svg%3E") 0 0 / 5px 26px no-repeat space;
@@ -3212,20 +3681,24 @@ a.card:hover {
 }
 
 .postcard__divider::before,
-.postcard__divider::after {
+.postcard__divider::after,
+.split__divider::before,
+.split__divider::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.postcard__divider::after {
+.postcard__divider::after,
+.split__divider::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   opacity: 0.22;
   mix-blend-mode: multiply;
 }
 
-.postcard__divider::before {
+.postcard__divider::before,
+.split__divider::before {
   background: rgba(199, 160, 96, 0.55);
   opacity: 0;
   transition: opacity 400ms ease;
@@ -3236,7 +3709,8 @@ a.card:hover {
   mask: radial-gradient(var(--lrx, 0px) var(--lry, 0px) at var(--lx, 50%) var(--ly, 50%), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
 }
 
-.postcard__divider.is-lit::before {
+.postcard__divider.is-lit::before,
+.split__divider.is-lit::before {
   opacity: 1;
 }
 

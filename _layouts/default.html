@@ -5,24 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
     document.documentElement.classList.add('is-loading');
-    // Page transitions (see main.css): the first wheel, touch or key on the
-    // new page ends the transition at once, so the header responds. Plain
-    // scroll events are left out: the browser can fire one on its own as the
-    // page appears, which would cut the transition short for no reason.
-    // This has to be here, before the page first renders, to catch the event.
-    window.addEventListener('pagereveal', (event) => {
-      const transition = event.viewTransition;
-      if (!transition) return;
+    // Page transitions (see main.css). The visitor never waits for the
+    // crossfade: the first scroll, touch or key on the new page wraps it up.
+    // This has to be here, before the page first renders.
+    // - Chrome and Edge end it at once on the first wheel, touch or key.
+    //   (Plain scroll events don't count: the browser can fire one on its own
+    //   as the page appears.)
+    // - Safari (WebKit) sends the page no wheel events while it plays, and
+    //   flashes if it's cut short. There the page scrolls on, and the rest of
+    //   the crossfade plays fast (0.15s). While it plays the header doesn't
+    //   stick to the top or change (.is-revealing, main.css; header.js picks
+    //   it up when it ends): a sticky header scrolled during Safari's
+    //   crossfade flickered, and so did the pill narrowing. Back and Forward skip the crossfade in Safari, as Safari's
+    //   own do: putting the page back where it was is a scroll too.
+    (() => {
+      const webkit = /^Apple/.test(navigator.vendor);
+      const back = (activation) => !!activation && activation.navigationType === 'traverse';
       // Skipping rejects the transition's promises; that's expected.
-      ['ready', 'finished', 'updateCallbackDone'].forEach((k) => transition[k] && transition[k].catch(() => {}));
-      const finish = () => transition.skipTransition();
-      ['wheel', 'touchmove', 'keydown'].forEach((type) => window.addEventListener(type, finish, { once: true, passive: true }));
-    });
-    // The page being left gets the same transition; a skip rejects it too.
-    window.addEventListener('pageswap', (event) => {
-      const t = event.viewTransition;
-      if (t) ['ready', 'finished', 'updateCallbackDone'].forEach((k) => t[k] && t[k].catch(() => {}));
-    });
+      const quiet = (t) => ['ready', 'finished', 'updateCallbackDone'].forEach((k) => t[k] && t[k].catch(() => {}));
+
+      // The page being left: in Safari, Back and Forward skip the crossfade.
+      window.addEventListener('pageswap', (event) => {
+        const t = event.viewTransition;
+        if (!t) return;
+        quiet(t);
+        if (webkit && back(event.activation)) t.skipTransition();
+      });
+
+      window.addEventListener('pagereveal', (event) => {
+        const t = event.viewTransition;
+        if (!t) return;
+        quiet(t);
+        if (!webkit) {
+          const finish = () => t.skipTransition();
+          ['wheel', 'touchmove', 'keydown'].forEach((type) => window.addEventListener(type, finish, { once: true, passive: true }));
+          return;
+        }
+        if (back(window.navigation && navigation.activation)) {
+          t.skipTransition();
+          return;
+        }
+        const root = document.documentElement;
+        root.classList.add('is-revealing');
+        // The crossfade's running parts (old and new page, the header).
+        const parts = () => document.getAnimations().filter((a) => a.effect && a.effect.pseudoElement
+          && a.effect.pseudoElement.startsWith('::view-transition') && a.currentTime !== null);
+        // Play what's left of every part at the speed that ends it within
+        // 150ms. Asked before the crossfade has started, it's done once it
+        // starts.
+        let wanted = false;
+        let sped = false;
+        const speedUp = () => {
+          const running = parts();
+          if (sped || !running.length) return;
+          sped = true;
+          running.forEach((a) => {
+            const left = (a.effect.getComputedTiming().endTime - a.currentTime) / a.playbackRate;
+            if (left > 150) a.playbackRate *= left / 150;
+          });
+        };
+        const hurry = () => {
+          wanted = true;
+          speedUp();
+        };
+        // A scroll counts once the page has really moved.
+        const startY = window.scrollY;
+        const scrolled = () => { if (Math.abs(window.scrollY - startY) > 2) hurry(); };
+        const inputs = ['wheel', 'touchmove', 'keydown', 'pointerdown'];
+        window.addEventListener('scroll', scrolled, { passive: true });
+        inputs.forEach((type) => window.addEventListener(type, hurry, { passive: true }));
+        // The end: the header goes back to normal as the crossfade's last part
+        // finishes, while it's still on screen, so the header is already
+        // itself when Safari takes the crossfade down. Waiting for the
+        // transition's own finished promise, a frame later, left a frame
+        // where the page had scrolled on and the header hadn't.
+        let ended = false;
+        const end = () => {
+          if (ended) return;
+          ended = true;
+          window.removeEventListener('scroll', scrolled, { passive: true });
+          inputs.forEach((type) => window.removeEventListener(type, hurry, { passive: true }));
+          root.classList.remove('is-revealing');
+          window.dispatchEvent(new Event('revealed'));
+        };
+        t.ready.then(() => {
+          if (wanted) speedUp();
+          const running = parts();
+          if (running.length) Promise.all(running.map((a) => a.finished)).then(end, end);
+        }, () => {});
+        t.finished.finally(end).catch(() => {});
+      });
+    })();
   </script>
   {% seo %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +126,9 @@
   {%- comment %} Motion only where it's used: the post journey's spring glide. {% endcomment %}
   <script src="{{ '/assets/js/lib/motion-14.4.0.min.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/post.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+  {%- endif %}
+  {%- if page.cards %}
+  <script src="{{ '/assets/js/card.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   {%- endif %}
   <script src="{{ '/assets/js/linen.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 </body>

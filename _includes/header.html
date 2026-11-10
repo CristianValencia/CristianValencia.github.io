@@ -4,8 +4,10 @@
 {%- for item in site.nav -%}
   {%- if page.url contains item.url or page.collection == 'posts' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
 {%- endfor -%}
-{%- comment -%} header: static in front matter (Contact): the bar stays at the top of the page and scrolls away with it, instead of following as the pill. {%- endcomment -%}
-<header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}{% if page.header == 'static' %} site-header--static{% endif %}" data-site-header{% if page.header == 'static' %} data-static{% endif %}>
+{%- comment -%} header in front matter:
+  static (Contact, the gallery): the bar stays at the top of the page and scrolls away with it, instead of following as the pill.
+  hide (the main sections): the full bar, never the pill; on wider screens it slides out of view while scrolling down and back on a scroll up (header.js). Phones get the static small bar. {%- endcomment -%}
+<header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}{% if page.header == 'static' %} site-header--static{% endif %}{% if page.header == 'hide' %} site-header--hide{% endif %}" data-site-header{% if page.header == 'static' %} data-static{% endif %}{% if page.header == 'hide' %} data-hide{% endif %}>
   <div class="site-header__bar">
     <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" hidden>
       <span class="site-header__toggle-line" aria-hidden="true"></span>

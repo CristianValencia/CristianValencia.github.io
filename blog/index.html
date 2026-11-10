@@ -1,19 +1,85 @@
 ---
-layout: page
+header: hide # a main section: the full bar, hiding while scrolling down and back on a scroll up (static on phones)
+layout: default
 title: Journal
 heading: Latest thoughts
-heading_sans: true
+cards: true # loads card.js, the light on the Recommended reading card
+# Recommended reading: posts with editors_pick: true in their front matter,
+# newest first, two at most. Until there are two, these samples fill in
+# (they open the Journal).
+sample_picks:
+  - title: Lorem ipsum dolor sit
+    date: 2026-10-02
+    note: Duis aute irure dolor in reprehenderit in voluptate velit esse.
+  - title: Consectetur adipiscing
+    date: 2026-09-14
+    note: Excepteur sint occaecat cupidatat non proident, sunt in culpa.
 ---
-{% if site.posts.size > 0 %}
-<ul class="post-list">
-  {% for post in site.posts %}
-  <li class="post-list__item">
-    <time class="post-list__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
-    <h2 class="post-list__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <p class="post-list__excerpt">{{ post.subtitle | default: post.excerpt | strip_html | strip_newlines | truncatewords: 30 }}</p>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>First posts coming soon.</p>
-{% endif %}
+{%- comment -%}
+  The Journal: Latest thoughts, every post newest first (as the page
+  layout drew it, with the sans heading), then a card like the
+  Photography landing's: Recommended reading on the left, Categories (every
+  tag) on the right, Contact’s dashed divider between them.
+{%- endcomment -%}
+<article class="page">
+  <h1 class="page__title page__title--sans">{{ page.heading }}</h1>
+  <div class="prose">
+    {%- if site.posts.size > 0 %}
+    <ul class="post-list">
+      {%- for post in site.posts %}
+      <li class="post-list__item">
+        <time class="post-list__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+        <h2 class="post-list__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-list__excerpt">{{ post.subtitle | default: post.excerpt | strip_html | strip_newlines | truncatewords: 30 }}</p>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p>First posts coming soon.</p>
+    {%- endif %}
+  </div>
+</article>
+
+{%- assign picks = site.posts | where: "editors_pick", true %}
+<div class="split lit-card journal-more">
+  <section aria-labelledby="journal-picks">
+    <h2 class="page__title page__title--sans" id="journal-picks">Recommended reading</h2>
+    <ul class="entry-list">
+      {%- for post in picks limit: 2 %}
+      <li>
+        <time class="landing__set-count" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+        <h3 class="entry__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p class="entry__note">{{ post.subtitle | default: post.excerpt | strip_html | strip_newlines | truncatewords: 30 }}</p>
+        <a class="entry__read" href="{{ post.url | relative_url }}" aria-label="Read the story: {{ post.title }}">Read the story</a>
+      </li>
+      {%- endfor %}
+      {%- assign missing = 2 | minus: picks.size %}
+      {%- if missing > 0 %}
+      {%- for post in page.sample_picks limit: missing %}
+      <li>
+        <time class="landing__set-count" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+        <h3 class="entry__title"><a href="{{ '/blog/' | relative_url }}">{{ post.title }}</a></h3>
+        <p class="entry__note">{{ post.note }}</p>
+        <a class="entry__read" href="{{ '/blog/' | relative_url }}" aria-label="Read the story: {{ post.title }}">Read the story</a>
+      </li>
+      {%- endfor %}
+      {%- endif %}
+    </ul>
+  </section>
+
+  <div class="split__divider" aria-hidden="true"></div>
+
+  <section aria-labelledby="journal-tags">
+    <h2 class="page__title page__title--sans" id="journal-tags">Categories</h2>
+    {%- assign tags = site.tags | sort %}
+    {%- if tags.size > 0 %}
+    <ul class="tag-list">
+      {%- for tag in tags %}
+      <li>{{ tag[0] }} <span class="tag-list__count" aria-label="{{ tag[1].size }} {% if tag[1].size == 1 %}post{% else %}posts{% endif %}">{{ tag[1].size }}</span></li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="entry__note">No tags yet.</p>
+    {%- endif %}
+  </section>
+</div>
