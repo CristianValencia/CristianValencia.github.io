@@ -1498,11 +1498,27 @@ a.card:hover {
   padding: 0 0 24px;
 }
 
-/* The hero runs edge to edge across the whole window, past the column, so
-   it reads as imposing (the page clips the overflow sideways). */
+/* The whole landing sits 24px inside the header bar on each side (as post
+   photos sit inside the compact pill), so the hero, the sets, the tiles and
+   See all share one pair of edges. The hero is on the page's linen with no
+   frame, square-cornered: at 1440×900 the whole photo is on the first
+   screen. 40px more air below it before the sets. On phones the landing
+   uses the page's usual 16px edges and the hero runs edge to edge. */
+@media (min-width: 701px) {
+  .landing {
+    padding-inline: 24px;
+  }
+}
+
 .landing__hero {
-  width: 100vw;
-  margin: 0 calc(50% - 50vw);
+  margin: 0 0 40px;
+}
+
+@media (max-width: 700px) {
+  .landing__hero {
+    width: 100vw;
+    margin: 0 calc(50% - 50vw) 40px;
+  }
 }
 
 .landing__hero img,
@@ -3568,12 +3584,12 @@ a.card:hover {
   color: #FFFFFF;
 }
 
-/* Black-and-white header (site-header--mono): over a black-and-white hero
-   (the Photography landing), the gold would fight the photo, so the bar
-   turns to dark frosted glass (charcoal at 55%, blurring the photo behind
-   it, with a faint white hairline) with white text. The current page is a white pill with charcoal text;
-   Contact a white outline that fills white on hover. Over a color hero the
-   header keeps its gold. */
+/* Black-and-white header (site-header--mono): on the gallery in
+   Monochrome (cascade.js adds it), the gold would fight the photos, so the bar
+   turns to dark frosted glass (charcoal at 55%, blurring the photos behind
+   it, with a faint white hairline) with white text. The current page is a
+   white pill with charcoal text; Contact a white outline that fills white
+   on hover. */
 .site-header.site-header--mono .site-header__bar {
   background-color: rgba(22, 22, 22, 0.55);
   -webkit-backdrop-filter: blur(12px);

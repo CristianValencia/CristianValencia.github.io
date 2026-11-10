@@ -5,13 +5,7 @@
   {%- if page.url contains item.url or page.collection == 'posts' and item.url == '/blog/' -%}{%- assign section = item.short | default: item.title -%}{%- endif -%}
 {%- endfor -%}
 {%- comment -%} header: static in front matter (Contact): the bar stays at the top of the page and scrolls away with it, instead of following as the pill. {%- endcomment -%}
-{%- comment -%} A page whose header sits over a hero photo (hero: in front matter, the
-  Photography landing) takes the photo's tone from _data/photos.yml: over a
-  black-and-white photo the bar turns black and white too (--mono); over a
-  color photo it keeps its gold. {%- endcomment -%}
-{%- assign mono = false -%}
-{%- if page.hero -%}{%- assign hero_photo = site.data.photos | where: "src", page.hero | first -%}{%- if hero_photo.tone == 'bw' -%}{%- assign mono = true -%}{%- endif -%}{%- endif -%}
-<header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}{% if page.header == 'static' %} site-header--static{% endif %}{% if mono %} site-header--mono{% endif %}" data-site-header{% if page.header == 'static' %} data-static{% endif %}>
+<header class="site-header{% if section %} has-section{% endif %}{% if on_home %} site-header--home{% endif %}{% if page.header == 'static' %} site-header--static{% endif %}" data-site-header{% if page.header == 'static' %} data-static{% endif %}>
   <div class="site-header__bar">
     <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" hidden>
       <span class="site-header__toggle-line" aria-hidden="true"></span>

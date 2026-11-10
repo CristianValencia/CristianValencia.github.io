@@ -84,24 +84,3 @@ tones:
 
   <a class="landing__all" href="{{ '/photography/gallery/' | relative_url }}">See all photos</a>
 </article>
-{%- comment %} The hero starts at the very top of the window, the header pill
-  floating over it: pull it up by exactly the room above it (the page's top
-  padding, the header and the gap below it), which changes with the header's
-  layout, so it's measured, and measured again when the window or the
-  header changes. Without the script it simply sits below the header. {% endcomment %}
-<script>
-  (() => {
-    const hero = document.querySelector('.landing__hero');
-    const header = document.querySelector('[data-site-header]');
-    if (!hero || !header) return;
-    const pull = () => {
-      hero.style.marginTop = '0px';
-      const above = hero.getBoundingClientRect().top + window.scrollY;
-      hero.style.marginTop = `${-above}px`;
-    };
-    pull();
-    window.addEventListener('resize', pull);
-    if ('ResizeObserver' in window) new ResizeObserver(pull).observe(header);
-    if (document.fonts) document.fonts.ready.then(pull);
-  })();
-</script>
