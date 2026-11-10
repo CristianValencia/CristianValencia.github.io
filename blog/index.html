@@ -3,8 +3,8 @@ header: hide # a main section: the full bar, hiding while scrolling down and bac
 layout: default
 title: Journal
 heading: Latest thoughts
-cards: true # loads card.js, the light on the Recommended reading card
-# Recommended reading: posts with editors_pick: true in their front matter,
+cards: true # loads card.js, the light on the Recommended readings card
+# Recommended readings: posts with editors_pick: true in their front matter,
 # newest first, two at most. Until there are two, these samples fill in
 # (they open the Journal).
 sample_picks:
@@ -18,7 +18,7 @@ sample_picks:
 {%- comment -%}
   The Journal: Latest thoughts, every post newest first (as the page
   layout drew it, with the sans heading), then a card like the
-  Photography landing's: Recommended reading on the left, Categories (every
+  Photography landing's: Recommended readings on the left, Categories (every
   tag) on the right, Contact’s dashed divider between them.
 {%- endcomment -%}
 <article class="page">
@@ -43,7 +43,7 @@ sample_picks:
 {%- assign picks = site.posts | where: "editors_pick", true %}
 <div class="split lit-card journal-more">
   <section aria-labelledby="journal-picks">
-    <h2 class="page__title page__title--sans" id="journal-picks">Recommended reading</h2>
+    <h2 class="page__title page__title--sans" id="journal-picks">Recommended readings</h2>
     <ul class="entry-list">
       {%- for post in picks limit: 2 %}
       <li>
