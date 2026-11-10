@@ -1924,7 +1924,7 @@ a.card:hover {
   margin: 0;
 }
 
-/* The Journal's card (Recommended reading and Categories) sits below the list, as wide
+/* The Journal's card (Recommended readings and Categories) sits below the list, as wide
    as the Photography landing's (24px inside the header bar), 56px down. */
 .journal-more {
   margin: 56px 24px 0;
